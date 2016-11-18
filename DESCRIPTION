@@ -1,0 +1,11 @@
+Package: simulatr
+Title: Simulation of Multivariate Linear Model Data
+Version: 0.1
+Authors@R: person("Raju", "Rimal", email = "raju.rimal@nmbu.no",
+                  role = c("aut", "cre"))
+Description: This package can be used to simulate multivariate linear model data
+Depends:
+    R (>= 3.1.0)
+License: MIT
+LazyData: true
+RoxygenNote: 5.0.1
