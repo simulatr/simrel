@@ -34,28 +34,28 @@ simulatr(n = 100, p = 15, q = c(5, 4, 3), m = 5, relpos = list(c(1,
 }
 \value{
 A simrel object with all the input arguments along with following additional items
-\item{X}{Simulated predictors}
-\item{Y}{Simulated responses}
-\item{W}{Simulated predictor components}
-\item{Z}{Simulated response components}
-\item{beta}{True regression coefficients}
-\item{beta0}{True regression intercept}
-\item{relPred}{Position of relevant predictors}
-\item{testX}{Test Predictors}
-\item{testY}{Test Response}
-\item{testW}{Test predictor components}
-\item{testZ}{Test response components}
-\item{minerror}{Minimum model error}
-\item{Xrotation}{Rotation matrix of predictor (R)}
-\item{Yrotation}{Rotation matrix of response (Q)}
-\item{type}{Type of simrel object \emph{univariate} or \emph{multivariate}}
-\item{lambda}{Eigenvalues of predictors}
-\item{SigmaWZ}{Variance-Covariance matrix of components of response and predictors}
-\item{SigmaWX}{Covariance matrix of response components and predictors}
-\item{SigmaYZ}{Covariance matrix of response and predictor components}
-\item{Sigma}{Variance-Covariance matrix of response and predictors}
-\item{RsqW}{Coefficient of determination corresponding to response components}
-\item{RsqY}{Coefficient of determination corresponding to response variables}
+    \item{X}{Simulated predictors}
+    \item{Y}{Simulated responses}
+    \item{W}{Simulated predictor components}
+    \item{Z}{Simulated response components}
+    \item{beta}{True regression coefficients}
+    \item{beta0}{True regression intercept}
+    \item{relPred}{Position of relevant predictors}
+    \item{testX}{Test Predictors}
+    \item{testY}{Test Response}
+    \item{testW}{Test predictor components}
+    \item{testZ}{Test response components}
+    \item{minerror}{Minimum model error}
+    \item{Xrotation}{Rotation matrix of predictor (R)}
+    \item{Yrotation}{Rotation matrix of response (Q)}
+    \item{type}{Type of simrel object \emph{univariate} or \emph{multivariate}}
+    \item{lambda}{Eigenvalues of predictors}
+    \item{SigmaWZ}{Variance-Covariance matrix of components of response and predictors}
+    \item{SigmaWX}{Covariance matrix of response components and predictors}
+    \item{SigmaYZ}{Covariance matrix of response and predictor components}
+    \item{Sigma}{Variance-Covariance matrix of response and predictors}
+    \item{RsqW}{Coefficient of determination corresponding to response components}
+    \item{RsqY}{Coefficient of determination corresponding to response variables}
 }
 \description{
 Simulation of Multivariate Linear Model Data
