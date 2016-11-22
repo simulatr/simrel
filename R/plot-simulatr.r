@@ -9,11 +9,9 @@
 #' @param print.cov Output estimated covariance structure
 #' @param which A character indicating which plot you want as output, it can take \code{TrueBeta}, \code{RelComp} and \code{EstRelComp}
 #' @return A list of plots
-#' @export
 
-simulator_plot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE, 
+plot.simrel <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE, 
                          print.cov = FALSE, which = c("TrueBeta", "RelComp", "EstRelComp")) {
-  
   plt <- list()
   if (length(which) > 1) which <- NULL
   
