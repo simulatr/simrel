@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-simulatr <- function(){
-  paste("I am good!")
-}
-=======
 #' Validating parameter that is passed into \code{simulatr} function
 #' @param par_list A list of parameters that \code{simulatr} takes
 #' @return A list of validation message either stop message \code{stop_msg} or warning message \code{warn_msg}
 #' @export
 
-validate_param <- function(par_list){
+.validate_param <- function(par_list){
   list2env(par_list, envir = environment())
   stop_msg <- list()
   warn_msg <- list()
@@ -86,7 +81,7 @@ validate_param <- function(par_list){
 #' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 #' @export
 
-simulatr <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
+simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
                     relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
                     gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
                     ntest = NULL, muX = NULL, muY = NULL, rho = 0.1,
@@ -95,7 +90,7 @@ simulatr <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   ## Validate Inputs
   arg_list <- as.list(environment())
   ### Make Different Function for this and pass argList to the function
-  val.out <- validate_param(arg_list)
+  val.out <- .validate_param(arg_list)
   if (length(val.out$stop_msg) != 0) {
     stop(paste(sapply(val.out$stop_msg, paste, collapse = '\n')), call. = FALSE)
   }
@@ -283,4 +278,3 @@ simulatr <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   ret <- `class<-`(append(arg_list, ret), 'simrel')
   return(ret)
 }
->>>>>>> c7483f7... I can build this in emacs

@@ -1,4 +1,4 @@
-PlotSimrelM <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE, 
+simulator_plot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE, 
                          print.cov = FALSE, which = c("TrueBeta", "RelComp", "EstRelComp")) {
   
   require(ggplot2)
