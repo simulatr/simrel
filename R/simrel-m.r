@@ -1,40 +1,41 @@
 #' Validating parameter that is passed into \code{simulatr} function
 #' @param par_list A list of parameters that \code{simulatr} takes
+#' @importFrom stats cov rnorm runif
+#' @keywords internal
 #' @return A list of validation message either stop message \code{stop_msg} or warning message \code{warn_msg}
-#' @export
 
 .validate_param <- function(par_list){
-  list2env(par_list, envir = environment())
+  pl <- par_list
   stop_msg <- list()
   warn_msg <- list()
   
   ## Critical Error
-  if (!all(sapply(list(length(relpos), length(R2)), identical, length(q))))
+  if (!all(sapply(list(length(pl$relpos), length(pl$R2)), identical, length(pl$q))))
     stop_msg$uneql <- "Length of relpos, R2 and q must be equal\n"
 
-  if (!all(sapply(seq_along(q), function(i) q[i] > sapply(relpos, length)[i])))
+  if (!all(sapply(seq_along(pl$q), function(i) pl$q[i] > sapply(pl$relpos, length)[i])))
     stop_msg$bigPred <- "Number of relevant predictor is smaller than the number of relevant components\n"
 
-  if (!sum(q) < p)
+  if (!sum(pl$q) < pl$p)
     stop_msg$smallnvar <- "Number of variables can not be smaller than the number of relevant variables\n"
 
-  if (!max(unlist(relpos)) < p)
+  if (!max(unlist(pl$relpos)) < pl$p)
     stop_msg$bigRelpos <- "Relevant Position can not exceed the number of variables\n"
 
-  if (!all(R2 < 1 & R2 > 0))
+  if (!all(pl$R2 < 1 & pl$R2 > 0))
     stop_msg$invalidR2 <- "R2 must be between 0 and 1\n"
-  if (!is.null(muX) & length(muX) != p) {
+  if (!is.null(pl$muX) & length(pl$muX) != pl$p) {
     stop_msg$muXlength <- "Mean of X must have same length as the number of X variables\n"
   }
-  if (!is.null(muY) & length(muY) != m) {
+  if (!is.null(pl$muY) & length(pl$muY) != pl$m) {
     stop_msg$muYlength <- "Mean of Y must have same length as the number of Y variables\n"
   }
-  if (any(duplicated(unlist(ypos)))) {
+  if (any(duplicated(unlist(pl$ypos)))) {
     stop_msg$duplicateY <- "Response Space must have unique combination of response variable."
   }
 
   ## Warning Conditions
-  if (any(unlist(lapply(ypos, identical, 1:2)))) {
+  if (any(unlist(lapply(pl$ypos, identical, 1:2)))) {
     warnMst$noisY <- "Current setting of ypos will produce uninformative response variable."
   }
   valdMsg <- list(stop_msg = stop_msg, warn_msg = warn_msg)
@@ -84,7 +85,7 @@
 simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
                     relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
                     gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
-                    ntest = NULL, muX = NULL, muY = NULL, rho = 0.1,
+                    ntest = NULL, muX = NULL, muY = NULL,
                     ypos = list(c(1), c(3, 4), c(2, 5))) {
 
   ## Validate Inputs

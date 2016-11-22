@@ -1,12 +1,15 @@
 #' Simrel Internal Functions
+#' @keywords internal
 .Rfunc <- function(alpha1,alpha2,L){
   t(alpha1) %*% solve(diag(L)) %*% alpha2
 }
 
+#' @keywords internal
 .a21func <- function(a11,a12,a22,R12,l1, l2){
   l1/a11*(R12 - a22*a12/l2)
 }
 
+#' @keywords internal
 .a22func <- function(a11,a12,R2,R12,l1, l2){
   bb <- R12*a12/a11^2 * l1/l2
   root <- sqrt( R12^2*a12^2/a11^4 *l1^2/l2^2 - (1/l2 + l1/l2*a12^2/a11^2)*(l1/a11^2*R12^2 - R2))
@@ -16,6 +19,7 @@
   return(c(w1, w2))
 }
 
+#' @keywords internal
 .householder <- function(x) {
   m <- length(x)
   alpha <- sqrt(drop(crossprod(x)))
@@ -26,6 +30,7 @@
 }
 
 #' Simulation of Multivariate Linear Model data with response
+#' @importFrom stats cov rnorm runif
 #' @param n Number of training samples
 #' @param p Number of x-variables
 #' @param q Vector of number of relevant predictor variables for first, second and common to both responses
@@ -47,7 +52,7 @@
 #'     \item{TESTY}{Test Response}
 #'     \item{minerror}{Minimum model error}
 #'     \item{Rotation}{Rotation matrix of predictor (R)}
-#'     \item{type}{Type of simrel object, in this case \emph{bivariate}
+#'     \item{type}{Type of simrel object, in this case \emph{bivariate}}
 #'     \item{lambda}{Eigenvalues of predictors}
 #'     \item{Sigma}{Variance-Covariance matrix of response and predictors}
 #' @keywords simulation, linear model, linear model data

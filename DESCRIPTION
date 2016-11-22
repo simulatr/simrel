@@ -3,10 +3,11 @@ Title: Simulation of Multivariate Linear Model Data
 Version: 0.1
 Authors@R: person("Raju", "Rimal", email = "raju.rimal@nmbu.no",
                   role = c("aut", "cre"))
-Description: This package can be used to simulate multivariate linear model data
+Description: This package can be used to simulate multivariate linear model data. The package also consist of function to create plots for the simulation objects. It can be a handy tool for model comparison, testing and many other purposes.
 Depends:
     R (>= 3.1.0)
-License: MIT
+License: GPL-3
 LazyData: true
 RoxygenNote: 5.0.1
+Imports: ggplot2, gridExtra, data.table
 Suggests: testthat

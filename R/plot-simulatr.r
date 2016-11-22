@@ -1,21 +1,31 @@
+#' Simulation Plot: The true beta, relevant component and eigen structure
+#' @import ggplot2
+#' @import data.table
+#' @importFrom gridExtra grid.arrange
+#' @keywords simrel-plot, simulation plot
+#' @param obj A simrel object
+#' @param ncomp Number of components to plot
+#' @param ask logical, TRUE: functions ask for comfirmation FALSE: function layout plot on predefined format
+#' @param print.cov Output estimated covariance structure
+#' @param which A character indicating which plot you want as output, it can take \code{TrueBeta}, \code{RelComp} and \code{EstRelComp}
+#' @return A list of plots
+#' @export
+
 simulator_plot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE, 
                          print.cov = FALSE, which = c("TrueBeta", "RelComp", "EstRelComp")) {
   
-  require(ggplot2)
-  require(data.table, quietly = T)
   plt <- list()
   if (length(which) > 1) which <- NULL
   
   ## Plot 1: True Coefficients Plot
   if (which == "TrueBeta" || is.null(which)) {
     beta <- melt(obj$beta, varnames = c("variable", "response"), value.name = "coefficient")
-    # beta[["Var2"]] <- factor(beta[["Var2"]], 
-    #                          labels = paste("ResponseY", 
-    #                                         seq_along(unique(beta[["Var2"]])), 
-    #                                         sep = ""))
-    
+
     ## The Plot
-    plt$TrueBeta <- ggplot(beta, aes(variable, coefficient, fill = factor(response), group = factor(response))) +
+    beta$response <- factor(beta$response)
+    plt$TrueBeta <- ggplot(beta, aes_string('variable', 'coefficient',
+                                            fill = 'response',
+                                            group = 'response')) +
       geom_hline(yintercept = 0, size = 0.25) +
       geom_bar(stat = "identity", position = "dodge") +
       labs(x = "variables", y = expression(paste("Beta(", beta, ") Coefficients"))) +
@@ -40,10 +50,10 @@ simulator_plot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE,
     covs.dt <- melt(covs.dt, 1:2)
     
     ## The Plot
-    plt$RelComp <- ggplot(covs.dt, aes(Vars, value, group = variable)) +
-      geom_bar(aes(y = lambda), position = "identity", 
+    plt$RelComp <- ggplot(covs.dt, aes_string('Vars', 'value', group = 'variable')) +
+      geom_bar(aes_string(y = 'lambda'), position = "identity", 
                stat = "identity", fill = "lightgray") +
-      geom_point(shape = 21, size = 3, alpha = 0.75, aes(fill = variable),
+      geom_point(shape = 21, size = 3, alpha = 0.75, aes_string(fill = 'variable'),
                  position = "jitter") +
       labs(x = "Components", y = "Eigenvalues") +
       ggtitle("Relevant Components Plot") +
@@ -71,14 +81,14 @@ simulator_plot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE,
                                    eigval.sc[1:ncomp], 
                                    covs.sc[1:ncomp, ]), 1)
     names(covs.dt) <- c("Vars", "lambda", paste0("ResponseY", 1:obj$m))
-    covs.dt <- reshape2::melt(covs.dt, 1:2)
+    covs.dt <- melt(covs.dt, 1:2)
     
     ## The Plot
-    plt$EstRelComp <- ggplot(covs.dt, aes(Vars, value, group = variable)) +
-      geom_bar(aes(y = lambda), position = "identity", 
+    plt$EstRelComp <- ggplot(covs.dt, aes_string('Vars', 'value', group = 'variable')) +
+      geom_bar(aes_string(y = 'lambda'), position = "identity", 
                stat = "identity", fill = "lightgray") +
-      geom_point(shape = 21, size = 1, alpha = 0.75, aes(fill = variable)) +
-      geom_line(aes(color = variable)) +
+      geom_point(shape = 21, size = 1, alpha = 0.75, aes_string(fill = 'variable')) +
+      geom_line(aes_string(color = 'variable')) +
       labs(x = "Components", y = "Eigenvalues") +
       ggtitle("Estimated Relevant Components Plot") +
       theme_bw() +
@@ -91,7 +101,7 @@ simulator_plot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE,
   ## Setting-up Layout
   if (!ask & is.null(which)) {
     plt$layout_matrix <- cbind(c(1,2), c(1,3))
-    do.call(gridExtra::grid.arrange, plt)
+    do.call(grid.arrange, plt)
   }
   
   ## Covariance Structure of Y given X

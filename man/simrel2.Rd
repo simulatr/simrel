@@ -31,6 +31,21 @@ simrel2(n = 50, p = 100, q = c(10, 10, 5), rho = c(0.8, 0.4),
 
 \item{sim}{A simrel object for reusing parameters setting}
 }
+\value{
+A simrel object with all the input arguments along with following additional items
+    \item{X}{Simulated predictors}
+    \item{Y}{Simulated responses}
+    \item{beta}{True regression coefficients}
+    \item{beta0}{True regression intercept}
+    \item{relpred}{Position of relevant predictors}
+    \item{TESTX}{Test Predictors}
+    \item{TESTY}{Test Response}
+    \item{minerror}{Minimum model error}
+    \item{Rotation}{Rotation matrix of predictor (R)}
+    \item{type}{Type of simrel object, in this case \emph{bivariate}}
+    \item{lambda}{Eigenvalues of predictors}
+    \item{Sigma}{Variance-Covariance matrix of response and predictors}
+}
 \description{
 Simulation of Multivariate Linear Model data with response
 }

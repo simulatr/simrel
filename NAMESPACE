@@ -2,3 +2,10 @@
 
 export(simrel2)
 export(simrel_m)
+export(simulator_plot)
+import(data.table)
+import(ggplot2)
+importFrom(gridExtra,grid.arrange)
+importFrom(stats,cov)
+importFrom(stats,rnorm)
+importFrom(stats,runif)
