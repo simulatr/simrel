@@ -1,47 +1,3 @@
-#' Validating parameter that is passed into \code{simulatr} function
-#' @param par_list A list of parameters that \code{simulatr} takes
-#' @importFrom stats cov rnorm runif
-#' @keywords internal
-#' @return A list of validation message either stop message \code{stop_msg} or warning message \code{warn_msg}
-
-.validate_param <- function(par_list){
-  pl <- par_list
-  stop_msg <- list()
-  warn_msg <- list()
-  
-  ## Critical Error
-  if (!all(sapply(list(length(pl$relpos), length(pl$R2)), identical, length(pl$q))))
-    stop_msg$uneql <- "Length of relpos, R2 and q must be equal\n"
-
-  if (!all(sapply(seq_along(pl$q), function(i) pl$q[i] > sapply(pl$relpos, length)[i])))
-    stop_msg$bigPred <- "Number of relevant predictor is smaller than the number of relevant components\n"
-
-  if (!sum(pl$q) < pl$p)
-    stop_msg$smallnvar <- "Number of variables can not be smaller than the number of relevant variables\n"
-
-  if (!max(unlist(pl$relpos)) < pl$p)
-    stop_msg$bigRelpos <- "Relevant Position can not exceed the number of variables\n"
-
-  if (!all(pl$R2 < 1 & pl$R2 > 0))
-    stop_msg$invalidR2 <- "R2 must be between 0 and 1\n"
-  if (!is.null(pl$muX) & length(pl$muX) != pl$p) {
-    stop_msg$muXlength <- "Mean of X must have same length as the number of X variables\n"
-  }
-  if (!is.null(pl$muY) & length(pl$muY) != pl$m) {
-    stop_msg$muYlength <- "Mean of Y must have same length as the number of Y variables\n"
-  }
-  if (any(duplicated(unlist(pl$ypos)))) {
-    stop_msg$duplicateY <- "Response Space must have unique combination of response variable."
-  }
-
-  ## Warning Conditions
-  if (any(unlist(lapply(pl$ypos, identical, 1:2)))) {
-    warnMst$noisY <- "Current setting of ypos will produce uninformative response variable."
-  }
-  valdMsg <- list(stop_msg = stop_msg, warn_msg = warn_msg)
-  return(valdMsg)
-}
-
 #' Simulation of Multivariate Linear Model Data
 #' @param n Number of observations
 #' @param p Number of variables
@@ -61,7 +17,7 @@
 #'     \item{Z}{Simulated response components}
 #'     \item{beta}{True regression coefficients}
 #'     \item{beta0}{True regression intercept}
-#'     \item{relPred}{Position of relevant predictors}
+#'     \item{relpred}{Position of relevant predictors}
 #'     \item{testX}{Test Predictors}
 #'     \item{testY}{Test Response}
 #'     \item{testW}{Test predictor components}
@@ -88,28 +44,38 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
                     ntest = NULL, muX = NULL, muY = NULL,
                     ypos = list(c(1), c(3, 4), c(2, 5))) {
 
-  ## Validate Inputs
+  ## Get all input parameter also for output
   arg_list <- as.list(environment())
-  ### Make Different Function for this and pass argList to the function
-  val.out <- .validate_param(arg_list)
-  if (length(val.out$stop_msg) != 0) {
-    stop(paste(sapply(val.out$stop_msg, paste, collapse = '\n')), call. = FALSE)
+  ## Validate Inputs
+  if (!all(sapply(list(length(relpos), length(R2)), identical, length(q))))
+    stop("Length of relpos, R2 and q must be equal\n")
+
+  if (!all(sapply(seq_along(q), function(i) q[i] > sapply(relpos, length)[i])))
+    stop("Number of relevant predictor is smaller than the number of relevant components\n")
+
+  if (!sum(q) < p)
+    stop("Number of variables can not be smaller than the number of relevant variables\n")
+
+  if (!max(unlist(relpos)) < p)
+    stop("Relevant Position can not exceed the number of variables\n")
+
+  if (!all(R2 < 1 & R2 > 0))
+    stop("R2 must be between 0 and 1\n")
+  if (!is.null(muX) & length(muX) != p) {
+    stop("Mean of X must have same length as the number of X variables\n")
+  }
+  if (!is.null(muY) & length(muY) != m) {
+    stop("Mean of Y must have same length as the number of Y variables\n")
+  }
+  if (any(duplicated(unlist(ypos)))) {
+    stop("Response Space must have unique combination of response variable.")
   }
 
-  if (length(val.out$warn_msg) != 0) {
-    warning(paste(sapply(val.out$warn_msg, paste, collapse = '\n')), call. = FALSE)
+  ## Warning Conditions
+  if (any(unlist(lapply(ypos, identical, 1:2)))) {
+    warning("Current setting of ypos will produce uninformative response variable.")
   }
-
-  ## Expected Error Messages
-  err.msg <- list(
-    lessCor = expression({
-      stop("Two Responses in orthogonal, but highly relevant spaces must be less correlated. Choose rho closer to zero.")
-    }),
-    noPD = expression({
-      stop("No positive definite coveriance matrix found with current parameter settings")
-    })
-  )
-
+  
   ## Completing Parameter for required response
   nW0 <- length(relpos)
   nW.extra <- m - length(relpos)
@@ -160,7 +126,8 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   Sigma <- cbind(rbind(SigmaW, SigmaZW), rbind(t(SigmaZW), SigmaZ))
   rho.out <- get_rho(rhoMat, R2)
   rho.out[is.nan(rho.out)] <- 0
-  if (any(rho.out < -1 | rho.out > 1)) eval(err.msg$lessCor)
+  if (any(rho.out < -1 | rho.out > 1))
+    stop("Two Responses in orthogonal, but highly relevant spaces must be less correlated. Choose rho closer to zero.")
 
   ## Rotation Matrix
   RotX <- diag(p)
@@ -216,7 +183,7 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
 
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)
-  if (!pd) eval(err.msg[['noPD']])
+  if (!pd) stop("No positive definite coveriance matrix found with current parameter settings")
 
   ## Simulation of Test and Training Data
   SigmaRot <- chol(Sigma)
@@ -257,7 +224,7 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     Z = Z,
     beta = betaX,
     beta0 = beta0,
-    relPred = predPos,
+    relpred = predPos,
     testX = testX,
     testY = testY,
     testW = testW,

@@ -38,8 +38,8 @@ A simrel object with all the input arguments along with following additional ite
     \item{beta}{True regression coefficients}
     \item{beta0}{True regression intercept}
     \item{relpred}{Position of relevant predictors}
-    \item{TESTX}{Test Predictors}
-    \item{TESTY}{Test Response}
+    \item{testX}{Test Predictors}
+    \item{testY}{Test Response}
     \item{minerror}{Minimum model error}
     \item{Rotation}{Rotation matrix of predictor (R)}
     \item{type}{Type of simrel object, in this case \emph{bivariate}}

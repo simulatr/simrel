@@ -40,7 +40,7 @@ A simrel object with all the input arguments along with following additional ite
     \item{Z}{Simulated response components}
     \item{beta}{True regression coefficients}
     \item{beta0}{True regression intercept}
-    \item{relPred}{Position of relevant predictors}
+    \item{relpred}{Position of relevant predictors}
     \item{testX}{Test Predictors}
     \item{testY}{Test Response}
     \item{testW}{Test predictor components}

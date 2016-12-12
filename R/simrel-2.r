@@ -1,34 +1,3 @@
-#' Simrel Internal Functions
-#' @keywords internal
-.Rfunc <- function(alpha1,alpha2,L){
-  t(alpha1) %*% solve(diag(L)) %*% alpha2
-}
-
-#' @keywords internal
-.a21func <- function(a11,a12,a22,R12,l1, l2){
-  l1/a11*(R12 - a22*a12/l2)
-}
-
-#' @keywords internal
-.a22func <- function(a11,a12,R2,R12,l1, l2){
-  bb <- R12*a12/a11^2 * l1/l2
-  root <- sqrt( R12^2*a12^2/a11^4 *l1^2/l2^2 - (1/l2 + l1/l2*a12^2/a11^2)*(l1/a11^2*R12^2 - R2))
-  denom <- (1/l2+l1/l2*a12^2/a11^2)
-  w1 <- (bb - root)/denom
-  w2 <- (bb + root)/denom
-  return(c(w1, w2))
-}
-
-#' @keywords internal
-.householder <- function(x) {
-  m <- length(x)
-  alpha <- sqrt(drop(crossprod(x)))
-  e <- c(1, rep(0, m - 1))
-  u <- x - alpha * e
-  v <- u/sqrt(drop(crossprod(u)))
-  diag(m) - 2 * v %*% t(v)
-}
-
 #' Simulation of Multivariate Linear Model data with response
 #' @importFrom stats cov rnorm runif
 #' @param n Number of training samples
@@ -48,8 +17,8 @@
 #'     \item{beta}{True regression coefficients}
 #'     \item{beta0}{True regression intercept}
 #'     \item{relpred}{Position of relevant predictors}
-#'     \item{TESTX}{Test Predictors}
-#'     \item{TESTY}{Test Response}
+#'     \item{testX}{Test Predictors}
+#'     \item{testY}{Test Response}
 #'     \item{minerror}{Minimum model error}
 #'     \item{Rotation}{Rotation matrix of predictor (R)}
 #'     \item{type}{Type of simrel object, in this case \emph{bivariate}}
@@ -64,21 +33,26 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
                     rho = c(0.8, 0.4), relpos = list(c(1, 2), c(2, 3)),
                     gamma = 0.5, R2 = c(0.8, 0.8), ntest = NULL,
                     muY = NULL, muX = NULL, sim = NULL) {
-  # Code for data simulation, model: Y ~ beta0 + X*beta + e
+  ## Some internal functions
+  .Rfunc <- function(alpha1,alpha2,L){
+    t(alpha1) %*% solve(diag(L)) %*% alpha2
+  }
+  
+  .a21func <- function(a11,a12,a22,R12,l1, l2){
+    l1/a11*(R12 - a22*a12/l2)
+  }
+  
+  .a22func <- function(a11,a12,R2,R12,l1, l2){
+    bb <- R12*a12/a11^2 * l1/l2
+    root <- sqrt( R12^2*a12^2/a11^4 *l1^2/l2^2 - (1/l2 + l1/l2*a12^2/a11^2)*(l1/a11^2*R12^2 - R2))
+    denom <- (1/l2+l1/l2*a12^2/a11^2)
+    w1 <- (bb - root)/denom
+    w2 <- (bb + root)/denom
+    return(c(w1, w2))
+  }
 
-  # n : Number of training samples ntest : Number of test
-  # samples p : Total number of x-variables rho a 2-element
-  # vector, unconditional and conditional correlation between
-  # y1 and y2 relpos : The relevant components is placed on
-  # these component numbers, a list with two vectors. q :A
-  # 3-vector of number of relevant predictors q[1] for y1, q[2]
-  # for y2 and q[3] intersection of both, such that q[1] + q[2]
-  # - q[3] <= p gamma : Parameter defining the eigenvalue
-  # structure of SigmaX = cov(X) R2 : A 2-element vector of
-  # coefficients of determination in (0,1), for each reponse.
-  # sim : previsouly fitted sim-object from which to re-use r
-  # and R.
-
+  ## Starting function body
+  
   if (!is.null(sim)) {
     betaX <- sim$beta
     beta0 <- sim$beta0
@@ -519,19 +493,19 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
     if (!is.null(ntest)) {
       Utest <- matrix(rnorm(ntest * (p + 2), 0, 1), nrow = ntest)
       U1test <- Utest %*% Sigmarot
-      TESTY <- U1test[, 1:2, drop = F]
+      testY <- U1test[, 1:2, drop = F]
       if (!(is.null(muY))) {
-        TESTY <- sweep(TESTY, 2, muY, "+")
+        testY <- sweep(testY, 2, muY, "+")
       }
       TESTZ <- U1test[, 3:(p + 2)]
-      TESTX <- TESTZ %*% t(R)
+      testX <- TESTZ %*% t(R)
       if (!(is.null(muX))) {
-        TESTX <- sweep(TESTX, 2, muX, "+")
+        testX <- sweep(testX, 2, muX, "+")
       }
-      colnames(TESTX) <- as.character(1:p)
+      colnames(testX) <- as.character(1:p)
     } else {
-      TESTX <- NULL
-      TESTY <- NULL
+      testX <- NULL
+      testY <- NULL
     }
 
   } else {
@@ -547,8 +521,8 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
   res$muY <- muY
   res$muX <- muX
   res$relpred <- qpos
-  res$TESTX <- TESTX
-  res$TESTY <- TESTY
+  res$testX <- testX
+  res$testY <- testY
   res$n <- n
   res$p <- p
   res$m <- m
