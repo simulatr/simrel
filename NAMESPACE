@@ -3,6 +3,7 @@
 export(simrel)
 export(simrel2)
 export(simrel_m)
+export(simulatr)
 import(data.table)
 import(ggplot2)
 importFrom(gridExtra,grid.arrange)

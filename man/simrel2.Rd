@@ -50,9 +50,9 @@ A simrel object with all the input arguments along with following additional ite
 Simulation of Multivariate Linear Model data with response
 }
 \references{
-S<U+00E6>b<U+00F8>, S., Alm<U+00F8>y, T., & Helland, I. S. (2015). simrel<U+2014>A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors. Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
+Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors. Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
 
-Alm<U+00F8>y, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
+Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 }
 \keyword{data}
 \keyword{linear}
