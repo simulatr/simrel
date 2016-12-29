@@ -7,30 +7,24 @@
 simulatr(n, p, q, relpos, gamma, R2, type = "univariate", ...)
 }
 \arguments{
-\item{n}{Number of observations}
+\item{n}{Number of observations.}
 
-\item{p}{Number of variables}
+\item{p}{Number of variables.}
 
-\item{q}{Vector containing the number of relevant predictor variables for each relevant response components}
+\item{q}{An integer for univariate, a vector of 3 integers for bivariate and 3 or more for multivariate simulation (for details see Notes).}
 
-\item{relpos}{A list of position of relevant component for predictor variables. The list contains vectors of position index, one vector or each relevant response components}
+\item{relpos}{A list (vector in case of univariate simulation) of position of relevant component for predictor variables corresponding to each response.}
 
-\item{gamma}{A declining (decaying) factor of eigen value of predictors (X). Higher the value of \code{gamma}, the decrease of eigenvalues will be steeper}
+\item{gamma}{A declining (decaying) factor of eigenvalues of predictors (X). Higher the value of \code{gamma}, the decrease of eigenvalues will be steeper.}
 
-\item{R2}{Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components}
+\item{R2}{Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components.}
 
-\item{m}{Number of response variables}
+\item{type}{Type of simulation - \code{univariate}, \code{bivariate} and \code{multivariate}}
 
-\item{ntest}{Number of test observation}
-
-\item{muX}{Vector of average (mean) for each predictor variable}
-
-\item{muY}{Vector of average (mean) for each response variable}
-
-\item{ypos}{List of position of relevant response components that are combined to generate response variable during orthogonal rotation}
+\item{...}{Since this is a wrapper function to simulate univariate, bivariate or multivariate, it calls their respective function. This parameter should contain all the necessary arguements for respective simulations. See \code{\link{simrel}}, \code{\link{simrel2}} and \code{\link{simrel_m}}}
 }
 \value{
-A simrel object with all the input arguments along with following additional items
+A simrel object with all the input arguments along with following additional items.
     \item{X}{Simulated predictors}
     \item{Y}{Simulated responses}
     \item{W}{Simulated predictor components}

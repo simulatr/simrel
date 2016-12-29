@@ -1,0 +1,14 @@
+* Simulator Paper
+** Data Analysis
+*** TODO Validate all the parameters in ~simulatr~ wrapper function
+*** TODO Make a common plot function with both ~base~ and ~ggplot2~ package
+*** TODO Test and finalize the package
+** Shiny Application
+*** TODO Edit previous Shiny Application using new ~simulatr~ package
+*** TODO Include option for /univariate/, /bivariate/ and /multi-variate/ simulation 
+*** TODO Create Interactive plot but not model fittings
+*** TODO Option for downloading simulated data
+** Paper Writing
+*** TODO Reorganize the contents for more smooth flow of story
+*** TODO Make is simple and less technical
+*** TODO Describe all the details as much as possible

@@ -2,14 +2,11 @@
 #' @param n Number of observations.
 #' @param p Number of variables.
 #' @param q An integer for univariate, a vector of 3 integers for bivariate and 3 or more for multivariate simulation (for details see Notes).
-#' @param m Number of response variables (applicable only for multivariate simulation).
 #' @param relpos A list (vector in case of univariate simulation) of position of relevant component for predictor variables corresponding to each response. 
 #' @param gamma A declining (decaying) factor of eigenvalues of predictors (X). Higher the value of \code{gamma}, the decrease of eigenvalues will be steeper.
 #' @param R2 Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components.
-#' @param ntest Number of test observation.
-#' @param muX Vector of average (mean) for each predictor variable.
-#' @param muY Vector of average (mean) for each response variable.
-#' @param ypos List of position of relevant response components that are combined to generate response variable during orthogonal rotation. Applicable only for multivariate simulation.
+#' @param type Type of simulation - \code{univariate}, \code{bivariate} and \code{multivariate}
+#' @param ... Since this is a wrapper function to simulate univariate, bivariate or multivariate, it calls their respective function. This parameter should contain all the necessary arguements for respective simulations. See \code{\link{simrel}}, \code{\link{simrel2}} and \code{\link{simrel_m}}
 #' @return A simrel object with all the input arguments along with following additional items.
 #'     \item{X}{Simulated predictors}
 #'     \item{Y}{Simulated responses}
@@ -42,6 +39,10 @@ simulatr <- function (n, p, q, relpos, gamma, R2, type = "univariate", ...)
 {
   cl <- match.call(expand.dots = FALSE)
   cl$type <- match.arg(type, c("univariate", "bivariate", "multivariate"))
+
+  sim <- cl$sim
+  muX <- cl$muX
+  muY <- cl$muY
 
   ## ---- Validation of parameters --------------------------
   stopMsg <- c()
