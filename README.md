@@ -65,3 +65,5 @@ I will go through some problem and show how `simulatr` solves those tasks,
     ```
 
     ![simrel-plot](figure/simrel-plot.png)
+
+2.  **A bivariate simulation:** `simulatr` uses `simrel2` for simulating bivariate linear model data.
