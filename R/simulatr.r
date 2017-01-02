@@ -111,4 +111,5 @@ simulatr <- function (n, p, q, relpos, gamma, R2, type = "univariate", ...)
   sim_fun <- switch(type, univariate = simrel, bivariate = simrel2, multivariate = simrel_m)
 
   sobj <- sim_fun(n, p, q, relpos, gamma, R2, ...)
-  return(sobj)}
+  return(sobj)
+}
