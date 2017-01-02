@@ -1,6 +1,3 @@
----
-output: html_document
----
 # Simulation of Multivariate Linear Model Data
 
 ## Introduction
