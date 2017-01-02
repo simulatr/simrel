@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+TODOs.org
+README.rmd
+README.md
+figure
+figure/*
