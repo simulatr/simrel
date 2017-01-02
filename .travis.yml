@@ -1,0 +1,23 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+# Header
+language: r
+sudo: false
+cache: packages
+warnings_are_errors: false
+
+#env
+env:
+  global:
+  - _R_CHECK_FORCE_SUGGESTS_=false
+  - MAKEFLAGS="-j 2"
+
+#notifications
+notifications:
+  email:
+    on_success: true
+    on_failure: true
+    
+#after_success
+after_success:
+- Rscript -e 'covr::codecov()'
