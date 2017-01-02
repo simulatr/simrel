@@ -1,7 +1,5 @@
 ---
-output: 
-  html_document: 
-    keep_md: yes
+output: html_document
 ---
 # Simulation of Multivariate Linear Model Data
 
@@ -57,3 +55,4 @@ Here `sim_obj` is a object with class `simrel` and constitue of a list of simula
 plot_simulatr(sim_obj, ask = FALSE)
 ```
 
+![simrel-plot](figure/simrel-plot.png)
