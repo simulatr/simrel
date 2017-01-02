@@ -1,8 +1,3 @@
----
-output: 
-  html_document: 
-    keep_md: yes
----
 # Simulation of Multivariate Linear Model Data
 
 ## Introduction
@@ -26,7 +21,8 @@ Following parameters (arguments) are used in these function,
 ## Installation
 Install the package from GitHub,
 
-```{r, eval = FALSE}
+
+```r
 # install.pacakges("devtools")
 devtools::install_github("therimalaya/simulatr")
 ```
@@ -36,7 +32,8 @@ I will go through some problem and show how `simulatr` solves those tasks,
 
 1. Simulate a univariate linear model data with 100 training samples and 500 test samples having 10 predictors ($\bf{X}$) where only 8 of them are relevant for the variation in the response vector. The population model should explain 80% of the variation present in the response. In addition, only 1st and 3rd principal components of $\bf{X}$ should be relevant for $y$ and the eigenvalues of $\bf{X}$ decreases exponentially by a factor of 0.7.
 
-```{r}
+
+```r
 library(simulatr)
 sim_obj <- 
   simulatr(
@@ -53,7 +50,8 @@ sim_obj <-
 
 Here `sim_obj` is a object with class `simrel` and constitue of a list of simulated linear model data along with other relevant properties. Lets use `plot.simulatr` function to overview the situation,
 
-```{r}
+
+```r
 plot_simulatr(sim_obj, ask = FALSE)
 ```
 
