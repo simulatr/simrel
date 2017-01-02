@@ -1,5 +1,4 @@
 ---
-title: Simulation of Mu---
 title: Simulation of Multivariate Linear Model Data
 author: Raju Rimal & Solve Sæbø
 output: github_document
