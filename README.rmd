@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![Build Status](https://travis-ci.com/therimalaya/simulatr.svg?token=typpys6NkDJ7vULJQyan&branch=master)](https://travis-ci.com/therimalaya/simulatr)
 
 # Introduction
 `Simrel` r-package is a versatile tool for simulation of multivariate linear model data. The package consist of four core functions -- `simrel`, `simrel2`, `simrel_m` and `simulatr` for simulation and a plot function `plot.simulatr`. As the name suggests, `simrel` function is used for simulating univariate linear model data, `simrel2` simulates bivariate linear model data where user can specify the correlation between two responses with and without given $\bf{X}$. In addition, this function allows users to get responses ($y$) having common relevant components.
