@@ -57,7 +57,9 @@ I will go through some problem and show how `simulatr` solves those tasks,
     Here `sim_obj` is a object with class `simrel` and constitue of a list of simulated linear model data along with other relevant properties. Lets use `plot.simulatr` function to overview the situation,
 
     ``` r
+    png(filename = "figure/simrel-plot.png", width = 700, height = 500)
     plot_simulatr(sim_obj, ask = FALSE)
+    dev.off()
     ```
 
     ![simrel-plot](figure/simrel-plot.png)

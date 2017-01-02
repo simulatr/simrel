@@ -1,4 +1,5 @@
 ---
+title: Simulation of Mu---
 title: Simulation of Multivariate Linear Model Data
 author: Raju Rimal & Solve Sæbø
 output: github_document
@@ -18,7 +19,7 @@ knitr::opts_chunk$set(
 
 An extension of `simrel2` is `simrel_m`, by which user can simulate multivariate linear model data with multiple responses. In this simulation, each response must have exclusive set of predictors and relevant predictors components. Following examples will give a clear picture of these functions. The forth function `simulatr` wraps around these function and calls them according to what type of data a user is simulating.
 
-Following parameters (arguments) are used in these function,
+Following parameters (arguments) are used in these function, 
 
 | Parameters | Descriptions                                                        |
 |------------|---------------------------------------------------------------------|
@@ -61,7 +62,9 @@ I will go through some problem and show how `simulatr` solves those tasks,
     
     Here `sim_obj` is a object with class `simrel` and constitue of a list of simulated linear model data along with other relevant properties. Lets use `plot.simulatr` function to overview the situation,
     
-    ```{r}
+    ```{r, message = FALSE, results = 'hide'}
+    png(filename = "figure/simrel-plot.png")
     plot_simulatr(sim_obj, ask = FALSE)
+    dev.off()
     ```
     ![simrel-plot](figure/simrel-plot.png)
