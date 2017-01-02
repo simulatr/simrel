@@ -2,10 +2,6 @@ Simulation of Multivariate Linear Model Data
 ================
 Raju Rimal & Solve Sæbø
 
--   [Introduction](#introduction)
--   [Installation](#installation)
--   [Examples](#examples)
-
 Introduction
 ============
 
@@ -41,7 +37,7 @@ Examples
 
 I will go through some problem and show how `simulatr` solves those tasks,
 
-1.  Simulate a univariate linear model data with 100 training samples and 500 test samples having 10 predictors ($\\bf{X}$) where only 8 of them are relevant for the variation in the response vector. The population model should explain 80% of the variation present in the response. In addition, only 1st and 3rd principal components of **X** should be relevant for *y* and the eigenvalues of **X** decreases exponentially by a factor of 0.7.
+1.  Simulate a univariate linear model data with 100 training samples and 500 test samples having 10 predictors (**X**) where only 8 of them are relevant for the variation in the response vector. The population model should explain 80% of the variation present in the response. In addition, only 1st and 3rd principal components of **X** should be relevant for *y* and the eigenvalues of **X** decreases exponentially by a factor of 0.7.
 
     ``` r
     library(simulatr)
@@ -63,3 +59,5 @@ I will go through some problem and show how `simulatr` solves those tasks,
     ``` r
     plot_simulatr(sim_obj, ask = FALSE)
     ```
+
+    ![simrel-plot](figure/simrel-plot.png)

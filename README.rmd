@@ -1,11 +1,17 @@
 ---
 title: Simulation of Multivariate Linear Model Data
 author: Raju Rimal & Solve Sæbø
-output: 
-  github_document:
-    toc: true
-    md_extensions: +tex_math_single_backslash
+output: github_document
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figure/readme-"
+)
+```
+
 
 # Introduction
 `Simrel` r-package is a versatile tool for simulation of multivariate linear model data. The package consist of four core functions -- `simrel`, `simrel2`, `simrel_m` and `simulatr` for simulation and a plot function `plot.simulatr`. As the name suggests, `simrel` function is used for simulating univariate linear model data, `simrel2` simulates bivariate linear model data where user can specify the correlation between two responses with and without given $\bf{X}$. In addition, this function allows users to get responses ($y$) having common relevant components.
@@ -36,7 +42,7 @@ devtools::install_github("therimalaya/simulatr")
 # Examples
 I will go through some problem and show how `simulatr` solves those tasks,
 
-1. Simulate a univariate linear model data with 100 training samples and 500 test samples having 10 predictors ($\bf{X}$) where only 8 of them are relevant for the variation in the response vector. The population model should explain 80% of the variation present in the response. In addition, only 1st and 3rd principal components of **X** should be relevant for *y* and the eigenvalues of **X** decreases exponentially by a factor of 0.7.
+1. Simulate a univariate linear model data with 100 training samples and 500 test samples having 10 predictors (**X**) where only 8 of them are relevant for the variation in the response vector. The population model should explain 80% of the variation present in the response. In addition, only 1st and 3rd principal components of **X** should be relevant for *y* and the eigenvalues of **X** decreases exponentially by a factor of 0.7.
 
     ```{r}
     library(simulatr)
@@ -58,3 +64,4 @@ I will go through some problem and show how `simulatr` solves those tasks,
     ```{r}
     plot_simulatr(sim_obj, ask = FALSE)
     ```
+    ![simrel-plot](figure/simrel-plot.png)
