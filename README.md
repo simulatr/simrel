@@ -7,7 +7,7 @@ Raju Rimal & Solve Sæbø
 Introduction
 ============
 
-`Simrel` r-package is a versatile tool for simulation of multivariate linear model data. The package consist of four core functions -- `simrel`, `simrel2`, `simrel_m` and `simulatr` for simulation and a plot function `plot.simulatr`. As the name suggests, `simrel` function is used for simulating univariate linear model data, `simrel2` simulates bivariate linear model data where user can specify the correlation between two responses with and without given **X**. In addition, this function allows users to get responses (**y**) having common relevant components.
+`Simrel` r-package is a versatile tool for simulation of multivariate linear model data. The package consist of four core functions -- `simrel`, `simrel2`, `simrel_m` and `simulatr` for simulation and a plot function `plot.simulatr`. As the name suggests, `simrel` function is used for simulating univariate linear model data, `simrel2` simulates bivariate linear model data where user can spup} knitr::knecify the correlation between two responses with and without given **X**. In addition, this function allows users to get responses (**y**) having common relevant components.
 
 An extension of `simrel2` is `simrel_m`, by which user can simulate multivariate linear model data with multiple responses. In this simulation, each response must have exclusive set of predictors and relevant predictors components. Following examples will give a clear picture of these functions. The forth function `simulatr` wraps around these function and calls them according to what type of data a user is simulating.
 
@@ -94,3 +94,8 @@ plot_simulatr(simrel2_obj)
 ```
 
 ![](figure/simrel2_plot-1.png)
+
+Multivariate Simulation
+-----------------------
+
+Multivariate simulation uses `simrel_m` function and can simulate multiple responses. Lets simulate 100 training samples and 500 test samples. The simulated data has 5 responses and 15 predictors. These 5 responses spans 5 latent space out of which only 3 are related to the predictors. Let 5 predictors are relevant for response **y**~1
