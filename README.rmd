@@ -9,7 +9,7 @@ output: github_document
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(fig.show = "asis", comment = "#>", 
-                      fig.height = 5, fig.width = 7,
+                      fig.height = 6, fig.width = 7,
                       fig.path = "figure/")
 ```
 
