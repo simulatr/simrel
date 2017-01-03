@@ -1,7 +1,4 @@
 #' Simulation Plot: The true beta, relevant component and eigen structure
-#' @import ggplot2
-#' @import data.table
-#' @importFrom gridExtra grid.arrange
 #' @keywords simrel-plot, simulation plot
 #' @param obj A simrel object
 #' @param ncomp Number of components to plot
@@ -24,7 +21,7 @@ plot_simulatr <-
   if (ask & !sum(show) == 1) {
     oask <- devAskNewPage(TRUE)
     on.exit(devAskNewPage(oask))
-  } else if (!ask | !sum(show) == 1){
+  } else if (!ask | !sum(show) == 1) {
     dev.new(width = 11, height = 8)
     layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
     op <- par(mar = c(5, 5, 4, 1))

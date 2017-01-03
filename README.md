@@ -60,12 +60,11 @@ sim_obj <-
 Here `sim_obj` is a object with class `simrel` and constitue of a list of simulated linear model data along with other relevant properties. Lets use `plot.simulatr` function to overview the situation,
 
 ``` r
-  png(filename = "figure/simrel-plot.png")
-  plot_simulatr(sim_obj, ask = FALSE)
-  dev.off()
+layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
+plot_simulatr(sim_obj)
 ```
 
-![simrel-plot](figure/simrel-plot.png)
+![](figure/simrel1-plot-1.png)
 
 Bivariate Simulation
 --------------------
@@ -90,9 +89,8 @@ simrel2_obj <-
 Lets look at the plot,
 
 ``` r
-  png(filename = "figure/simrel2-plot.png")
-  plot_simulatr(simrel2_obj, ask = FALSE)
-  dev.off()
+layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
+plot_simulatr(simrel2_obj)
 ```
 
-![simrel2-plot](figure/simrel2-plot.png)
+![](figure/simrel2_plot-1.png)

@@ -5,3 +5,5 @@ README.rmd
 README.md
 figure
 figure/*
+.travis.yml
+codecov.yml

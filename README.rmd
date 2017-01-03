@@ -1,14 +1,17 @@
 ---
 title: Simulation of Multivariate Linear Model Data
 author: Raju Rimal & Solve Sæbø
-output:
-  github_document:
-    html_preview: false
+output: github_document
 ---
 
 [![Build Status](https://travis-ci.com/therimalaya/simulatr.svg?token=typpys6NkDJ7vULJQyan&branch=master)](https://travis-ci.com/therimalaya/simulatr)
 [![codecov](https://codecov.io/gh/therimalaya/simulatr/branch/master/graph/badge.svg?token=sahOmz8jFf)](https://codecov.io/gh/therimalaya/simulatr)
 
+```{r, include=FALSE}
+knitr::opts_chunk$set(fig.show = "asis", comment = "#>", 
+                      fig.height = 5, fig.width = 7,
+                      fig.path = "figure/")
+```
 
 # Introduction
 `Simrel` r-package is a versatile tool for simulation of multivariate linear model data. The package consist of four core functions -- `simrel`, `simrel2`, `simrel_m` and `simulatr` for simulation and a plot function `plot.simulatr`. As the name suggests, `simrel` function is used for simulating univariate linear model data, `simrel2` simulates bivariate linear model data where user can specify the correlation between two responses with and without given **X**. In addition, this function allows users to get responses (**y**) having common relevant components.
@@ -57,12 +60,10 @@ sim_obj <-
 
 Here `sim_obj` is a object with class `simrel` and constitue of a list of simulated linear model data along with other relevant properties. Lets use `plot.simulatr` function to overview the situation,
 
-```{r, message = FALSE, results = 'hide'}
-  png(filename = "figure/simrel-plot.png")
-  plot_simulatr(sim_obj, ask = FALSE)
-  dev.off()
+```{r simrel1-plot}
+layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
+plot_simulatr(sim_obj)
 ```
-![simrel-plot](figure/simrel-plot.png)
 
 ## Bivariate Simulation
 The wrapper function `simulatr` uses `simrel2` for simulating bivariate linear model data. Lets consider a situation to simulate data from bivariate distribution with 100 training and 500 test samples. The response vectors **y**<sub>1</sub> and **y**<sub>2</sub> have correlation of 0.8 without given **X** and 0.6 with given **X**. Among 10 total predictor variables, 5 are relevant for **y**<sub>1</sub> and 5 are relevant for **y**<sub>2</sub>. However 3 of them are relevant for both of them. Let the predictors explain 80% and 70% of total variation present in population of **y**<sub>1</sub> and **y**<sub>2</sub> respectively. In addition, let 1, 2 and 3 components are relevant for **y**<sub>1</sub> and 3 and 4 components are relevant for **y**<sub>2</sub>. In this case, the third component is relevant for both responses. Let the decay factor of eigenvalues of **X** be 0.8.
@@ -84,10 +85,7 @@ simrel2_obj <-
 
 Lets look at the plot,
 
-```{r simrel2_plot, message = FALSE, results = 'hide'}
-  png(filename = "figure/simrel2-plot.png")
-  plot_simulatr(simrel2_obj, ask = FALSE)
-  dev.off()
+```{r simrel2_plot}
+layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
+plot_simulatr(simrel2_obj)
 ```
-
-![simrel2-plot](figure/simrel2-plot.png)
