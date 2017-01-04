@@ -119,7 +119,7 @@ simrel_m_obj <-
 
 Lets look at the `simrel` plot;
 
-```{r simrelm_plot}
+```{r simrelm_plot, fig.height = 8}
 layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 plot_simulatr(simrel_m_obj)
 ```
