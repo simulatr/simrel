@@ -2,7 +2,7 @@ Simulation of Multivariate Linear Model Data
 ================
 Raju Rimal & Solve Sæbø
 
-[![Build Status](https://travis-ci.com/therimalaya/simulatr.svg?token=typpys6NkDJ7vULJQyan&branch=master)](https://travis-ci.com/therimalaya/simulatr) [![codecov](https://codecov.io/gh/therimalaya/simulatr/branch/master/graph/badge.svg?token=sahOmz8jFf)](https://codecov.io/gh/therimalaya/simulatr)
+[![Build Status](https://travis-ci.com/therimalaya/simulatr.svg?token=typpys6NkDJ7vULJQyan&branch=master)](https://travis-ci.com/therimalaya/simulatr) <!-- [![codecov](https://codecov.io/gh/therimalaya/simulatr/branch/master/graph/badge.svg?token=sahOmz8jFf)](https://codecov.io/gh/therimalaya/simulatr) -->
 
 Introduction
 ============
@@ -98,4 +98,33 @@ plot_simulatr(simrel2_obj)
 Multivariate Simulation
 -----------------------
 
-Multivariate simulation uses `simrel_m` function and can simulate multiple responses. Lets simulate 100 training samples and 500 test samples. The simulated data has 5 responses and 15 predictors. These 5 responses spans 5 latent space out of which only 3 are related to the predictors. Let 5 predictors are relevant for response **y**~1
+Multivariate simulation uses `simrel_m` function and can simulate multiple responses. Lets simulate 100 training samples and 500 test samples. The simulated data has 5 responses and 15 predictors. These 5 responses spans 5 latent space out of which only 3 are related to the predictors. Lets denote them by **w**<sub>i</sub>. Let 5, 4 and 4 predictors are relevant for response components **w**<sub>1</sub>, **w**<sub>1</sub> and **w**<sub>1</sub> respectively. The position of relevant predictor components for **w**<sub>1</sub> be 1, 2, 3; for **w**<sub>2</sub> be 4 and 5. Similarly, predictor components 6 and 8 are relevant for **w**<sub>3</sub>.
+
+Since we need 5 response variables, we mix-up these 3 informative response components with 2 remaining uninformative components so that all simulated response contains information that **X** are related. Lets combine **w**<sub>1</sub> with **w**<sub>4</sub> and **w**<sub>3</sub> with **w**<sub>5</sub>. So that the predictors that are relevant for response components **w**<sub>1</sub> will be relevant for response **y**<sub>1</sub> and **y**<sub>3</sub> and so on.
+
+In addition to these latent space requirements, let **X** explains 80% variation present in **w**<sub>1</sub>, 50% in **w**<sub>2</sub> and 70% in **w**<sub>3</sub>. The eigenvalues of X reduces by the factor of 0.8.
+
+``` r
+simrel_m_obj <- 
+  simulatr(
+    n      = 100,                                # 100 training samples
+    p      = 15,                                 # 15 predictor variables
+    q      = c(5, 4, 4),                         # relevant variables for w1, w2 and w3
+    relpos = list(c(1, 2, 3), c(4, 5), c(6, 8)), # relevant components for w1, w2 and y3
+    R2     = c(0.8, 0.5, 0.7),                   # Coefficient of variation for w1, w2 and y3
+    ypos   = list(c(1, 4), c(2), c(3, 5)),       # combining response components together
+    m      = 5,                                  # Number of response
+    gamma  = 0.8,                                # decay factor of eigenvalues of X
+    ntest  = 500,                                # 500 test samples
+    type   = "multivariate"                      # multivariate simulation
+  )
+```
+
+Lets look at the `simrel` plot;
+
+``` r
+layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
+plot_simulatr(simrel_m_obj)
+```
+
+![](figure/simrelm_plot-1.png)
