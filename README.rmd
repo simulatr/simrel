@@ -11,7 +11,7 @@ output:
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(fig.show = "asis", comment = "#>", 
-                      fig.height = 6, fig.width = 7,
+                      fig.height = 6, fig.width = 9,
                       fig.path = "figure/")
 ```
 
