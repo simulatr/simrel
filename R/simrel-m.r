@@ -193,8 +193,8 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   Z <- train_cal[, (m + 1):(m + p), drop = F]
   X <- Z %*% t(RotX)
   Y <- W %*% t(RotY)
-  if (!(is.null(muX))) X <- sweep(X, 2, '+')
-  if (!(is.null(muY))) Y <- sweep(Y, 2, '+')
+  if (!(is.null(muX))) X <- sweep(X, 2, muX, '+')
+  if (!(is.null(muY))) Y <- sweep(Y, 2, muY, '+')
   colnames(X) <- paste0('X', 1:p)
   colnames(Y) <- paste0('Y', 1:m)
 
