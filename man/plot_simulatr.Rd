@@ -27,4 +27,3 @@ Simulation Plot: The true beta, relevant component and eigen structure
 \keyword{plot}
 \keyword{simrel-plot,}
 \keyword{simulation}
-

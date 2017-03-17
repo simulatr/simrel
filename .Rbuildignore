@@ -7,3 +7,6 @@ figure
 figure/*
 .travis.yml
 codecov.yml
+R/ggplot-simulatr.r
+inst
+_config.yml

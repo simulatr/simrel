@@ -44,9 +44,9 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
                     ntest = NULL, muX = NULL, muY = NULL,
                     ypos = list(c(1), c(3, 4), c(2, 5))) {
 
-  ## Get all input parameter also for output
+  ## Get all input parameter also for output ---
   arg_list <- as.list(environment())
-  ## Validate Inputs
+  ## Validate Inputs ----
   if (!all(sapply(list(length(relpos), length(R2)), identical, length(q))))
     stop("Length of relpos, R2 and q must be equal\n")
 
@@ -180,7 +180,6 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   )
   ## Minimum Error
   minerror <- SigmaY - RsqY
-
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)
   if (!pd) stop("No positive definite coveriance matrix found with current parameter settings")

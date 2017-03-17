@@ -109,10 +109,10 @@ plot_simulatr <-
     }
   
   ## Setting-up Layout
-  if (!ask & is.null(which)) {
-    plt$layout_matrix <- cbind(c(1,2), c(1,3))
-    do.call(grid.arrange, plt)
-  }
+  # if (!ask & is.null(which)) {
+  #   plt$layout_matrix <- cbind(c(1,2), c(1,3))
+  #   do.call(grid.arrange, plt)
+  # }
   
   ## Covariance Structure of Y given X
   if (print.cov) {
