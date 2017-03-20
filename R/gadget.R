@@ -302,6 +302,7 @@ app_simulatr <- function() {
       par <- simObj()[["par"]]
       par$type <- gsub("(.+)", "'\\1'", par$type)
       code <- paste0("sim.obj <- simulatr(", paste(paste(names(par), par, sep = " = "), collapse = ", "), ")")
+      rstudioapi::sendToConsole('cat("\\014")', execute = TRUE)
       rstudioapi::sendToConsole(code, execute = FALSE)
       stopApp(sim.obj)
     })

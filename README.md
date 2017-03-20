@@ -128,3 +128,10 @@ plot_simulatr(simrel_m_obj)
 ```
 
 ![](figure/simrelm_plot-1.png)
+
+RStudio Addins
+--------------
+
+To make the process easier to use, we have created a shiny gadget as an rstudio addons. If you are using Rstuio, you can access this app from Tools &gt; Addins &gt; simulatr. But you can also access this app using `simulatr::app_simulatr()`. This will open the app in a browser from where you can choose all your parameter, see the true population parametrs you will get from the simulation. When the app is closed, it will give an command output on your R console.
+
+![App-Simulatr-Screenshop](figure/App-Simulatr.png)

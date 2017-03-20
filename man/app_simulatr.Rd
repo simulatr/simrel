@@ -9,3 +9,4 @@ app_simulatr()
 \description{
 Simulation of Multivariate Linear Model Data
 }
+

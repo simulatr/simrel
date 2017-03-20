@@ -133,13 +133,14 @@ plot(mydata$beta, plsfit$coef[,1,mincomp],xlab="True regression coefficients",
 abline(0,1)
 }
 }
+\author{
+Solve S<e6>b<f8> and Kristian H. Liland
+}
 \references{
 Helland, I. S. and Alm<f8>y, T., 1994, Comparison of prediction methods when only a few components are relevant, \emph{J. Amer. Statist. Ass.}, \bold{89}(426), 583 -- 591.
 
 S<e6>b<f8>, S., Alm<f8>y, T. and Helland, I. S., 2015, simrel - A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors, \emph{Chemometr. Intell. Lab.}(in press),doi:10.1016/j.chemolab.2015.05.012.
 }
-\author{
-Solve S<e6>b<f8> and Kristian H. Liland
-}
 \keyword{Model}
 \keyword{Simulation}
+
