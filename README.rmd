@@ -1,6 +1,6 @@
 ---
 title: Simulation of Multivariate Linear Model Data
-author: Raju Rimal & Solve Sæbø
+author: Raju Rimal, Trygve Almøy & Solve Sæbø
 output: 
   github_document:
     html_preview: no

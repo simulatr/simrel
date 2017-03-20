@@ -1,6 +1,6 @@
 Simulation of Multivariate Linear Model Data
 ================
-Raju Rimal & Solve Sæbø
+Raju Rimal, Trygve Almøy & Solve Sæbø
 
 [![Build Status](https://travis-ci.com/therimalaya/simulatr.svg?token=typpys6NkDJ7vULJQyan&branch=master)](https://travis-ci.com/therimalaya/simulatr) <!-- [![codecov](https://codecov.io/gh/therimalaya/simulatr/branch/master/graph/badge.svg?token=sahOmz8jFf)](https://codecov.io/gh/therimalaya/simulatr) -->
 
