@@ -50,13 +50,13 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   if (!all(sapply(list(length(relpos), length(R2)), identical, length(q))))
     stop("Length of relpos, R2 and q must be equal\n")
 
-  if (!all(sapply(seq_along(q), function(i) q[i] > sapply(relpos, length)[i])))
+  if (!all(sapply(seq_along(q), function(i) q[i] >= sapply(relpos, length)[i])))
     stop("Number of relevant predictor is smaller than the number of relevant components\n")
 
-  if (!sum(q) < p)
+  if (!sum(q) <= p)
     stop("Number of variables can not be smaller than the number of relevant variables\n")
 
-  if (!max(unlist(relpos)) < p)
+  if (!max(unlist(relpos)) <= p)
     stop("Relevant Position can not exceed the number of variables\n")
 
   if (!all(R2 < 1 & R2 > 0))
