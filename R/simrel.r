@@ -149,11 +149,9 @@ simrel <- function (n, p, q, relpos, gamma, R2, ntest = NULL, muY = NULL,
     SigmaZinv <- diag(1/lambdas)
     Sigmazy <- matrix(0, p, 1)
     r <- runif(m, 0, 1) * sample(c(-1, 1), m, replace = TRUE)
-    Sigmazy[relpos, ] <- sign(r) * sqrt(R2 * abs(r)/sum(abs(r)) * 
-                                          lambdas[relpos])
+    Sigmazy[relpos, ] <- sign(r) * sqrt(R2 * abs(r)/sum(abs(r)) * lambdas[relpos])
     SigmaY <- 1
-    Sigma <- rbind(c(SigmaY, t(Sigmazy)), cbind(Sigmazy, 
-                                                SigmaZ))
+    Sigma <- rbind(c(SigmaY, t(Sigmazy)), cbind(Sigmazy,  SigmaZ))
     Q <- matrix(rnorm(q^2), q)
     Q <- scale(Q, scale = F)
     Rq <- qr.Q(qr(Q))

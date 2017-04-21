@@ -149,6 +149,9 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     rotMat <- getRotate(pos)
     RotY[pos, pos] <- rotMat
   }
+  
+  ## Fill remaining irrelevant space with random normal variates
+  RotX[irrelpos, irrelpos] <- getRotate(irrelpos)
 
 
   ## True Regression Coefficient
