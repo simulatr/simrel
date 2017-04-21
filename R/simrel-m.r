@@ -77,39 +77,39 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   }
   
   ## Completing Parameter for required response
-  nW0 <- length(relpos)
-  nW.extra <- m - length(relpos)
+  nW0          <- length(relpos)
+  nW.extra     <- m - length(relpos)
   nW.extra.idx <- seq.int(nW0 + 1, length.out = nW.extra)
 
   relpos <- append(relpos, lapply(nW.extra.idx, function(x) integer()))
-  R2 <- c(R2, rep(0, nW.extra))
-  q <- c(q, rep(0, nW.extra))
+  R2     <- c(R2, rep(0, nW.extra))
+  q      <- c(q, rep(0, nW.extra))
 
   ## How many components are relevant for each W_i
   n.relpos <- vapply(relpos, length, 0L)
 
   ## Irrelevant position of predictors
   irrelpos <- setdiff(seq_len(p), Reduce(union, relpos))
-  predPos <- lapply(seq_along(relpos), function(i){
-    pos <- relpos[[i]]
-    ret <- c(pos, sample(irrelpos, q[i] - length(pos)))
+  predPos  <- lapply(seq_along(relpos), function(i){
+    pos      <- relpos[[i]]
+    ret      <- c(pos, sample(irrelpos, q[i] - length(pos)))
     irrelpos <<- setdiff(irrelpos, ret)
     return(ret)
   })
   names(predPos) <- paste0("Relevant for W", seq_along(relpos))
 
   ## Constructing Sigma
-  lambda <- exp(-gamma * (1:p))/exp(-gamma)
-  SigmaZ <- diag(lambda); SigmaZinv <- diag(1 / lambda)
+  lambda   <- exp(-gamma * (1:p))/exp(-gamma)
+  SigmaZ   <- diag(lambda); SigmaZinv           <- diag(1 / lambda)
   # SigmaW <- matrix(rho, nW, nW); diag(SigmaW) <- 1
   # SigmaW <- as.matrix(Matrix::bdiag(SigmaW, diag(m - nW)))
-  SigmaW <- diag(m)
-  rhoMat <- SigmaW
+  SigmaW   <- diag(m)
+  rhoMat   <- SigmaW
 
   ### Covariance Construction
   get_cov <- function(pos, Rsq, p = p, lambda = lambda){
-    out <- vector("numeric", p)
-    alph <- runif(length(pos), -1, 1)
+    out      <- vector("numeric", p)
+    alph     <- runif(length(pos), -1, 1)
     out[pos] <- sign(alph) * sqrt(Rsq * abs(alph) / sum(abs(alph)) * lambda[pos])
     return(out)
   }
@@ -123,7 +123,7 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   }
 
   SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, MoreArgs = list(p = p, lambda = lambda))
-  Sigma <- cbind(rbind(SigmaW, SigmaZW), rbind(t(SigmaZW), SigmaZ))
+  Sigma   <- cbind(rbind(SigmaW, SigmaZW), rbind(t(SigmaZW), SigmaZ))
   rho.out <- get_rho(rhoMat, R2)
   rho.out[is.nan(rho.out)] <- 0
   if (any(rho.out < -1 | rho.out > 1))
@@ -134,19 +134,19 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   RotY <- diag(m)
 
   getRotate <- function(predPos){
-    n <- length(predPos)
+    n    <- length(predPos)
     Qmat <- matrix(rnorm(n ^ 2), n)
     Qmat <- scale(Qmat, scale = FALSE)
     qr.Q(qr(Qmat))
   }
 
   for (pos in predPos) {
-    rotMat <- getRotate(pos)
+    rotMat         <- getRotate(pos)
     RotX[pos, pos] <- rotMat
   }
 
   for (pos in ypos) {
-    rotMat <- getRotate(pos)
+    rotMat         <- getRotate(pos)
     RotY[pos, pos] <- rotMat
   }
   
@@ -172,11 +172,18 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   RsqY <- t(RotY) %*% RsqW %*% RotY
 
   ## Var-Covariance for Response and Predictors
-  SigmaY <- t(RotY) %*% SigmaW %*% RotY
-  SigmaX <- t(RotX) %*% SigmaZ %*% RotX
-  SigmaYX <- t(RotY) %*% t(SigmaZW) %*% RotX
-  SigmaYZ <- t(RotY) %*% t(SigmaZW)
-  SigmaWX <- t(SigmaZW) %*% t(RotX)
+  ## SigmaY   <- t(RotY) %*% SigmaW %*% RotY
+  ## SigmaX   <- t(RotX) %*% SigmaZ %*% RotX
+  ## SigmaYX  <- t(RotY) %*% t(SigmaZW) %*% RotX
+  ## SigmaYZ  <- t(RotY) %*% t(SigmaZW)
+  ## SigmaWX  <- t(SigmaZW) %*% t(RotX)
+
+  ## Rotation was not correct, now it is good, i suppose
+  SigmaY   <- RotY %*% SigmaW %*% t(RotY)
+  SigmaX   <- RotX %*% SigmaZ %*% t(RotX)
+  SigmaYX  <- RotY %*% t(SigmaZW) %*% t(RotX)
+  SigmaYZ  <- RotY %*% t(SigmaZW)
+  SigmaWX  <- t(SigmaZW) %*% RotX
   SigmaOut <- rbind(
     cbind(SigmaY, SigmaYX),
     cbind(t(SigmaYX), SigmaX)
@@ -188,13 +195,13 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   if (!pd) stop("No positive definite coveriance matrix found with current parameter settings")
 
   ## Simulation of Test and Training Data
-  SigmaRot <- chol(Sigma)
+  SigmaRot  <- chol(Sigma)
   train_cal <- matrix(rnorm(n * (p + m), 0, 1), nrow = n)
   train_cal <- train_cal %*% SigmaRot
-  W <- train_cal[, 1:m, drop = F]
-  Z <- train_cal[, (m + 1):(m + p), drop = F]
-  X <- Z %*% t(RotX)
-  Y <- W %*% t(RotY)
+  W         <- train_cal[, 1:m, drop = F]
+  Z         <- train_cal[, (m + 1):(m + p), drop = F]
+  X         <- Z %*% t(RotX)
+  Y         <- W %*% t(RotY)
   if (!(is.null(muX))) X <- sweep(X, 2, muX, '+')
   if (!(is.null(muY))) Y <- sweep(Y, 2, muY, '+')
   colnames(X) <- paste0('X', 1:p)
@@ -204,10 +211,10 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   if (!is.null(ntest)) {
     test_cal <- matrix(rnorm(ntest * (p + m), 0, 1), nrow = ntest)
     test_cal <- test_cal %*% SigmaRot
-    testW <- test_cal[, 1:m, drop = F]
-    testZ <- test_cal[, (m + 1):(m + p), drop = F]
-    testX <- testZ %*% t(RotX)
-    testY <- testW %*% t(RotY)
+    testW    <- test_cal[, 1:m, drop = F]
+    testZ    <- test_cal[, (m + 1):(m + p), drop = F]
+    testX    <- testZ %*% t(RotX)
+    testY    <- testW %*% t(RotY)
     if (!(is.null(muX))) testX <- sweep(testX, 2, muX, '+')
     if (!(is.null(muY))) testY <- sweep(testY, 2, muY, '+')
     colnames(testX) <- paste0('X', 1:p)
@@ -219,31 +226,31 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
 
   ## Return List
   ret <- list(
-    call = match.call(),
-    X = X,
-    Y = Y,
-    W = W,
-    Z = Z,
-    beta = betaX,
-    beta0 = beta0,
-    relpred = predPos,
-    testX = testX,
-    testY = testY,
-    testW = testW,
-    testZ = testZ,
-    minerror = minerror,
+    call      = match.call(),
+    X         = X,
+    Y         = Y,
+    W         = W,
+    Z         = Z,
+    beta      = betaX,
+    beta0     = beta0,
+    relpred   = predPos,
+    testX     = testX,
+    testY     = testY,
+    testW     = testW,
+    testZ     = testZ,
+    minerror  = minerror,
     Xrotation = RotX,
     Yrotation = RotY,
-    type = "multivariate",
-    lambda = lambda,
-    SigmaWZ = Sigma,
-    SigmaWX = SigmaWX,
-    SigmaYZ = SigmaYZ,
-    SigmaYX = SigmaYX,
-    Sigma = SigmaOut,
-    rho.out = rho.out,
-    RsqW = RsqW,
-    RsqY = RsqY
+    type      = "multivariate",
+    lambda    = lambda,
+    SigmaWZ   = Sigma,
+    SigmaWX   = SigmaWX,
+    SigmaYZ   = SigmaYZ,
+    SigmaYX   = SigmaYX,
+    Sigma     = SigmaOut,
+    rho.out   = rho.out,
+    RsqW      = RsqW,
+    RsqY      = RsqY
   )
   ret <- `class<-`(append(arg_list, ret), 'simrel')
   return(ret)
