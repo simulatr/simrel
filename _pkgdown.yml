@@ -1,0 +1,10 @@
+authors:
+  Raju Rimal:
+    href: http://mathatistics.com
+  Solve Sæbø:
+    href: http://solvsa.nmbu.no
+navbar:
+  type: inverse
+template:
+  params:
+    bootswatch: cosmo
