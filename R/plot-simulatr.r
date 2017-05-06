@@ -71,7 +71,9 @@ plot_simulatr <-
     legend("topright", lty = 1, lwd = 2, pch = 16, col = palette(),
            legend = paste0("Y", 1:ny), horiz = TRUE)
     }
-    title(main = "Relevant Components Plot", xlab = "Components", ylab = "Eigenvalue")
+    title(main = "Relevant Components Plot", 
+          xlab = "Components", 
+          ylab = "Eigenvalue")
     dev.flush()
   }
   
@@ -104,15 +106,10 @@ plot_simulatr <-
              legend = paste0("Y", 1:ny), horiz = TRUE)
       }
       title(main = "Estimated relevant components plot",
-            xlab = "Components", ylab = "Covariance (absolute value)\nEigenvalue")
+            xlab = "Components", 
+            ylab = "Covariance (absolute value)\nEigenvalue")
       dev.flush()
     }
-  
-  ## Setting-up Layout
-  # if (!ask & is.null(which)) {
-  #   plt$layout_matrix <- cbind(c(1,2), c(1,3))
-  #   do.call(grid.arrange, plt)
-  # }
   
   ## Covariance Structure of Y given X
   if (print.cov) {

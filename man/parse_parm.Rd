@@ -47,4 +47,3 @@ opts <- list(
 )
 design <- prepare_design(opts)
 }
-
