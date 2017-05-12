@@ -145,19 +145,19 @@ ggplot_simulatr <-
       EstRelComp = plt3
     )
     
-    
-    if (length(which) == 1) return(eval(plt[[which]]))
+    if (length(which) == 1) {
+      out <- eval(plt[[which]])
+    } else {
+      plts <- lapply(which, function(i) eval(plt[[i]]))
+      names(plts) <- names(plt)[which]
       
-    plts <- lapply(which, function(i) eval(plt[[i]]))
-    names(plts) <- names(plt)[which]
-    
-    if (length(which) == 2 & is.null(layout)) layout <- matrix(c(1, 2), 2)
-    if (length(which) > length(layout)) layout <- matrix(1:length(which), length(which))
-    
-    plts$layout_matrix <- layout
-    
-    out <- do.call(grid.arrange, plts)
-    
+      if (length(which) == 2 & is.null(layout)) layout <- matrix(c(1, 2), 2)
+      if (length(which) > length(layout)) layout <- matrix(1:length(which), length(which))
+      
+      plts$layout_matrix <- layout
+      out <- do.call(grid.arrange, plts)
+    }
+      
     if (print.cov) {
       eval(est.covs)
       covs <- covs[1:min(ncomp, nx), ]
@@ -170,5 +170,5 @@ ggplot_simulatr <-
       print(covs)
     }
     
-    return(invisible(out))
+    if (length(which) == 1) return(out) else return(invisible(out))
   }

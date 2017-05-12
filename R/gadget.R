@@ -5,38 +5,42 @@
 #' @import shiny
 #' @import miniUI
 #' @import shinyBS
+#' @import shinyjs
 #' @export
 
 app_simulatr <- function() {
   ui <- miniPage(
-    gadgetTitleBar("Simulatr -- Simulation of Multivariate Data"),
+    shinyjs::useShinyjs(),
+    gadgetTitleBar("Simulatr -- Simulation of Multivariate Data",
+                   left = miniTitleBarButton("newSeed", "New Seed", primary = TRUE),
+                   right = miniTitleBarButton("done", "Accept", primary = TRUE)),
     miniTabstripPanel(
       miniTabPanel(
         "Input Parameters", 
         icon = icon("sliders"),
         miniContentPanel(
           fluidRow(
-            column(3, 
-                   div(h3(actionLink("newSeed", label = "NewSeed", icon = icon("random"))), 
-                       class = "container-fluid text-left")),
-            column(3,
-                   div(h3(actionLink("update", label = "Simulate", icon = icon("refresh"))), 
-                       class = "container-fluid text-left")),
+            column(3, fluidRow(
+              column(12, textInput("seed", label = NULL, placeholder = "Input Seed"))
+            )),
+            column(3, actionButton("update", label = "Simulate", icon = icon("refresh"), 
+                                   class = "btn btn-lg btn-primary btn-block")),
             column(2, downloadButton(
               outputId = 'downloadCSV',
               label = "CSV",
               icon = icon("download"), 
-              class = "btn btn-primary btn-lg")),
+              class = "btn btn-primary btn-lg btn-block")),
             column(2, downloadButton(
               outputId = 'downloadRDATA',
               label = 'RData', 
-              class = "btn btn-primary btn-lg")),
+              class = "btn btn-primary btn-lg btn-block")),
             column(2, downloadButton(
               outputId = 'downloadJSON',
               label = "JSON",
               icon = icon("code"), 
-              class = "btn btn-primary btn-lg"))
+              class = "btn btn-primary btn-lg btn-block"))
           ),
+          hr(),
           fluidRow(
             column(12, selectInput(
               "type", 
@@ -87,6 +91,24 @@ app_simulatr <- function() {
               column(12, sliderInput("gamma", "Gamma", 
                                      min = 0, max = 1, value = 0.6, step = 0.1, width = "100%"))
             )
+          ),
+          hr(),
+          fluidRow(
+            column(
+              8, 
+              conditionalPanel(
+                "!input.update",
+                p("Select/ Adjust the parameters and click Simulate", class = "lead")
+              ),
+              conditionalPanel(
+                "input.update",
+                p("Checkout the plot panel and click Accept", class = "lead")
+              )
+            ),
+            column(4, conditionalPanel(
+              "input.update",
+              p("Simulated", class = "lead text-success")
+            ))
           )
         )
       ),
@@ -97,7 +119,7 @@ app_simulatr <- function() {
           fluidRow(
             conditionalPanel(
               condition = "input.update",
-              plotOutput("simPlot1", height = '450px')
+              plotOutput("simPlot1", width = "100%")
             )
           )
         )
@@ -108,7 +130,7 @@ app_simulatr <- function() {
         miniContentPanel(
           conditionalPanel(
             condition = "input.update",
-            plotOutput("simPlot2", height = '450px')
+            plotOutput("simPlot2", width = "100%")
           )
         )
       ),
@@ -118,7 +140,7 @@ app_simulatr <- function() {
         miniContentPanel(
           conditionalPanel(
             condition = "input.update",
-            plotOutput("simPlot3", height = '450px')
+            plotOutput("simPlot3", width = "100%")
           )
         )
       )
@@ -133,6 +155,7 @@ app_simulatr <- function() {
     }
     
     observe({
+      shinyjs::addClass("seed", "input-lg")
       type <- input$type
       
       if (type == "bivariate") {
@@ -178,7 +201,6 @@ app_simulatr <- function() {
         )
       }
     })
-    
     simObj <- eventReactive(any(input$update, input$newSeed), {
       set.seed(input$newSeed)
       par <- list(n = input$n,
@@ -196,8 +218,14 @@ app_simulatr <- function() {
       if(input$type == "bivariate") {
         par$rho = c(input$rho1, input$rho2)
       }
-      sim.obj <- do.call(simulatr, par)
+      sim.obj <- try(do.call(simulatr, par))
       list(sim.obj = sim.obj, par = par)
+    })
+    
+    observeEvent(input$update, {
+      showNotification(type = "message", closeButton = FALSE, 
+        p("Simulated", class = "text-success lead")
+      )
     })
     # fitObj <- reactive({
     #   sim.obj <- simObj()[["sim.obj"]]
@@ -220,15 +248,16 @@ app_simulatr <- function() {
     # })
     
     ## Description of Paramters ----------------------------------
-    args <- structure(list(n = "The number of (training) samples to generate.", 
-                           p = "The total number of predictor variables to generate.", 
-                           m = "The number of relevant latent components to be used.", 
-                           q = "The number of relevant predictor variables (as a subset of p).", 
-                           relpos = "A vector indicating the position (between 1 and p) of the m relevant components, e.g. c(1,2) means that the first two latent components should be relevant. The length of relpos must be equal to m.", 
-                           gamma = "A number defining the speed of decline in eigenvalues (variances) of the latent components. The eigenvalues are assumed to decline according to an exponential model. The first eigenvalue is set equal to 1.", 
-                           R2 = "The theoretical R-squared according to the true linear model. A number between 0 and 1.", 
-                           n_test = "The number of test samples to be generated (optional)."), 
-                      .Names = c("n", "p", "m", "q", "relpos", "gamma", "R2", "n_test"))
+    args <- list(
+      n = "The number of (training) samples to generate.", 
+      p = "The total number of predictor variables to generate.", 
+      m = "The number of relevant latent components to be used.", 
+      q = "The number of relevant predictor variables (as a subset of p).", 
+      relpos = "A vector indicating the position (between 1 and p) of the m relevant components, e.g. c(1,2) means that the first two latent components should be relevant. The length of relpos must be equal to m.", 
+      gamma = "A number defining the speed of decline in eigenvalues (variances) of the latent components. The eigenvalues are assumed to decline according to an exponential model. The first eigenvalue is set equal to 1.", 
+      R2 = "The theoretical R-squared according to the true linear model. A number between 0 and 1.", 
+      n_test = "The number of test samples to be generated (optional)."
+    )
     
     ## Creating Tooltips -----------------------------------
     # addTooltip(session, args["n", 'Arguements'], args["n", "Description"], 
@@ -246,20 +275,25 @@ app_simulatr <- function() {
     output$type <- renderText(simObj()[["sim.obj"]][["type"]])
     outputOptions(output, "type", suspendWhenHidden = FALSE)
     
+    ## Export success or failure of simulation
+    # output$message <- renderText(simObj()[["message"]])
+    # outputOptions(output, "message", suspendWhenHidden = FALSE)
+    
     ## Overview Simulation Plots ------------------------------------
     output$simPlot1 <- renderPlot({
-      plot_simulatr(simObj()[["sim.obj"]], which = 1)
+      ggplot_simulatr(simObj()[["sim.obj"]], which = 1)
     })
     output$simPlot2 <- renderPlot({
-      plot_simulatr(simObj()[["sim.obj"]], which = 2)
+      ggplot_simulatr(simObj()[["sim.obj"]], which = 2)
     })
     output$simPlot3 <- renderPlot({
-      plot_simulatr(simObj()[["sim.obj"]], which = 3)
+      ggplot_simulatr(simObj()[["sim.obj"]], which = 3)
     })
     
     
     # Isolate simObject
     sim.obj <- reactiveValues()
+    msg <- reactiveValues()
     observe({
       if(!is.null(simObj()))
         isolate({
@@ -275,7 +309,6 @@ app_simulatr <- function() {
           sim.json <- jsonlite::toJSON(sim.list)
         })
     })
-    
     ## ---- Download Data ------------------------------
     downloadFn <- function(data, type = "Rdata") {
         downloadHandler(
@@ -308,5 +341,5 @@ app_simulatr <- function() {
     })
   }
   
-  runGadget(shinyApp(ui, server), viewer = dialogViewer("Simulatr", 800, 650))  
+  runGadget(shinyApp(ui, server), viewer = dialogViewer("Simulatr", 850, 700))  
 }
