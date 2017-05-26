@@ -56,6 +56,8 @@ ggplot_simulatr <-
     ## Plot 2: Relevant Comoponents Plot
     idx <- if (obj$type == "univariate") 1 else ny
     covs <- obj$Sigma[-c(1:idx), 1:idx, drop = FALSE]
+    if (obj$type == "multivariate")
+      covs <- obj$SigmaWZ[-c(1:idx), 1:idx, drop = FALSE]
     covs.sc <- apply(covs, 2, function(x) {
       out <- abs(x)/max(abs(x))
       out[is.nan(out)] <- 0
@@ -90,7 +92,9 @@ ggplot_simulatr <-
       theme(legend.position = if (ny == 1) "none" else "bottom") +
       ggtitle("Relevant Components Plot") +
       scale_x_continuous(breaks = xticks) +
-      coord_cartesian(xlim = c(1, ncomp))
+      coord_cartesian(xlim = c(1, ncomp)) +
+      scale_color_discrete(ifelse(obj$type == "multivariate", 
+                           "Response Component", "Response"))
     })
     
     est.covs <- expression({
@@ -136,7 +140,8 @@ ggplot_simulatr <-
       theme(legend.position = if (ny == 1) "none" else "bottom") +
       ggtitle("Estimated relevant components plot") +
       scale_x_continuous(breaks = xticks) +
-      coord_cartesian(xlim = c(1, ncomp))
+      coord_cartesian(xlim = c(1, ncomp)) +
+      scale_color_discrete("Response")
     })
     
     plt <- list(
