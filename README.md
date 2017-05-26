@@ -60,11 +60,10 @@ sim_obj <-
 Here `sim_obj` is a object with class `simrel` and constitue of a list of simulated linear model data along with other relevant properties. Lets use `plot.simulatr` function to overview the situation,
 
 ``` r
-layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
-plot_simulatr(sim_obj)
+ggplot_simulatr(sim_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 ```
 
-![](figure/simrel1-plot-1.png)
+<img src="figure/simrel1-plot-1.png" width="100%" />
 
 Bivariate Simulation
 --------------------
@@ -89,11 +88,10 @@ simrel2_obj <-
 Lets look at the plot,
 
 ``` r
-layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
-plot_simulatr(simrel2_obj)
+ggplot_simulatr(simrel2_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 ```
 
-![](figure/simrel2_plot-1.png)
+<img src="figure/simrel2_plot-1.png" width="100%" />
 
 Multivariate Simulation
 -----------------------
@@ -123,11 +121,10 @@ simrel_m_obj <-
 Lets look at the `simrel` plot;
 
 ``` r
-layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
-plot_simulatr(simrel_m_obj)
+ggplot_simulatr(simrel_m_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 ```
 
-![](figure/simrelm_plot-1.png)
+<img src="figure/simrelm_plot-1.png" width="100%" />
 
 RStudio Addins
 --------------

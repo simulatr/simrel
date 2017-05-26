@@ -32,7 +32,14 @@
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/therimalaya/simulatr">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -123,9 +130,8 @@ sim_obj &lt;-<span class="st"> </span>
     <span class="dt">type   =</span> <span class="st">"univariate"</span> <span class="co"># Univariate linear model data simulation</span>
 )</code></pre></div>
 <p>Here <code>sim_obj</code> is a object with class <code>simrel</code> and constitue of a list of simulated linear model data along with other relevant properties. Lets use <code>plot.simulatr</code> function to overview the situation,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))
-<span class="kw"><a href="reference/plot_simulatr.html">plot_simulatr</a></span>(sim_obj)</code></pre></div>
-<p><img src="figure/simrel1-plot-1.png" width="864"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ggplot_simulatr.html">ggplot_simulatr</a></span>(sim_obj, <span class="dt">layout =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<p><img src="figure/simrel1-plot-1.png" width="100%"></p>
 </div>
 <div id="bivariate-simulation" class="section level2">
 <h2 class="hasAnchor">
@@ -144,9 +150,8 @@ sim_obj &lt;-<span class="st"> </span>
     <span class="dt">type   =</span> <span class="st">"bivariate"</span>
   )</code></pre></div>
 <p>Lets look at the plot,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))
-<span class="kw"><a href="reference/plot_simulatr.html">plot_simulatr</a></span>(simrel2_obj)</code></pre></div>
-<p><img src="figure/simrel2_plot-1.png" width="864"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ggplot_simulatr.html">ggplot_simulatr</a></span>(simrel2_obj, <span class="dt">layout =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<p><img src="figure/simrel2_plot-1.png" width="100%"></p>
 </div>
 <div id="multivariate-simulation" class="section level2">
 <h2 class="hasAnchor">
@@ -168,9 +173,8 @@ sim_obj &lt;-<span class="st"> </span>
     <span class="dt">type   =</span> <span class="st">"multivariate"</span>                      <span class="co"># multivariate simulation</span>
   )</code></pre></div>
 <p>Lets look at the <code>simrel</code> plot;</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))
-<span class="kw"><a href="reference/plot_simulatr.html">plot_simulatr</a></span>(simrel_m_obj)</code></pre></div>
-<p><img src="figure/simrelm_plot-1.png" width="864"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ggplot_simulatr.html">ggplot_simulatr</a></span>(simrel_m_obj, <span class="dt">layout =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<p><img src="figure/simrelm_plot-1.png" width="100%"></p>
 </div>
 <div id="rstudio-addins" class="section level2">
 <h2 class="hasAnchor">

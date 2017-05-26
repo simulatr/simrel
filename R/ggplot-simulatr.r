@@ -8,16 +8,22 @@
 #' @param layout A layout matrix of how to layout multiple plots
 #' @param print.cov Output estimated covariance structure
 #' @param which A character indicating which plot you want as output, it can take \code{TrueBeta}, \code{RelComp} and \code{EstRelComp}
-#' @examples 
-#' sim.obj <- simulatr(n = 100, p = 16, q = c(3, 4, 5), 
-#' relpos = list(c(1, 2), c(3, 4), c(5, 7)), m = 5, 
-#' ypos = list(c(1, 4), 2, c(3, 5)), type = "multivariate", 
-#' R2 = c(0.8, 0.7, 0.9), gamma = 0.8)
-#' ggplot_simulatr(sim.obj, layout = matrix(c(2, 1, 3, 1), 2))
-#' ggplot_simulatr(sim.obj, which = c(1, 2))
-#' ggplot_simulatr(sim.obj, which = c(1, 3), layout = matrix(c(1, 2), 1))
 #' @return A list of plots
 #' @export
+#' @examples 
+#' sim.obj <- simulatr(n = 100, p = 16, q = c(3, 4, 5), 
+#'    relpos = list(c(1, 2), c(3, 4), c(5, 7)), m = 5, 
+#'    ypos = list(c(1, 4), 2, c(3, 5)), type = "multivariate", 
+#'    R2 = c(0.8, 0.7, 0.9), gamma = 0.8)
+#' 
+#' ggplot_simulatr(sim.obj, 
+#'    layout = matrix(c(2, 1, 3, 1), 2))
+#' 
+#' ggplot_simulatr(sim.obj, 
+#'     which = c(1, 2))
+#' 
+#' ggplot_simulatr(sim.obj, which = c(1, 3), 
+#'     layout = matrix(c(1, 2), 1))
 
 ggplot_simulatr <-
   function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
