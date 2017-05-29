@@ -163,14 +163,7 @@ multivariateInputUI <- function(id) {
     fluidRow(
       column(6, numericInput(ns("m"), label = "N: Response", value = 4, min = 2, step = 1)),
       column(6, textInput(ns("ypos"), label = "Response Mixup", 
-                          value = "1, 3; 2, 4")),
-      column(12, checkboxGroupInput(
-        inputId = ns("extra-plot"), 
-        label = "Display Extra Plots",
-        choiceNames = c("Covariance Plot", "R-squared Plot"),
-        choiceValues = c("cov-plt", "r2-plt"),
-        inline = TRUE
-      ))
+                          value = "1, 3; 2, 4"))
     )
   )
 }

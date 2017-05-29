@@ -109,10 +109,8 @@ simulatr <- function (n, p, q, relpos, gamma, R2, type = "univariate", ...)
   if (length(stopMsg) >= 1) stop(stopMsg)
 
   sim_fun <- switch(type, univariate = simrel, bivariate = simrel2, multivariate = simrel_m)
-  # fun_name <- switch(type, univariate = "simrel", bivariate = "simrel2", multivariate = "simrel_m")
-
   sobj <- sim_fun(n, p, q, relpos, gamma, R2, ...)
-  # sobj$call[[1]] <- as.name(fun_name)
+  sobj$call <- match.call()
   
   return(sobj)
 }

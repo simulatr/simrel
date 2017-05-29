@@ -10,8 +10,10 @@
 
 app_simulatr <- function() {
   ui <- miniPage(
-    tags$head(tags$style(
-      "input#seed-id-newSeed {
+    tags$head(tags$style(HTML("
+      @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+      
+      input#seed-id-newSeed {
         height: 100%;
         width: 100%;
         margin-top: 5%;
@@ -21,8 +23,11 @@ app_simulatr <- function() {
         color: #337ab7;
         text-align: left;
         font-family: monospace;
-      }"
-    )),
+      }
+      pre, code {
+        font-family: 'Source Code Pro', monospace;
+      }
+    "))),
     gadgetTitleBar("Simulatr -- Simulation of Multivariate Data",
                    left = miniTitleBarButton("newSeed", "New Seed", primary = TRUE),
                    right = miniTitleBarButton("done", "Accept", primary = TRUE)),
@@ -133,8 +138,9 @@ app_simulatr <- function() {
     callModule(bivariateInput, 'bi-parm')
     
     ## Make some simulations ----------------------------------------
+    state <- reactiveValues(simulated = FALSE)
     currentType <- reactive(NULL)
-    simObj <- eventReactive(input[['sim-id-update']], {
+    sim.obj <- eventReactive(input[["sim-id-update"]], {
       set.seed(input[['seed-id-newSeed']])
       param <- list(
         n = input[['common-parm-n']],
@@ -153,10 +159,27 @@ app_simulatr <- function() {
       if (type() == "bivariate") {
         param$rho <- c(input[['bi-parm-rho1']], input[['bi-parm-rho2']])
       }
-      do.call(simulatr, param)
+      obj <- do.call(simulatr, param)
+      type <- obj[["type"]]
+      state$simulated <- TRUE
+      list(param = param, obj = obj, type = type)
     })
     
-    currentType <- eventReactive(input[["sim-id-update"]], input[['sim-type-type']])
+    simObj <- reactive(sim.obj()[["obj"]])
+    currentType <- reactive(if (state$simulated) sim.obj()[["type"]])
+    param <- reactive(sim.obj()[["param"]])
+    
+    ## Creating Output Expression ------------
+    output$stdOut <- renderText({
+      par <- param()
+      par$type <- gsub("(.+)", "'\\1'", par$type)
+      seed <- paste0('set.seed(', isolate(input[["seed-id-newSeed"]]), ')')
+      paste0(seed, "\n",
+             "sim.obj <- simulatr(",
+             paste(paste(names(par), par, sep = " = "),
+                   collapse = ", "), ")")
+    })
+    
     
     ## Update Parameter Input -------------------
     observe({
@@ -189,13 +212,16 @@ app_simulatr <- function() {
       
       ## Create Output Message ---------
       output$msg <- renderUI({
-        h3(class = "text-center lead text-success",
-           paste("Your",
-                 isolate(simObj()[["type"]]),
-                 "data is ready with seed",
-                 isolate(input[["seed-id-newSeed"]]),
-                 "You can explore some plots or",
-                 "download the data"))
+        tagList(
+          verbatimTextOutput("stdOut"),
+          h3(class = "text-center lead text-success",
+             paste("Your",
+                   isolate(simObj()[["type"]]),
+                   "data is ready with seed",
+                   isolate(input[["seed-id-newSeed"]]),
+                   "You can explore some plots or",
+                   "download the data"))
+        )
       })
       
       ## Simulation Plot Modules -----------
@@ -212,13 +238,13 @@ app_simulatr <- function() {
     
     # Handle the Done button being pressed. ---------------
     observeEvent(input$done, {
-      par <- param
+      par <- param()
       par$type <- gsub("(.+)", "'\\1'", par$type)
       seed <- paste0('set.seed(', isolate(input[["seed-id-newSeed"]]), ')')
       code <- paste0(seed, "\n",
-                     "sim.obj <- simulatr(", 
-                     paste(paste(names(par), par, sep = " = "), 
-                           collapse = ", "), ")")
+             "sim.obj <- simulatr(",
+             paste(paste(names(par), par, sep = " = "),
+                   collapse = ", "), ")")
       rstudioapi::sendToConsole('cat("\\014")', execute = TRUE)
       rstudioapi::sendToConsole(code, execute = FALSE)
       stopApp()
@@ -226,5 +252,4 @@ app_simulatr <- function() {
   }
   
   runGadget(shinyApp(ui, server), viewer = dialogViewer("Simulatr", 850, 700))
-  # runGadget(shinyApp(ui, server), viewer = rstudioapi::viewer)  
 }
