@@ -1,5 +1,7 @@
 #' Simulation Plot: The true beta, relevant component and eigen structure
 #' @keywords simrel-plot, simulation plot
+#' @importFrom grDevices dev.flush dev.hold dev.new devAskNewPage palette
+#' @importFrom graphics layout legend matplot par title
 #' @param obj A simrel object
 #' @param ncomp Number of components to plot
 #' @param ask logical, TRUE: functions ask for comfirmation FALSE: function layout plot on predefined format

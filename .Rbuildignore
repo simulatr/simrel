@@ -10,3 +10,5 @@ codecov.yml
 inst
 _config.yml
 ^docs$
+R/*.bak
+_pkgdown.yml

@@ -1,16 +1,28 @@
 #' Simulation of Multivariate Linear Model Data
-#' @importFrom grDevices dev.flush dev.hold dev.new devAskNewPage palette
-#' @importFrom graphics layout legend matplot par title
+#' @importFrom graphics plot text
 #' @importFrom utils write.csv
+#' @importFrom stats biplot
+#' @importFrom utils str
 #' @import shiny
 #' @import miniUI
 #' @import shinyBS
-#' @import shinyjs
 #' @export
 
 app_simulatr <- function() {
   ui <- miniPage(
-    shinyjs::useShinyjs(),
+    tags$head(tags$style(
+      "input#seed-id-newSeed {
+        height: 100%;
+        width: 100%;
+        margin-top: 5%;
+        font-size: 2.2em;
+        border: none;
+        box-shadow: none;
+        color: #337ab7;
+        text-align: left;
+        font-family: monospace;
+      }"
+    )),
     gadgetTitleBar("Simulatr -- Simulation of Multivariate Data",
                    left = miniTitleBarButton("newSeed", "New Seed", primary = TRUE),
                    right = miniTitleBarButton("done", "Accept", primary = TRUE)),
@@ -19,96 +31,43 @@ app_simulatr <- function() {
         "Input Parameters", 
         icon = icon("sliders"),
         miniContentPanel(
-          fluidRow(
-            column(3, fluidRow(
-              column(12, textInput("seed", label = NULL, placeholder = "Input Seed"))
-            )),
-            column(3, actionButton("update", label = "Simulate", icon = icon("refresh"), 
-                                   class = "btn btn-lg btn-primary btn-block")),
-            column(2, downloadButton(
-              outputId = 'downloadCSV',
-              label = "CSV",
-              icon = icon("download"), 
-              class = "btn btn-primary btn-lg btn-block")),
-            column(2, downloadButton(
-              outputId = 'downloadRDATA',
-              label = 'RData', 
-              class = "btn btn-primary btn-lg btn-block")),
-            column(2, downloadButton(
-              outputId = 'downloadJSON',
-              label = "JSON",
-              icon = icon("code"), 
-              class = "btn btn-primary btn-lg btn-block"))
-          ),
-          hr(),
-          fluidRow(
-            column(12, selectInput(
-              "type", 
-              label = "Type of simulation:", 
-              choices = c("Univariate Simulation" = "univariate",
-                          "Bivariate Simulation" = "bivariate",
-                          "Multivariate Simulation" = "multivariate"), 
-              selected = "bivariate",
-              width = "100%")),
-            bsTooltip("type", 
-                      "Type of simulation you want to perform",
-                      "top", "hover")
-          ),
-          fluidRow(
-            column(4, numericInput("n", label = "N: Train", value = 200, min = 10, step = 1)),
-            column(4, numericInput("n_test", label = "N: Test", value = 50, min = 5, step = 1)),
-            column(4, numericInput("p", label = "N: Predictors", value = 15, min = 2, step = 1))
-          ),
-          fluidRow(
-            column(4, textInput("q", label = "Rel.Pred", value = "5, 5, 2")),
-            column(4, textInput("R2", label = "Coef. Determination", value = "0.8, 0.7")),
-            column(4, textInput("relpos", label = "RelPos.Comp", 
-                                value = "1, 2, 3; 3, 4, 6"))
-          ),
-          conditionalPanel(
-            condition = "input.type == 'multivariate'",
-            fluidRow(
-              column(6, numericInput("m", label = "N: Response", value = 4, min = 2, step = 1, width = '100%')),
-              column(6, textInput("ypos", label = "Response Mixup", 
-                                  value = "1, 3; 2, 4", width = '100%'))
-            )
-          ),
-          fluidRow(
-            conditionalPanel(
-              condition = "input.type == 'bivariate'",
-              fluidRow(
-                column(8, div(em("Correlation between Response")), style = "text-align:center;")
+          fillPage(
+            fillCol(
+              flex = c(2, 2, 8),
+              fillRow(flex = c(2, 4, 6),
+                column(12, simSeedUI('seed-id', input_lbl = NULL)),
+                column(12, simUI('sim-id')),
+                column(12, conditionalPanel(
+                  "input['sim-id-update']",
+                  fillRow(
+                    downloadUI('simobj', "SimObj"),
+                    downloadUI('rdta', "RData"),
+                    downloadUI('json', "JSON")
+                  )
+                ))
               ),
-              column(4, sliderInput("rho1", "Without Given X", 
-                                    min = -1, max = 1, value = 0.6, step = 0.1, width = "100%")),
-              column(4, sliderInput("rho2", "With Given X", 
-                                    min = -1, max = 1, value = 0.7, step = 0.1, width = "100%")),
-              column(4, sliderInput("gamma", "Gamma", 
-                                    min = 0, max = 1, value = 0.6, step = 0.1, width = "100%"))
-            ),
-            conditionalPanel(
-              condition = "input.type != 'bivariate'",
-              column(12, sliderInput("gamma", "Gamma", 
-                                     min = 0, max = 1, value = 0.6, step = 0.1, width = "100%"))
-            )
-          ),
-          hr(),
-          fluidRow(
-            column(
-              8, 
-              conditionalPanel(
-                "!input.update",
-                p("Select/ Adjust the parameters and click Simulate", class = "lead")
-              ),
-              conditionalPanel(
-                "input.update",
-                p("Checkout the plot panel and click Accept", class = "lead")
+              fillRow(simTypeUI('sim-type')),
+              fillRow(
+                commonInputUI('common-parm'),
+                column(12,
+                  conditionalPanel(
+                    "input['sim-type-type'] == 'multivariate'", 
+                    multivariateInputUI('multi-parm')),
+                  conditionalPanel(
+                    "input['sim-type-type'] == 'bivariate'", 
+                    bivariateInputUI('bi-parm')),
+                  conditionalPanel(
+                    "!input['sim-id-update']",
+                    h3(class = "text-center lead text-primary", 
+                       "Press Simulate Now Button for Simulation")
+                  ),
+                  conditionalPanel(
+                    "input['sim-id-update']",
+                    uiOutput('msg')
+                  )
+                )
               )
-            ),
-            column(4, conditionalPanel(
-              "input.update",
-              p("Simulated", class = "lead text-success")
-            ))
+            )
           )
         )
       ),
@@ -116,11 +75,13 @@ app_simulatr <- function() {
         "True Coefficients", 
         icon = icon("bar-chart"),
         miniContentPanel(
-          fluidRow(
-            conditionalPanel(
-              condition = "input.update",
-              plotOutput("simPlot1", width = "100%")
-            )
+          fillCol(
+          conditionalPanel(
+            "input['sim-id-update']", 
+            simPlotUI('betaPlot')),
+          conditionalPanel(
+            "!input['sim-id-update']", 
+            h3(class = "text-center lead", "Simulate data first!"))
           )
         )
       ),
@@ -128,9 +89,13 @@ app_simulatr <- function() {
         "Relevant Components", 
         icon = icon("area-chart"),
         miniContentPanel(
-          conditionalPanel(
-            condition = "input.update",
-            plotOutput("simPlot2", width = "100%")
+          fillCol(
+            conditionalPanel(
+              "input['sim-id-update']", 
+              simPlotUI('relComp')),
+            conditionalPanel(
+              "!input['sim-id-update']", 
+              h3(class = "text-center lead", "Simulate data first!"))
           )
         )
       ),
@@ -138,15 +103,20 @@ app_simulatr <- function() {
         "Est.Rel Components", 
         icon = icon("area-chart"),
         miniContentPanel(
-          conditionalPanel(
-            condition = "input.update",
-            plotOutput("simPlot3", width = "100%")
+          fillCol(
+            conditionalPanel(
+              "input['sim-id-update']", 
+              simPlotUI('estRelComp')),
+            conditionalPanel(
+              "!input['sim-id-update']", 
+              h3(class = "text-center lead", "Simulate data first!"))
           )
         )
       )
     ))
   
   server <- function(input, output, session) {
+    ## Some functions ----------------
     parseText <- function(x) {
       evl <- function(x) as.numeric(unlist(strsplit(x, split = ",")))
       out <- lapply(strsplit(x, ";")[[1]], evl)
@@ -154,192 +124,107 @@ app_simulatr <- function() {
       return(out[[1]])
     }
     
-    observe({
-      shinyjs::addClass("seed", "input-lg")
-      type <- input$type
-      
-      if (type == "bivariate") {
-        updateTextInput(
-          session, "relpos",
-          value = "1,2,3;3,4,6"
-        )
-        updateTextInput(
-          session, "q",
-          value = "5, 5, 2"
-        )
-        updateTextInput(
-          session, "R2",
-          value = "0.8, 0.7"
-        )
-      }
-      if (type == "univariate") {
-        updateTextInput(
-          session, "relpos",
-          value = "2, 3, 4, 6"
-        )
-        updateTextInput(
-          session, "q",
-          value = "6"
-        )
-        updateTextInput(
-          session, "R2",
-          value = "0.9"
-        )
-      }
-      if (type == "multivariate") {
-        updateTextInput(
-          session, "q",
-          value = "5, 4"
-        )
-        updateTextInput(
-          session, "R2",
-          value = "0.8, 0.7"
-        )
-        updateTextInput(
-          session, "relpos",
-          value = "1,2; 3,4,6"
-        )
-      }
-    })
-    simObj <- eventReactive(any(input$update, input$newSeed), {
-      set.seed(input$newSeed)
-      par <- list(n = input$n,
-                  p = input$p,
-                  q = parseText(input$q),
-                  relpos = parseText(input$relpos),
-                  gamma = input$gamma,
-                  R2 = parseText(input$R2),
-                  ntest = input$n_test,
-                  type = input$type)
-      if(input$type == "multivariate") {
-        par$m <- input$m
-        par$ypos <- parseText(input$ypos)
-      }
-      if(input$type == "bivariate") {
-        par$rho = c(input$rho1, input$rho2)
-      }
-      sim.obj <- try(do.call(simulatr, par))
-      list(sim.obj = sim.obj, par = par)
-    })
+    ## Calling Modules ---------------------------
+    type <- callModule(simType, 'sim-type')
+    callModule(sim, 'sim-id')
+    callModule(simSeed, 'seed-id')
+    callModule(commonInput, 'common-parm')
+    callModule(multivariateInput, 'multi-parm')
+    callModule(bivariateInput, 'bi-parm')
     
-    observeEvent(input$update, {
-      showNotification(type = "message", closeButton = FALSE, 
-        p("Simulated", class = "text-success lead")
+    ## Make some simulations ----------------------------------------
+    currentType <- reactive(NULL)
+    simObj <- eventReactive(input[['sim-id-update']], {
+      set.seed(input[['seed-id-newSeed']])
+      param <- list(
+        n = input[['common-parm-n']],
+        p = input[['common-parm-p']],
+        q = parseText(input[['common-parm-q']]),
+        relpos = parseText(input[['common-parm-relpos']]),
+        gamma = input[['common-parm-gamma']],
+        R2 = parseText(input[['common-parm-R2']]),
+        ntest = input[['common-parm-n_test']],
+        type = input[['sim-type-type']]
       )
-    })
-    # fitObj <- reactive({
-    #   sim.obj <- simObj()[["sim.obj"]]
-    #   dt.train <- data.frame(y = I(sim.obj$Y), x = I(sim.obj$X))
-    #   dt.test <- if (input$type == "multivariate"){
-    #     data.frame(y = I(sim.obj$testY), x = I(sim.obj$testX))
-    #   } else {
-    #     data.frame(y = I(sim.obj$TESTY), x = I(sim.obj$TESTX))
-    #   }
-    #   if (input$model == "Least Square Estimation") {
-    #     mdl <- lm(y ~ x, data = dt.train)
-    #   } else if (input$model == "Principal Component Regression") {
-    #     mdl <- pcr(y ~ x, data = dt.train, validation = "CV")
-    #   } else if (input$model == "Partial Least Square Regression") {
-    #     mdl <- plsr(y ~ x, data = dt.train, validation = "CV")
-    #   } else if (input$model == "Envelope MLE") {
-    #     mdl <- NA
-    #   }
-    #   list(dt.train = dt.train, dt.test = dt.test, mdl = mdl)
-    # })
-    
-    ## Description of Paramters ----------------------------------
-    args <- list(
-      n = "The number of (training) samples to generate.", 
-      p = "The total number of predictor variables to generate.", 
-      m = "The number of relevant latent components to be used.", 
-      q = "The number of relevant predictor variables (as a subset of p).", 
-      relpos = "A vector indicating the position (between 1 and p) of the m relevant components, e.g. c(1,2) means that the first two latent components should be relevant. The length of relpos must be equal to m.", 
-      gamma = "A number defining the speed of decline in eigenvalues (variances) of the latent components. The eigenvalues are assumed to decline according to an exponential model. The first eigenvalue is set equal to 1.", 
-      R2 = "The theoretical R-squared according to the true linear model. A number between 0 and 1.", 
-      n_test = "The number of test samples to be generated (optional)."
-    )
-    
-    ## Creating Tooltips -----------------------------------
-    # addTooltip(session, args["n", 'Arguements'], args["n", "Description"], 
-    #                     placement = "top", trigger = "hover")
-    # addTooltip(session, args["ntest", 'Arguements'], args["n_test", "Description"], 
-    #                     placement = "top", trigger = "hover")
-    addTooltip(session, "n_test", args[["n_test"]], placement = "left", trigger = "hover")
-    addTooltip(session, "n", args[["n"]], placement = "bottom", trigger = "hover")
-    addTooltip(session, "gamma", args[["gamma"]], placement = "top", trigger = "hover")
-    addTooltip(session, "p", args[["p"]], placement = "top", trigger = "hover")
-    addTooltip(session, "m", args[["m"]], placement = "top", trigger = "hover")
-    addTooltip(session, "relpos", args[["relpos"]], placement = "top", trigger = "hover")
-    
-    ## Export Type to update items conditioned upon it
-    output$type <- renderText(simObj()[["sim.obj"]][["type"]])
-    outputOptions(output, "type", suspendWhenHidden = FALSE)
-    
-    ## Export success or failure of simulation
-    # output$message <- renderText(simObj()[["message"]])
-    # outputOptions(output, "message", suspendWhenHidden = FALSE)
-    
-    ## Overview Simulation Plots ------------------------------------
-    output$simPlot1 <- renderPlot({
-      ggplot_simulatr(simObj()[["sim.obj"]], which = 1)
-    })
-    output$simPlot2 <- renderPlot({
-      ggplot_simulatr(simObj()[["sim.obj"]], which = 2)
-    })
-    output$simPlot3 <- renderPlot({
-      ggplot_simulatr(simObj()[["sim.obj"]], which = 3)
-    })
-    
-    
-    # Isolate simObject
-    sim.obj <- reactiveValues()
-    msg <- reactiveValues()
-    observe({
-      if(!is.null(simObj()))
-        isolate({
-          sim.obj <- simObj()[["sim.obj"]]
-          dt.train <- data.frame(y = I(sim.obj$Y), x = I(sim.obj$X))
-          dt.test <- if (input$type == "multivariate"){
-            data.frame(y = I(sim.obj$testY), x = I(sim.obj$testX))
-          } else {
-            data.frame(y = I(sim.obj$TESTY), x = I(sim.obj$TESTX))
-          }
-          sim.csv <- rbind(train = dt.train, test = dt.test)
-          sim.list <- list(train = dt.train, test = dt.test)
-          sim.json <- jsonlite::toJSON(sim.list)
-        })
-    })
-    ## ---- Download Data ------------------------------
-    downloadFn <- function(data, type = "Rdata") {
-        downloadHandler(
-          filename <- function() paste("sim.obj", type, sep = "."),
-          content = function(file) {
-            which.type <- tolower(type)
-            switch(
-              which.type,
-              csv = write.csv(data, file = file),
-              rdata = save(data, file = file),
-              rda = save(data, file = file),
-              rds = saveRDS(data, file = file),
-              json = jsonlite::write_json(data, path = file)
-            )
-          }
-        )
+      if (type() == "multivariate") {
+        param$m <- input[['multi-parm-m']]
+        param$ypos <- parseText(input[['multi-parm-ypos']])
       }
-    output$downloadRDATA <- downloadFn(sim.obj, "RData")
-    output$downloadCSV <- downloadFn(sim.csv, "csv")
-    output$downloadJSON <- downloadFn(sim.json, "json")
+      if (type() == "bivariate") {
+        param$rho <- c(input[['bi-parm-rho1']], input[['bi-parm-rho2']])
+      }
+      do.call(simulatr, param)
+    })
     
-    # Handle the Done button being pressed.
+    currentType <- eventReactive(input[["sim-id-update"]], input[['sim-type-type']])
+    
+    ## Update Parameter Input -------------------
+    observe({
+      ## Observe input of Parameters ------------
+      if (all(identical(type(), "bivariate"), !identical(type(), currentType()))) {
+        updateTextInput(session, "common-parm-relpos", value = "1,2,3;3,4,6")
+        updateTextInput(session, "common-parm-q", value = "5, 5, 2")
+        updateTextInput(session, "common-parm-R2", value = "0.8, 0.7")
+      }
+      if (all(identical(type(), "univariate"), !identical(type(), currentType()))) {
+        updateTextInput(session, "common-parm-relpos", value = "2, 3, 4, 6")
+        updateTextInput(session, "common-parm-q", value = "6")
+        updateTextInput(session, "common-parm-R2", value = "0.9")
+      }
+      if (all(identical(type(), "multivariate"), !identical(type(), currentType()))) {
+        updateTextInput(session, "common-parm-q", value = "5, 4")
+        updateTextInput(session, "common-parm-R2", value = "0.8, 0.7")
+        updateTextInput(session, "common-parm-relpos", value = "1,2; 3,4,6")
+      }
+    })
+    
+    ## Observe Some Event ----------------------------------------
+    observeEvent(input[['newSeed']], {
+      updateNumericInput(session, 'seed-id-newSeed', value = sample(9999, size = 1))
+    })
+    observeEvent(input[['sim-id-update']], {
+      ## Output the simulation type --------
+      output$type <- reactive(simObj()[["type"]])
+      outputOptions(output, "type", suspendWhenHidden = FALSE)
+      
+      ## Create Output Message ---------
+      output$msg <- renderUI({
+        h3(class = "text-center lead text-success",
+           paste("Your",
+                 isolate(simObj()[["type"]]),
+                 "data is ready with seed",
+                 isolate(input[["seed-id-newSeed"]]),
+                 "You can explore some plots or",
+                 "download the data"))
+      })
+      
+      ## Simulation Plot Modules -----------
+      callModule(simPlot, 'betaPlot', simObj(), 1)
+      callModule(simPlot, 'relComp', simObj(), 2)
+      callModule(simPlot, 'estRelComp', simObj(), 3)
+      
+      ## Download Button Modules ----------
+      callModule(download, 'rdta', simObj(), "RData")
+      callModule(download, 'csv', simObj(), "CSV")
+      callModule(download, 'json', simObj(), "json")
+      callModule(download, 'simobj', simObj(), "simobj")
+    })
+    
+    # Handle the Done button being pressed. ---------------
     observeEvent(input$done, {
-      par <- simObj()[["par"]]
+      par <- param
       par$type <- gsub("(.+)", "'\\1'", par$type)
-      code <- paste0("sim.obj <- simulatr(", paste(paste(names(par), par, sep = " = "), collapse = ", "), ")")
+      seed <- paste0('set.seed(', isolate(input[["seed-id-newSeed"]]), ')')
+      code <- paste0(seed, "\n",
+                     "sim.obj <- simulatr(", 
+                     paste(paste(names(par), par, sep = " = "), 
+                           collapse = ", "), ")")
       rstudioapi::sendToConsole('cat("\\014")', execute = TRUE)
       rstudioapi::sendToConsole(code, execute = FALSE)
-      stopApp(sim.obj)
+      stopApp()
     })
   }
   
-  runGadget(shinyApp(ui, server), viewer = dialogViewer("Simulatr", 850, 700))  
+  runGadget(shinyApp(ui, server), viewer = dialogViewer("Simulatr", 850, 700))
+  # runGadget(shinyApp(ui, server), viewer = rstudioapi::viewer)  
 }

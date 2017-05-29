@@ -26,12 +26,18 @@ Simulation Plot with ggplot: The true beta, relevant component and eigen structu
 }
 \examples{
 sim.obj <- simulatr(n = 100, p = 16, q = c(3, 4, 5), 
-relpos = list(c(1, 2), c(3, 4), c(5, 7)), m = 5, 
-ypos = list(c(1, 4), 2, c(3, 5)), type = "multivariate", 
-R2 = c(0.8, 0.7, 0.9), gamma = 0.8)
-ggplot_simulatr(sim.obj, layout = matrix(c(2, 1, 3, 1), 2))
-ggplot_simulatr(sim.obj, which = c(1, 2))
-ggplot_simulatr(sim.obj, which = c(1, 3), layout = matrix(c(1, 2), 1))
+   relpos = list(c(1, 2), c(3, 4), c(5, 7)), m = 5, 
+   ypos = list(c(1, 4), 2, c(3, 5)), type = "multivariate", 
+   R2 = c(0.8, 0.7, 0.9), gamma = 0.8)
+
+ggplot_simulatr(sim.obj, 
+   layout = matrix(c(2, 1, 3, 1), 2))
+
+ggplot_simulatr(sim.obj, 
+    which = c(1, 2))
+
+ggplot_simulatr(sim.obj, which = c(1, 3), 
+    layout = matrix(c(1, 2), 1))
 }
 \keyword{ggplot}
 \keyword{plot,}
