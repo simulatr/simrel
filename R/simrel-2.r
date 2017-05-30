@@ -85,7 +85,6 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
     stop(paste("the number of relevant predictors must at \n
     least be equal to the number of relevant components\n"))
   }
-  
   compos <- sum(relpos[[1]] %in% relpos[[2]])
   if (compos > 0) {
     cpos1 <- which(relpos[[1]] %in% relpos[[2]])

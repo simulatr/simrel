@@ -8,7 +8,7 @@ downloadUI <- function(id, label = 'RData', type = "primary") {
 }
 download <- function(input, output, session, sim.obj, file_type = "RData") {
   dt.train <- data.frame(y = I(sim.obj$Y), x = I(sim.obj$X))
-  dt.test <- if (sim.obj$type == "multivariate"){
+  dt.test <- if (sim.obj$type != "univariate") {
     data.frame(y = I(sim.obj$testY), x = I(sim.obj$testX))
   } else {
     data.frame(y = I(sim.obj$TESTY), x = I(sim.obj$TESTX))
@@ -45,10 +45,10 @@ download <- function(input, output, session, sim.obj, file_type = "RData") {
 }
 
 ## Simulation Plts :: Plot 1
-simPlotUI <- function(id, ht = '100vh', ...) {
+simPlotUI <- function(id, width = '100%', height = '550px', ...) {
   ns <- NS(id)
   tagList(
-    plotOutput(ns('plot'), height = ht, ...)
+    plotOutput(ns('plot'), width = width, height = height, ...)
   )
 }
 simPlot <- function(input, output, session, sim_obj, which) {
@@ -57,26 +57,6 @@ simPlot <- function(input, output, session, sim_obj, which) {
       theme_grey(base_size = 18) +
       theme(legend.position = "top")
   })
-}
-
-## Param Menu Panel
-paramMenuUI <- function(id) {
-  ns <- NS(id)
-  menuItemOutput(ns('paramMenu'))
-}
-paramMenu <- function(input, output, session) {
-  callModule(simType, 'sim-type')
-  callModule(commonInput, 'common-parm')
-  callModule(multivariateInput, 'multi-parm')
-  callModule(bivariateInput, 'bi-parm')
-  output$paramMenu <- renderMenu(
-    menuItem(
-      "Parameter Settings", icon = icon("cogs"), tabName = "settings",
-      commonInputUI("common-parm"),
-      conditionalPanel("input['sim-type-type'] == 'multivariate'", multivariateInputUI('multi-parm')),
-      conditionalPanel("input['sim-type-type'] == 'bivariate'", bivariateInputUI('bi-parm'))
-    )
-  )
 }
 
 ## Simulation UI
