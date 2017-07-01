@@ -76,7 +76,7 @@ ggplot_simulatr <-
         covs.sc[1:ncomp, ]
       ), 1
     )
-    names(covs.dt) <- c("comp", "lambda", paste0("Y", 1:ny))
+    names(covs.dt) <- c("comp", "lambda", paste0("W", 1:ny))
     covs.stk <- melt(
       covs.dt, 1:2, 
       variable.name = "response", 
@@ -94,7 +94,7 @@ ggplot_simulatr <-
       geom_line(position = pjtr) +
       geom_point(position = pjtr) +
       labs(x = "Components", 
-           y = "Eigenvalues") +
+           y = "Covariance (absolute value) eigenvalue") +
       theme(legend.position = if (ny == 1) "none" else "bottom") +
       ggtitle("Relevant Components Plot") +
       scale_x_continuous(breaks = xticks) +
