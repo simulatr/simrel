@@ -41,9 +41,8 @@
 simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
                     relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
                     gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
-                    ntest = NULL, muX = NULL, muY = NULL,
+                    eta = NULL, ntest = NULL, muX = NULL, muY = NULL,
                     ypos = list(c(1), c(3, 4), c(2, 5))) {
-
   ## Get all input parameter also for output ---
   arg_list <- as.list(environment())
   ## Validate Inputs ----
@@ -75,7 +74,7 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   if (any(unlist(lapply(ypos, identical, 1:2)))) {
     warning("Current setting of ypos will produce uninformative response variable.")
   }
-  
+
   ## Completing Parameter for required response
   nW0          <- length(relpos)
   nW.extra     <- m - length(relpos)
@@ -99,18 +98,20 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   names(predPos) <- paste0("Relevant for W", seq_along(relpos))
 
   ## Constructing Sigma
-  lambda   <- exp(-gamma * (1:p))/exp(-gamma)
-  SigmaZ   <- diag(lambda); SigmaZinv           <- diag(1 / lambda)
-  # SigmaW <- matrix(rho, nW, nW); diag(SigmaW) <- 1
-  # SigmaW <- as.matrix(Matrix::bdiag(SigmaW, diag(m - nW)))
-  SigmaW   <- diag(m)
-  rhoMat   <- SigmaW
+  lambda    <- exp(-gamma * (1:p))/exp(-gamma)
+  eta       <- if (!is.null(eta)) exp(-eta * (1:m))/exp(-eta) else rep(1, m)
+  SigmaZ    <- diag(lambda);
+  SigmaZinv <- diag(1 / lambda)
+  # SigmaW  <- matrix(rho, nW, nW); diag(SigmaW) <- 1
+  # SigmaW  <- as.matrix(Matrix::bdiag(SigmaW, diag(m - nW)))
+  SigmaW    <- diag(eta) ## diag(m)
+  rhoMat    <- SigmaW
 
   ### Covariance Construction
-  get_cov <- function(pos, Rsq, p = p, lambda = lambda){
+  get_cov <- function(pos, Rsq, eta = 1, p = p, lambda = lambda){
     out      <- vector("numeric", p)
     alph     <- runif(length(pos), -1, 1)
-    out[pos] <- sign(alph) * sqrt(Rsq * abs(alph) / sum(abs(alph)) * lambda[pos])
+    out[pos] <- sign(alph) * sqrt(Rsq * abs(alph) / sum(abs(alph)) * lambda[pos] * eta)
     return(out)
   }
   get_rho <- function(rhoMat, RsqVec) {
@@ -122,7 +123,7 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     })
   }
 
-  SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, MoreArgs = list(p = p, lambda = lambda))
+  SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, eta = eta, MoreArgs = list(p = p, lambda = lambda))
   Sigma   <- cbind(rbind(SigmaW, SigmaZW), rbind(t(SigmaZW), SigmaZ))
   rho.out <- get_rho(rhoMat, R2)
   rho.out[is.nan(rho.out)] <- 0
@@ -149,7 +150,7 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     rotMat         <- getRotate(pos)
     RotY[pos, pos] <- rotMat
   }
-  
+
   ## Fill remaining irrelevant space with random normal variates
   RotX[irrelpos, irrelpos] <- getRotate(irrelpos)
 
