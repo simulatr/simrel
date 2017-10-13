@@ -94,7 +94,7 @@ ggplot_simulatr <-
       geom_line(position = pjtr) +
       geom_point(position = pjtr) +
       labs(x = "Components", 
-           y = "Covariance (absolute value) eigenvalue") +
+           y = "Covariance (absolute value)/ Eigenvalue") +
       theme(legend.position = if (ny == 1) "none" else "bottom") +
       ggtitle("Relevant Components Plot") +
       scale_x_continuous(breaks = xticks) +
@@ -142,7 +142,7 @@ ggplot_simulatr <-
       geom_line(position = pjtr) +
       geom_point(position = pjtr) +
       labs(x = "Components", 
-           y = "Covariance (absolute value) eigenvalue") +
+           y = "Covariance (absolute value)/ Eigenvalue") +
       theme(legend.position = if (ny == 1) "none" else "bottom") +
       ggtitle("Estimated relevant components plot") +
       scale_x_continuous(breaks = xticks) +
