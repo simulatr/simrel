@@ -6,8 +6,8 @@
 \usage{
 simrel_m(n = 100, p = 15, q = c(5, 4, 3), m = 5, relpos = list(c(1,
   2), c(3, 4, 6), c(5, 7)), gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
-  ntest = NULL, muX = NULL, muY = NULL, ypos = list(c(1), c(3, 4), c(2,
-  5)))
+  eta = NULL, ntest = NULL, muX = NULL, muY = NULL, ypos = list(c(1),
+  c(3, 4), c(2, 5)))
 }
 \arguments{
 \item{n}{Number of observations}
@@ -23,6 +23,8 @@ simrel_m(n = 100, p = 15, q = c(5, 4, 3), m = 5, relpos = list(c(1,
 \item{gamma}{A declining (decaying) factor of eigen value of predictors (X). Higher the value of \code{gamma}, the decrease of eigenvalues will be steeper}
 
 \item{R2}{Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components}
+
+\item{eta}{A declining (decaying) factor of eigenvalues of response (Y). Higher the value of \code{eta}, more will be the declining of eigenvalues of Y}
 
 \item{ntest}{Number of test observation}
 

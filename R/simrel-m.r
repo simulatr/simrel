@@ -7,6 +7,7 @@
 #' @param gamma A declining (decaying) factor of eigen value of predictors (X). Higher the value of \code{gamma}, the decrease of eigenvalues will be steeper
 #' @param R2 Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components
 #' @param ntest Number of test observation
+#' @param eta A declining (decaying) factor of eigenvalues of response (Y). Higher the value of \code{eta}, more will be the declining of eigenvalues of Y
 #' @param muX Vector of average (mean) for each predictor variable
 #' @param muY Vector of average (mean) for each response variable
 #' @param ypos List of position of relevant response components that are combined to generate response variable during orthogonal rotation
