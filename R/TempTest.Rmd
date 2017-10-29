@@ -1,0 +1,127 @@
+---
+title: Testing Multivariate simulation for decreasing response variance
+author: Raju Rimal
+output: 
+  html_document:
+    theme: cosmo
+    runtime: shiny
+---
+
+
+# Simulation Parameters
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  comment = NULL,
+  echo = FALSE
+)
+library(shiny)
+library(simrel)
+```
+
+```{r}
+fluidRow(
+  column(3, numericInput("n", "Number of observation", 100, min = 10, width = "100%")),
+  column(3, numericInput("p", "Number of predictors", 10, min = 2, width = "100%")),
+  column(3, numericInput("m", "Number of responses", 3, min = 2, width = "100%")),
+  column(2, numericInput("seed", "seed", 123, min = 2, width = "100%")),
+  column(1, actionButton('simulate', label = NULL, class="btn-primary", icon = icon("refresh"), width = '100%')),
+  column(4, textInput("q", "Number of relevant predictors", value = "5, 4", width = "100%")),
+  column(4, textInput("relpos", "Position of Relevant components", value = "1, 2; 3, 4, 6", width = '100%')),
+  column(4, textInput("ypos", "Position of response components", value = "1; 2, 3", width = '100%')),
+  column(4, sliderInput("gamma", "Decay factor of eigenvector of predictors", 
+                        value = 0.5, min = 0, max = 3, width = '100%', step = 0.01)),
+  column(4, sliderInput("eta", "Decay factor of eigenvector of response", 
+                        value = 0.5, min = 0, max = 3, width = '100%', step = 0.01)),
+  column(4, textInput("R2", "Coefficient of Determination", value = "0.7, 0.8", width = '100%'))
+)
+evl <- function(x) {
+  out <- lapply(strsplit(unlist(strsplit(x, ";")), ","), as.numeric)
+  if (length(out) == 1) out <- out[[1]]
+  return(out)
+}
+opts <- reactive({
+  list(
+    n = input$n,
+    p = input$p,
+    q = evl(input$q),
+    relpos = evl(input$relpos),
+    gamma = input$gamma,
+    R2 = evl(input$R2),
+    ypos = evl(input$ypos),
+    m = input$m,
+    eta = input$eta,
+    type = "multivariate"
+  )
+})
+```
+
+## Simulation and Modeling
+### Covariance of Response
+```{r}
+sobj <- eventReactive(input$simulate, {
+  set.seed(input$seed)
+  do.call(simrel, opts())
+})
+column(
+  width = 6, 
+  h4("Estimated covariance of response"),
+  renderPrint({
+    round(var(sobj()$Y), 4)
+  })
+)
+
+column(
+  width = 6, 
+  h4("True covariance of response"),
+  renderPrint({
+    sigma <- sobj()$Sigma
+    m <- sobj()$m
+    round(sigma[1:m, 1:m], 4)
+  })
+)
+```
+
+### Coefficient of Determination
+```{r}
+mdl <- reactive({
+  dta <- data.frame(
+    y = I(sobj()[["Y"]]),
+    x = I(sobj()[["X"]])
+  )
+  return(lm(y ~ x, data = dta))
+})
+column(
+  width = 6,
+  h4("Estimated coefficient of determination"),
+  renderPrint({
+    sapply(summary(mdl()), function(x) {
+      round(unname(x[["r.squared"]]), 3)
+    })
+  }),
+  div("\\[\\widehat{\\rho_y^2} = \\widehat{\\beta^t}S_{xx}\\widehat{\\beta}S_{yy}^{-1}\\]"),
+  renderPrint({
+    beta <- mdl()$coef[-1,]
+    sigma <- cov(sobj()[["X"]])
+    sigma_y <- cov(sobj()[["Y"]])
+    round(t(beta) %*% sigma %*% beta %*% solve(sigma_y), 3)
+  })
+)
+column(
+  width = 6,
+  h4("True coefficient of determination"),
+  renderPrint({
+    sobj()[["RsqY"]]
+  }),
+  div("\\[\\rho_y^2 = \\beta^t\\Sigma_{xx}\\beta\\Sigma_{yy}^{-1}\\]"),
+  renderPrint({
+    beta <- sobj()[["beta"]]
+    m <- sobj()[["m"]]
+    sigma <- sobj()[["Sigma"]][-c(1:m), -c(1:m)]
+    sigma_y <- sobj()[["Sigma"]][1:m, 1:m]
+    round(t(beta) %*% sigma %*% beta %*% solve(sigma_y), 4)
+  })
+  
+)
+```
+
+

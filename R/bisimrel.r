@@ -29,50 +29,46 @@
 #' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 #' @export
 
-simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
+bisimrel <- function(n = 50, p = 100, q = c(10, 10, 5),
                     rho = c(0.8, 0.4), relpos = list(c(1, 2), c(2, 3)),
                     gamma = 0.5, R2 = c(0.8, 0.8), ntest = NULL,
                     muY = NULL, muX = NULL, sim = NULL) {
   ## Some internal functions
-  .Rfunc <- function(alpha1,alpha2,L){
+  .Rfunc <- function(alpha1, alpha2, L){
     t(alpha1) %*% solve(diag(L)) %*% alpha2
   }
-  
-  .a21func <- function(a11,a12,a22,R12,l1, l2){
+  .a21func <- function(a11, a12, a22, R12, l1, l2){
     l1/a11*(R12 - a22*a12/l2)
   }
-  
-  .a22func <- function(a11,a12,R2,R12,l1, l2){
-    bb <- R12*a12/a11^2 * l1/l2
-    root <- sqrt( R12^2*a12^2/a11^4 *l1^2/l2^2 - (1/l2 + l1/l2*a12^2/a11^2)*(l1/a11^2*R12^2 - R2))
-    denom <- (1/l2+l1/l2*a12^2/a11^2)
-    w1 <- (bb - root)/denom
-    w2 <- (bb + root)/denom
+  .a22func <- function(a11, a12, R2, R12, l1, l2){
+    bb    <- R12 * a12/a11^2 * l1/l2
+    root  <- sqrt( R12^2 * a12^2/a11^4 * l1^2/l2^2 - (1/l2 + l1/l2 * a12^2/a11^2) * (l1/a11^2 * R12^2 - R2))
+    denom <- (1/l2 + l1/l2 * a12^2/a11^2)
+    w1    <- (bb - root)/denom
+    w2    <- (bb + root)/denom
     return(c(w1, w2))
   }
 
-  ## Starting function body
-  
+  ## Function Body
   if (!is.null(sim)) {
-    betaX <- sim$beta
-    beta0 <- sim$beta0
-    muY <- sim$muY
-    muX <- sim$muX
-    qpos <- sim$relpred
-    p <- sim$p
-    q <- sim$q
-    gamma <- sim$gamma
-    lambdas <- sim$lambda
-    R2 <- sim$R2
-    relpos <- sim$relpos
+    betaX    <- sim$beta
+    beta0    <- sim$beta0
+    muY      <- sim$muY
+    muX      <- sim$muX
+    qpos     <- sim$relpred
+    p        <- sim$p
+    q        <- sim$q
+    gamma    <- sim$gamma
+    lambdas  <- sim$lambda
+    R2       <- sim$R2
+    relpos   <- sim$relpos
     minerror <- sim$minerror
-    Sigma <- sim$Sigma
-    R <- sim$Rotation
+    Sigma    <- sim$Sigma
+    R        <- sim$Rotation
     warning(paste("All parameters are collected from the supplied 'sim' object.\n"))
   }
 
-
-  # m : Number of relevant components, a vector of 2 elements --------------------------|
+  # m : Number of relevant components, a vector of 2 elements --------------------------
   m <- unlist(lapply(relpos, length))
 
   if (any(m == 0)) {
@@ -112,8 +108,8 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
                   round(rho[2], 2), " due to orthogonal relevant spaces \n"))
     q[3] <- 0
   }
-  
-  # Defining variables to be unique or common to the responses. ----------------------------------------------|
+
+  # Defining variables to be unique or common to the responses. ----------------------------------------------
   if (is.null(sim)) {
     qpos <- vector("list", 3)
     p1extra <- max(0, q[1] - m[1] - (q[3] - compos))
@@ -176,9 +172,7 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
     SigmaY <- matrix(c(1, rho[1], rho[1], 1), 2, 2)
 
     Sigmazy <- matrix(0, p, 2)
-    
     if (compos == 0) {
-      
       alpha1 <- runif(m[1], 0, 1) * sample(c(-1, 1), m[1],
                                            replace = TRUE) ## Why not runif(m[1], -1, 1)
       Sigmazy[relpos[[1]], 1] <- alpha1 <- sign(alpha1) *
@@ -187,8 +181,7 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
                                            replace = TRUE)
       Sigmazy[relpos[[2]], 2] <- alpha2 <- sign(alpha2) *
         sqrt(R2[2] * abs(alpha2)/sum(abs(alpha2)) * lambdas[relpos[[2]]])
-      
-      
+
       R12 <- sum(alpha1 * alpha2/lambdas[relpos[[1]]])
       rho[2] <- (rho[1]) / sqrt((1 - R2[1] ^ 2) * (1 - R2[2] ^ 2))
       if (rho[2] < -1 | rho[2] > 1)
@@ -356,7 +349,7 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
           Sigmazy[relpos[[1]], 1] <- alpha1
           Sigmazy[relpos[[2]], 2] <- alpha2
         }
-      } 
+      }
     }
     if (compos != 0 & all(compos < m)) {
       j <- 1
@@ -477,7 +470,6 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
     Sigmarot <- chol(Sigma)
     Ucal <- matrix(rnorm(n * (p + 2), 0, 1), nrow = n)
     U1cal <- Ucal %*% Sigmarot
-    # browser()
     Y <- U1cal[, 1:2, drop = F]
     if (!(is.null(muY))) {
       Y <- sweep(Y, 2, muY, "+")
@@ -511,29 +503,29 @@ simrel2 <- function(n = 50, p = 100, q = c(10, 10, 5),
     stop("Correlation matrix is not positive definit \n")
   }
 
-  res <- list()
-  res$call <- match.call()
-  res$X <- X
-  res$Y <- Y
-  res$beta <- betaX
-  res$beta0 <- beta0
-  res$muY <- muY
-  res$muX <- muX
-  res$relpred <- qpos
-  res$testX <- testX
-  res$testY <- testY
-  res$n <- n
-  res$p <- p
-  res$m <- m
-  res$q <- q
-  res$gamma <- gamma
-  res$lambda <- lambdas
-  res$R2 <- R2
-  res$relpos <- relpos
+  res          <- list()
+  res$call     <- match.call()
+  res$X        <- X
+  res$Y        <- Y
+  res$beta     <- betaX
+  res$beta0    <- beta0
+  res$muY      <- muY
+  res$muX      <- muX
+  res$relpred  <- qpos
+  res$testX    <- testX
+  res$testY    <- testY
+  res$n        <- n
+  res$p        <- p
+  res$m        <- m
+  res$q        <- q
+  res$gamma    <- gamma
+  res$lambda   <- lambdas
+  res$R2       <- R2
+  res$relpos   <- relpos
   res$minerror <- minerror
-  res$Sigma <- Sigma
+  res$Sigma    <- Sigma
   res$Rotation <- R
-  res$type = "bivariate"
-  class(res) <- "simrel"
+  res$type     <- "bivariate"
+  class(res)   <- "simrel"
   return(res)
 }

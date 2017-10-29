@@ -8,11 +8,11 @@
 #' @import shinyBS
 #' @export
 
-app_simulatr <- function() {
+AppSimrel <- function() {
   ui <- miniPage(
     tags$head(tags$style(HTML("
       @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
-      
+
       input#seed-id-newSeed {
         height: 100%;
         width: 100%;
@@ -28,12 +28,12 @@ app_simulatr <- function() {
         font-family: 'Source Code Pro', monospace;
       }
     "))),
-    gadgetTitleBar("Simulatr -- Simulation of Multivariate Data",
+    gadgetTitleBar("simrel -- Simulation of Multivariate Data",
                    left = miniTitleBarButton("newSeed", "New Seed", primary = TRUE),
                    right = miniTitleBarButton("done", "Accept", primary = TRUE)),
     miniTabstripPanel(
       miniTabPanel(
-        "Input Parameters", 
+        "Input Parameters",
         icon = icon("sliders"),
         miniContentPanel(
           fillPage(
@@ -56,14 +56,14 @@ app_simulatr <- function() {
                 commonInputUI('common-parm'),
                 column(12,
                   conditionalPanel(
-                    "input['sim-type-type'] == 'multivariate'", 
+                    "input['sim-type-type'] == 'multivariate'",
                     multivariateInputUI('multi-parm')),
                   conditionalPanel(
-                    "input['sim-type-type'] == 'bivariate'", 
+                    "input['sim-type-type'] == 'bivariate'",
                     bivariateInputUI('bi-parm')),
                   conditionalPanel(
                     "!input['sim-id-update']",
-                    h3(class = "text-center lead text-primary", 
+                    h3(class = "text-center lead text-primary",
                        "Press Simulate Now Button for Simulation")
                   ),
                   conditionalPanel(
@@ -77,49 +77,49 @@ app_simulatr <- function() {
         )
       ),
       miniTabPanel(
-        "True Coefficients", 
+        "True Coefficients",
         icon = icon("bar-chart"),
         miniContentPanel(
           fillCol(
           conditionalPanel(
-            "input['sim-id-update']", 
+            "input['sim-id-update']",
             simPlotUI('betaPlot')),
           conditionalPanel(
-            "!input['sim-id-update']", 
+            "!input['sim-id-update']",
             h3(class = "text-center lead", "Simulate data first!"))
           )
         )
       ),
       miniTabPanel(
-        "Relevant Components", 
+        "Relevant Components",
         icon = icon("area-chart"),
         miniContentPanel(
           fillCol(
             conditionalPanel(
-              "input['sim-id-update']", 
+              "input['sim-id-update']",
               simPlotUI('relComp')),
             conditionalPanel(
-              "!input['sim-id-update']", 
+              "!input['sim-id-update']",
               h3(class = "text-center lead", "Simulate data first!"))
           )
         )
       ),
       miniTabPanel(
-        "Est.Rel Components", 
+        "Est.Rel Components",
         icon = icon("area-chart"),
         miniContentPanel(
           fillCol(
             conditionalPanel(
-              "input['sim-id-update']", 
+              "input['sim-id-update']",
               simPlotUI('estRelComp')),
             conditionalPanel(
-              "!input['sim-id-update']", 
+              "!input['sim-id-update']",
               h3(class = "text-center lead", "Simulate data first!"))
           )
         )
       )
     ))
-  
+
   server <- function(input, output, session) {
     ## Some functions ----------------
     parseText <- function(x) {
@@ -128,7 +128,7 @@ app_simulatr <- function() {
       if (length(out) > 1) return(out)
       return(out[[1]])
     }
-    
+
     ## Calling Modules ---------------------------
     type <- callModule(simType, 'sim-type')
     callModule(sim, 'sim-id')
@@ -136,21 +136,21 @@ app_simulatr <- function() {
     callModule(commonInput, 'common-parm')
     callModule(multivariateInput, 'multi-parm')
     callModule(bivariateInput, 'bi-parm')
-    
+
     ## Make some simulations ----------------------------------------
     state <- reactiveValues(simulated = FALSE)
     currentType <- reactive(NULL)
     sim.obj <- eventReactive(input[["sim-id-update"]], {
       set.seed(input[['seed-id-newSeed']])
       param <- list(
-        n = input[['common-parm-n']],
-        p = input[['common-parm-p']],
-        q = parseText(input[['common-parm-q']]),
+        n      = input[['common-parm-n']],
+        p      = input[['common-parm-p']],
+        q      = parseText(input[['common-parm-q']]),
         relpos = parseText(input[['common-parm-relpos']]),
-        gamma = input[['common-parm-gamma']],
-        R2 = parseText(input[['common-parm-R2']]),
-        ntest = input[['common-parm-n_test']],
-        type = input[['sim-type-type']]
+        gamma  = input[['common-parm-gamma']],
+        R2     = parseText(input[['common-parm-R2']]),
+        ntest  = input[['common-parm-n_test']],
+        type   = input[['sim-type-type']]
       )
       if (type() == "multivariate") {
         param$m <- input[['multi-parm-m']]
@@ -159,16 +159,16 @@ app_simulatr <- function() {
       if (type() == "bivariate") {
         param$rho <- c(input[['bi-parm-rho1']], input[['bi-parm-rho2']])
       }
-      obj <- do.call(simulatr, param)
+      obj <- do.call(simrel, param)
       type <- obj[["type"]]
       state$simulated <- TRUE
       list(param = param, obj = obj, type = type)
     })
-    
+
     simObj <- reactive(sim.obj()[["obj"]])
     currentType <- reactive(if (state$simulated) sim.obj()[["type"]])
     param <- reactive(sim.obj()[["param"]])
-    
+
     ## Creating Output Expression ------------
     output$stdOut <- renderText({
       par <- param()
@@ -179,8 +179,8 @@ app_simulatr <- function() {
              paste(paste(names(par), par, sep = " = "),
                    collapse = ", "), ")")
     })
-    
-    
+
+
     ## Update Parameter Input -------------------
     observe({
       ## Observe input of Parameters ------------
@@ -200,7 +200,7 @@ app_simulatr <- function() {
         updateTextInput(session, "common-parm-relpos", value = "1,2; 3,4,6")
       }
     })
-    
+
     ## Observe Some Event ----------------------------------------
     observeEvent(input[['newSeed']], {
       updateNumericInput(session, 'seed-id-newSeed', value = sample(9999, size = 1))
@@ -209,7 +209,7 @@ app_simulatr <- function() {
       ## Output the simulation type --------
       output$type <- reactive(simObj()[["type"]])
       outputOptions(output, "type", suspendWhenHidden = FALSE)
-      
+
       ## Create Output Message ---------
       output$msg <- renderUI({
         tagList(
@@ -223,26 +223,26 @@ app_simulatr <- function() {
                    "download the data"))
         )
       })
-      
+
       ## Simulation Plot Modules -----------
       callModule(simPlot, 'betaPlot', simObj(), 1)
       callModule(simPlot, 'relComp', simObj(), 2)
       callModule(simPlot, 'estRelComp', simObj(), 3)
-      
+
       ## Download Button Modules ----------
       callModule(download, 'rdta', simObj(), "RData")
       callModule(download, 'csv', simObj(), "CSV")
       callModule(download, 'json', simObj(), "json")
       callModule(download, 'simobj', simObj(), "simobj")
     })
-    
+
     # Handle the Done button being pressed. ---------------
     observeEvent(input$done, {
       par <- param()
       par$type <- gsub("(.+)", "'\\1'", par$type)
       seed <- paste0('set.seed(', isolate(input[["seed-id-newSeed"]]), ')')
       code <- paste0(seed, "\n",
-             "sim.obj <- simulatr(",
+             "sim.obj <- simrel(",
              paste(paste(names(par), par, sep = " = "),
                    collapse = ", "), ")")
       rstudioapi::sendToConsole('cat("\\014")', execute = TRUE)
@@ -250,6 +250,6 @@ app_simulatr <- function() {
       stopApp()
     })
   }
-  
-  runGadget(shinyApp(ui, server), viewer = dialogViewer("Simulatr", 850, 700))
+
+  runGadget(shinyApp(ui, server), viewer = dialogViewer("simrel", 850, 700))
 }

@@ -7,7 +7,7 @@
 #' @param gamma A declining (decaying) factor of eigen value of predictors (X). Higher the value of \code{gamma}, the decrease of eigenvalues will be steeper
 #' @param R2 Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components
 #' @param ntest Number of test observation
-#' @param eta A declining (decaying) factor of eigenvalues of response (Y). Higher the value of \code{eta}, more will be the declining of eigenvalues of Y
+#' @param eta A declining (decaying) factor of eigenvalues of response (Y). Higher the value of \code{eta}, more will be the declining of eigenvalues of Y. \code{eta = 0} refers that all eigenvalues of responses (Y) are 1.
 #' @param muX Vector of average (mean) for each predictor variable
 #' @param muY Vector of average (mean) for each response variable
 #' @param ypos List of position of relevant response components that are combined to generate response variable during orthogonal rotation
@@ -39,10 +39,10 @@
 #' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 #' @export
 
-simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
+multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
                     relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
                     gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
-                    eta = NULL, ntest = NULL, muX = NULL, muY = NULL,
+                    eta = 0, ntest = NULL, muX = NULL, muY = NULL,
                     ypos = list(c(1), c(3, 4), c(2, 5))) {
   ## Get all input parameter also for output ---
   arg_list <- as.list(environment())
@@ -100,7 +100,7 @@ simrel_m <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
 
   ## Constructing Sigma
   lambda    <- exp(-gamma * (1:p))/exp(-gamma)
-  eta       <- if (!is.null(eta)) exp(-eta * (1:m))/exp(-eta) else rep(1, m)
+  eta       <- exp(-eta * (1:m))/exp(-eta)
   SigmaZ    <- diag(lambda);
   SigmaZinv <- diag(1 / lambda)
   # SigmaW  <- matrix(rho, nW, nW); diag(SigmaW) <- 1
