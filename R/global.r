@@ -53,7 +53,7 @@ simPlotUI <- function(id, width = '100%', height = '550px', ...) {
 }
 simPlot <- function(input, output, session, sim_obj, which) {
   output$plot <- renderPlot({
-    ggplot.simrel(sim_obj, which = which) +
+    ggsimrelplot(sim_obj, which = which) +
       theme_grey(base_size = 18) +
       theme(legend.position = "top")
   })

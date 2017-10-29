@@ -9,23 +9,21 @@
 #' @param print.cov Output estimated covariance structure
 #' @param which A character indicating which plot you want as output, it can take \code{TrueBeta}, \code{RelComp} and \code{EstRelComp}
 #' @return A list of plots
-#' @export
 #' @examples
 #' sim.obj <- simrel(n = 100, p = 16, q = c(3, 4, 5),
 #'    relpos = list(c(1, 2), c(3, 4), c(5, 7)), m = 5,
 #'    ypos = list(c(1, 4), 2, c(3, 5)), type = "multivariate",
 #'    R2 = c(0.8, 0.7, 0.9), gamma = 0.8)
 #'
-#' ggplot(sim.obj, layout = matrix(c(2, 1, 3, 1), 2))
+#' ggsimrelplot(sim.obj, layout = matrix(c(2, 1, 3, 1), 2))
 #'
-#' ggplot(sim.obj, which = c(1, 2))
+#' ggsimrelplot(sim.obj, which = c(1, 2))
 #'
-#' ggplot(sim.obj, which = c(1, 3), layout = matrix(c(1, 2), 1))
+#' ggsimrelplot(sim.obj, which = c(1, 3), layout = matrix(c(1, 2), 1))
+#' @export
 
-ggplot.simrel <-
-  function(x, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
+ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
            layout = NULL, print.cov = FALSE) {
-    obj <- x
     nx <- obj$p
     ny <- ncol(obj$Y)
     xticks <- 1:nx

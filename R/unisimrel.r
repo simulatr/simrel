@@ -79,22 +79,22 @@
 #' @examples
 #'
 #' #Linear model data, large n, small p
-#' mydata <- simrel(n = 250, p = 20, q = 5, relpos = c(2, 4), gamma = 0.25, R2 = 0.75 )
+#' mydata <- unisimrel(n = 250, p = 20, q = 5, relpos = c(2, 4), gamma = 0.25, R2 = 0.75)
 #'
 #' #Estimating model parameters using ordinary least squares
 #' lmfit <- lm(mydata$Y ~ mydata$X)
 #' summary(lmfit)
 #'
 #' #Comparing true with estimated regression coefficients
-#' plot(mydata$beta, lmfit$coef[-1],xlab = "True regression coefficients",
+#' plot(mydata$beta, lmfit$coef[-1], xlab = "True regression coefficients",
 #'   ylab = "Estimated regression coefficients")
 #' abline(0,1)
 #'
 #' #Linear model data, small n, large p
-#' mydata <- simrel(n = 50, p = 200, q = 25, relpos = c(2, 4), gamma = 0.25, R2 = 0.8 )
+#' mydata <- unisimrel(n = 50, p = 200, q = 25, relpos = c(2, 4), gamma = 0.25, R2 = 0.8 )
 #'
 #' #Simulating more samples with identical distribution as previous simulation
-#' mydata2 <- simrel(n = 2500, sim = mydata)
+#' mydata2 <- unisimrel(n = 2500, sim = mydata)
 #'
 #' \dontrun{
 #' #Estimating model parameters using partial least squares regression with

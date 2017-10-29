@@ -1,27 +1,17 @@
----
-title: Simulation of Multivariate Linear Model Data
-author: Raju Rimal, Trygve Almøy & Solve Sæbø
-output: 
-  github_document:
-    html_preview: no
----
+Simulation of Multivariate Linear Model Data
+================
+Raju Rimal, Trygve Almøy & Solve Sæbø
 
-[![Build Status](https://travis-ci.com/therimalaya/simulatr.svg?token=typpys6NkDJ7vULJQyan&branch=master)](https://travis-ci.com/therimalaya/simulatr)
-<!-- [![codecov](https://codecov.io/gh/therimalaya/simulatr/branch/master/graph/badge.svg?token=sahOmz8jFf)](https://codecov.io/gh/therimalaya/simulatr) -->
+[![Build Status](https://travis-ci.com/therimalaya/simulatr.svg?token=typpys6NkDJ7vULJQyan&branch=master)](https://travis-ci.com/therimalaya/simulatr) <!-- [![codecov](https://codecov.io/gh/therimalaya/simulatr/branch/master/graph/badge.svg?token=sahOmz8jFf)](https://codecov.io/gh/therimalaya/simulatr) -->
 
-```{r, include=FALSE}
-knitr::opts_chunk$set(fig.show = "asis", comment = "#>", 
-                      fig.height = 6, fig.width = 9,
-                      fig.path = "figure/",
-                      out.width = '100%')
-```
+Introduction
+============
 
-# Introduction
 `Simrel` r-package is a versatile tool for simulation of multivariate linear model data. The package consist of four core functions -- `unisimrel`, `bisimrel`, `multisimrel` and `simrel` for simulation and a plot function `plot`. As the name suggests, `unisimrel` function is used for simulating univariate linear model data, `bisimrel` simulates bivariate linear model data where user can specify the correlation between two responses with and without given **X**. In addition, this function allows users to get responses (**y**) having common relevant components.
 
 An extension of `bisimrel` and `unisimrel` is `multisimrel`, by which user can simulate multivariate linear model data with multiple responses. In this simulation, each response must have exclusive set of predictors and relevant predictors components. Following examples will give a clear picture of these functions. The forth function `simrel` wraps around these function and calls them according to what type of data a user is simulating.
 
-Following parameters (arguments) are used in these function, 
+Following parameters (arguments) are used in these function,
 
 | Parameters | Descriptions                                                        |
 |------------|---------------------------------------------------------------------|
@@ -34,20 +24,26 @@ Following parameters (arguments) are used in these function,
 | `gamma`    | Decaying factor of eigenvalues of predictor matrix                  |
 | `m`        | Number of required response vector (only applicable for `simrel_m`) |
 
-# Installation
+Installation
+============
+
 Install the package from GitHub,
 
-```{r, eval = FALSE}
+``` r
 # install.pacakges("devtools")
 devtools::install_github("simulatr/simrel")
 devtools::install_bitbucket("simulatr/simrel")
 ```
 
-# Examples
-## Univariate Simulation:
+Examples
+========
+
+Univariate Simulation:
+----------------------
+
 Simulate a univariate linear model data with 100 training samples and 500 test samples having 10 predictors (**X**) where only 8 of them are relevant for the variation in the response vector. The population model should explain 80% of the variation present in the response. In addition, only 1st and 3rd principal components of **X** should be relevant for *y* and the eigenvalues of **X** decreases exponentially by a factor of 0.7.
 
-```{r}
+``` r
 library(simrel)
 sim_obj <- 
   simrel(
@@ -64,14 +60,18 @@ sim_obj <-
 
 Here `sim_obj` is a object with class `simrel` and constitue of a list of simulated linear model data along with other relevant properties. Lets use `plot` function to overview the situation,
 
-```{r simrel1-plot}
+``` r
 ggsimrelplot(sim_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 ```
 
-## Bivariate Simulation
+<img src="figure/simrel1-plot-1.png" width="100%" />
+
+Bivariate Simulation
+--------------------
+
 The wrapper function `simrel` uses `bisimrel` for simulating bivariate linear model data. Lets consider a situation to simulate data from bivariate distribution with 100 training and 500 test samples. The response vectors **y**<sub>1</sub> and **y**<sub>2</sub> have correlation of 0.8 without given **X** and 0.6 with given **X**. Among 10 total predictor variables, 5 are relevant for **y**<sub>1</sub> and 5 are relevant for **y**<sub>2</sub>. However 3 of them are relevant for both of them. Let the predictors explain 80% and 70% of total variation present in population of **y**<sub>1</sub> and **y**<sub>2</sub> respectively. In addition, let 1, 2 and 3 components are relevant for **y**<sub>1</sub> and 3 and 4 components are relevant for **y**<sub>2</sub>. In this case, the third component is relevant for both responses. Let the decay factor of eigenvalues of **X** be 0.8.
 
-```{r simrel2}
+``` r
 simrel2_obj <- 
   simrel(
     n      = 100,                       # 100 training samples
@@ -88,19 +88,22 @@ simrel2_obj <-
 
 Lets look at the plot,
 
-```{r simrel2_plot}
+``` r
 ggsimrelplot(simrel2_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 ```
 
-## Multivariate Simulation
-Multivariate simulation uses `multisimrel` function and can simulate multiple responses. Lets simulate 100 training samples and 500 test samples. The simulated data has 5 responses and 15 predictors. These 5 responses spans 5 latent space out of which only 3 are related to the predictors. Lets denote them by **w**<sub>i</sub>. Let 5, 4 and 4 predictors are relevant for response components **w**<sub>1</sub>, **w**<sub>1</sub> and **w**<sub>1</sub> respectively. The position of relevant predictor components for **w**<sub>1</sub> be 1, 2, 3; for **w**<sub>2</sub> be 4 and 5. Similarly, predictor components 6 and 8 are relevant for **w**<sub>3</sub>. 
+<img src="figure/simrel2_plot-1.png" width="100%" />
+
+Multivariate Simulation
+-----------------------
+
+Multivariate simulation uses `multisimrel` function and can simulate multiple responses. Lets simulate 100 training samples and 500 test samples. The simulated data has 5 responses and 15 predictors. These 5 responses spans 5 latent space out of which only 3 are related to the predictors. Lets denote them by **w**<sub>i</sub>. Let 5, 4 and 4 predictors are relevant for response components **w**<sub>1</sub>, **w**<sub>1</sub> and **w**<sub>1</sub> respectively. The position of relevant predictor components for **w**<sub>1</sub> be 1, 2, 3; for **w**<sub>2</sub> be 4 and 5. Similarly, predictor components 6 and 8 are relevant for **w**<sub>3</sub>.
 
 Since we need 5 response variables, we mix-up these 3 informative response components with 2 remaining uninformative components so that all simulated response contains information that **X** are related. Lets combine **w**<sub>1</sub> with **w**<sub>4</sub> and **w**<sub>3</sub> with **w**<sub>5</sub>. So that the predictors that are relevant for response components **w**<sub>1</sub> will be relevant for response **y**<sub>1</sub> and **y**<sub>3</sub> and so on.
 
 In addition to these latent space requirements, let **X** explains 80% variation present in **w**<sub>1</sub>, 50% in **w**<sub>2</sub> and 70% in **w**<sub>3</sub>. The eigenvalues of X reduces by the factor of 0.8.
 
-
-```{r simrel-m}
+``` r
 simrel_m_obj <- 
 simrel(
     n      = 100,                                # 100 training samples
@@ -118,11 +121,15 @@ simrel(
 
 Lets look at the `simrel` plot;
 
-```{r simrelm_plot, fig.height = 8}
+``` r
 ggsimrelplot(simrel_m_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 ```
 
-## RStudio Addins
-To make the process easier to use, we have created a shiny gadget as an rstudio addons. If you are using Rstuio, you can access this app from Tools > Addins > simulatr. But you can also access this app using `simrel::app_simulatr()`. This will open the app in a browser from where you can choose all your parameter, see the true population parametrs you will get from the simulation. When the app is closed, it will give an command output on your R console.
+<img src="figure/simrelm_plot-1.png" width="100%" />
 
-![App-Simulatr-Screenshot](figure/AppSimrel.png)
+RStudio Addins
+--------------
+
+To make the process easier to use, we have created a shiny gadget as an rstudio addons. If you are using Rstuio, you can access this app from Tools &gt; Addins &gt; simulatr. But you can also access this app using `simrel::app_simulatr()`. This will open the app in a browser from where you can choose all your parameter, see the true population parametrs you will get from the simulation. When the app is closed, it will give an command output on your R console.
+
+![App-Simulatr-Screenshop](figure/App-Simulatr.png)

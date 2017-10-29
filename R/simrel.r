@@ -6,7 +6,7 @@
 #' @param gamma A declining (decaying) factor of eigenvalues of predictors (X). Higher the value of \code{gamma}, the decrease of eigenvalues will be steeper.
 #' @param R2 Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components.
 #' @param type Type of simulation - \code{univariate}, \code{bivariate} and \code{multivariate}
-#' @param ... Since this is a wrapper function to simulate univariate, bivariate or multivariate, it calls their respective function. This parameter should contain all the necessary arguements for respective simulations. See \code{\link{simrel}}, \code{\link{simrel2}} and \code{\link{simrel_m}}
+#' @param ... Since this is a wrapper function to simulate univariate, bivariate or multivariate, it calls their respective function. This parameter should contain all the necessary arguements for respective simulations. See \code{\link{unisimrel}}, \code{\link{bisimrel}} and \code{\link{multisimrel}}
 #' @return A simrel object with all the input arguments along with following additional items.
 #'     \item{X}{Simulated predictors}
 #'     \item{Y}{Simulated responses}
@@ -107,7 +107,7 @@ simrel <- function (n, p, q, relpos, gamma, R2, type = "univariate", ...) {
 
   if (length(stopMsg) >= 1) stop(stopMsg)
 
-  sim_fun <- switch(type, univariate = simrel, bivariate = simrel2, multivariate = simrel_m)
+  sim_fun <- switch(type, univariate = unisimrel, bivariate = bisimrel, multivariate = multisimrel)
   sobj <- sim_fun(n, p, q, relpos, gamma, R2, ...)
   sobj$call <- match.call()
 

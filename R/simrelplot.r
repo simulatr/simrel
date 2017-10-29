@@ -10,11 +10,8 @@
 #' @return A list of plots
 #' @export
 
-plot.simrel <-
-  function(x, ncomp = min(obj$p, obj$n, 20), ask = TRUE,
-           print.cov = FALSE, which = 1L:3L)
-{
-  obj <- x
+simrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE,
+           print.cov = FALSE, which = 1L:3L) {
   show <- rep(FALSE, 3L)
   show[which] <- TRUE
   nx = obj$p
