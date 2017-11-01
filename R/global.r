@@ -22,8 +22,8 @@ download <- function(input, output, session, sim.obj, file_type = "RData") {
   )
   downloadFn <- function(data, type = "Rdata") {
     downloadHandler(
-      filename <- function() 
-        ifelse(type == "simobj", 
+      filename <- function()
+        ifelse(type == "simobj",
                paste("sim.obj.rdata"),
                paste("sim.obj", type, sep = ".")),
       content = function(file) {
@@ -53,7 +53,7 @@ simPlotUI <- function(id, width = '100%', height = '550px', ...) {
 }
 simPlot <- function(input, output, session, sim_obj, which) {
   output$plot <- renderPlot({
-    ggplot_simulatr(sim_obj, which = which) + 
+    ggsimrelplot(sim_obj, which = which) +
       theme_grey(base_size = 18) +
       theme(legend.position = "top")
   })
@@ -63,12 +63,12 @@ simPlot <- function(input, output, session, sim_obj, which) {
 simUI <- function(id, label = "Simulate Now", ...) {
   ns <- NS(id)
   column(
-    12, 
+    12,
     div(
       h3(actionLink(
-        ns("update"), 
-        label = label, 
-        icon = icon("refresh"), 
+        ns("update"),
+        label = label,
+        icon = icon("refresh"),
         ...
       )), class = "text-center"
     )
@@ -82,13 +82,13 @@ simTypeUI <- function(id) {
   ns <- NS(id)
   fluidRow(
     column(
-      width = 12, 
+      width = 12,
       selectInput(
-        inputId = ns("type"), 
-        label = "Type of simulation:", 
+        inputId = ns("type"),
+        label = "Type of simulation:",
         choices = c("Univariate Simulation" = "univariate",
                     "Bivariate Simulation" = "bivariate",
-                    "Multivariate Simulation" = "multivariate"), 
+                    "Multivariate Simulation" = "multivariate"),
         selected = "multivariate",
         width = "100%"
       )
@@ -124,11 +124,11 @@ commonInputUI <- function(id) {
     ),
     fluidRow(
       column(6, textInput(ns("R2"), label = "Coef. Determination", value = "0.8, 0.7")),
-      column(6, textInput(ns("relpos"), label = "RelPos.Comp", 
+      column(6, textInput(ns("relpos"), label = "RelPos.Comp",
                           value = "1, 2; 3, 4, 6"))
     ),
     fluidRow(
-      column(12, sliderInput(ns("gamma"), "Gamma", 
+      column(12, sliderInput(ns("gamma"), "Gamma",
                              min = 0, max = 1, value = 0.6, step = 0.1, width = "100%"))
     )
   )
@@ -142,7 +142,7 @@ multivariateInputUI <- function(id) {
   tagList(
     fluidRow(
       column(6, numericInput(ns("m"), label = "N: Response", value = 4, min = 2, step = 1)),
-      column(6, textInput(ns("ypos"), label = "Response Mixup", 
+      column(6, textInput(ns("ypos"), label = "Response Mixup",
                           value = "1, 3; 2, 4"))
     )
   )
@@ -156,9 +156,9 @@ bivariateInputUI <- function(id) {
   tagList(
     fluidRow(
       column(12, div(em("Correlation between Response")), style = "text-align:center;"),
-      column(6, sliderInput(ns("rho1"), "Without Given X", 
+      column(6, sliderInput(ns("rho1"), "Without Given X",
                             min = -1, max = 1, value = 0.6, step = 0.1, width = "100%")),
-      column(6, sliderInput(ns("rho2"), "With Given X", 
+      column(6, sliderInput(ns("rho2"), "With Given X",
                             min = -1, max = 1, value = 0.7, step = 0.1, width = "100%"))
     )
   )

@@ -10,16 +10,14 @@
 #' @return A list of plots
 #' @export
 
-plot_simulatr <-
-  function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE,
-           print.cov = FALSE, which = 1L:3L)
-{
+simrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE,
+           print.cov = FALSE, which = 1L:3L) {
   show <- rep(FALSE, 3L)
   show[which] <- TRUE
   nx = obj$p
   ny = ncol(obj$Y)
   if (sum(which) == 1) ask <- TRUE
-  
+
   if (ask & !sum(show) == 1) {
     oask <- devAskNewPage(TRUE)
     on.exit(devAskNewPage(oask))
@@ -58,8 +56,8 @@ plot_simulatr <-
       out[is.nan(out)] <- 0
       return(out)
     })
-    covs.dt <- as.data.frame(cbind(1:ncomp, 
-                                   obj$lambda[1:ncomp], 
+    covs.dt <- as.data.frame(cbind(1:ncomp,
+                                   obj$lambda[1:ncomp],
                                    covs.sc[1:ncomp, ]), 1)
     names(covs.dt) <- c("Vars", "lambda", paste0("ResponseY", 1:ny))
 
@@ -73,30 +71,30 @@ plot_simulatr <-
     legend("topright", lty = 1, lwd = 2, pch = 16, col = palette(),
            legend = paste0("Y", 1:ny), horiz = TRUE)
     }
-    title(main = "Relevant Components Plot", 
-          xlab = "Components", 
+    title(main = "Relevant Components Plot",
+          xlab = "Components",
           ylab = "Eigenvalue")
     dev.flush()
   }
-  
+
   ## Plot 3: Estimated Relevant Component Plot
     if (show[3L]) {
       X <- scale(obj$X, center = TRUE, scale = FALSE)
       Y <- scale(obj$Y, center = TRUE, scale = FALSE)
-      
+
       svdres <- svd(X)
       eigval <- (svdres$d ^ 2)/(obj$n - 1)  #/(svdres$d ^ 2)[1]
       eigval.sc <- eigval/eigval[1]
-      
+
       Z <- X %*% svdres$v
       covs <- t(abs(cov(Y, Z)))
       covs.sc <- apply(covs, 2, function(x) abs(x)/max(abs(x)))
-      
-      covs.dt <- as.data.frame(cbind(1:ncomp, 
-                                     eigval.sc[1:ncomp], 
+
+      covs.dt <- as.data.frame(cbind(1:ncomp,
+                                     eigval.sc[1:ncomp],
                                      covs.sc[1:ncomp, ]), 1)
       names(covs.dt) <- c("Vars", "lambda", paste0("ResponseY", 1:ny))
-      
+
       dev.hold()
       with(covs.dt, plot(Vars, lambda, type = "h", lwd = 15, col = "lightgrey",
                          xlab = "", ylab = ""))
@@ -108,20 +106,20 @@ plot_simulatr <-
              legend = paste0("Y", 1:ny), horiz = TRUE)
       }
       title(main = "Estimated relevant components plot",
-            xlab = "Components", 
+            xlab = "Components",
             ylab = "Covariance (absolute value)\nEigenvalue")
       dev.flush()
     }
-  
+
   ## Covariance Structure of Y given X
   if (print.cov) {
     covs <- covs[1, 1:min(ncomp, obj$p)]
     cat("Absolute values of estimated covariances\n")
-    names(covs) <- paste("Component", 1:min(ncomp, obj$p), 
+    names(covs) <- paste("Component", 1:min(ncomp, obj$p),
                          sep = "")
     print(abs(round(covs, 3)))
   }
-  
+
   ## Setting up return
   if (print.cov) {
     return(plt$covariances <- covs)

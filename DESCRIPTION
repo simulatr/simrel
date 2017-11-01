@@ -1,8 +1,9 @@
-Package: simulatr
+Package: simrel
 Title: Simulation of Multivariate Linear Model Data
 Version: 0.1
-Authors@R: person("Raju", "Rimal", email = "raju.rimal@nmbu.no",
-                  role = c("aut", "cre"))
+Authors@R: c(
+           person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut", "cre")),
+           person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut")))
 Description: This package can be used to simulate multivariate linear model
     data. The package also consist of function to create plots for the simulation
     objects. It can be a handy tool for model comparison, testing and many other
@@ -19,7 +20,7 @@ Imports:
     rstudioapi (>= 0.5),
     shinyBS,
     jsonlite,
-    purrr,
     ggplot2,
+    purrr,
     gridExtra,
     reshape2

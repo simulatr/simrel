@@ -2,144 +2,62 @@
 % Please edit documentation in R/simrel.r
 \name{simrel}
 \alias{simrel}
-\title{Function for data simulation}
+\title{Simulation of Multivariate Linear Model Data}
 \usage{
-simrel(n, p, q, relpos, gamma, R2, ntest = NULL, muY = NULL, muX = NULL,
-  lambda.min = .Machine$double.eps, sim = NULL)
+simrel(n, p, q, relpos, gamma, R2, type = "univariate", ...)
 }
 \arguments{
-\item{n}{The number of (training) samples to generate.}
+\item{n}{Number of observations.}
 
-\item{p}{The total number of predictor variables to generate.}
+\item{p}{Number of variables.}
 
-\item{q}{The number of relevant predictor variables (as a subset of \eqn{p}).}
+\item{q}{An integer for univariate, a vector of 3 integers for bivariate and 3 or more for multivariate simulation (for details see Notes).}
 
-\item{relpos}{A vector indicating the position (between 1 and \eqn{p}) of the \eqn{m} relevant components, e.g. \eqn{c(1,2)} means that the first two latent components should be relevant. The length of relpos must be equal to \eqn{m}.}
+\item{relpos}{A list (vector in case of univariate simulation) of position of relevant component for predictor variables corresponding to each response.}
 
-\item{gamma}{A number defining the speed of decline in eigenvalues (variances) of the latent components. The eigenvalues are assumed to decline according to an exponential model. The first eigenvalue is set equal to 1.}
+\item{gamma}{A declining (decaying) factor of eigenvalues of predictors (X). Higher the value of \code{gamma}, the decrease of eigenvalues will be steeper.}
 
-\item{R2}{The theoretical R-squared according to the true linear model. A number between 0 and 1.}
+\item{R2}{Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components.}
 
-\item{ntest}{The number of test samples to be generated (optional).}
+\item{type}{Type of simulation - \code{univariate}, \code{bivariate} and \code{multivariate}}
 
-\item{muY}{The true mean of the response variable (optional). Default is muY=NULL.}
-
-\item{muX}{The \code{p}-vector of true means of the predictor variables (optional). Default is muX=NULL.}
-
-\item{lambda.min}{Lower bound of the eigenvalues. Defaults to .Machine$double.eps.}
-
-\item{sim}{A fitted simrel object. If this is given, the same regression coefficients will be used to simulate a new data set of requested size. Default is NULL, for which new regression coefficients are sampled.}
+\item{...}{Since this is a wrapper function to simulate univariate, bivariate or multivariate, it calls their respective function. This parameter should contain all the necessary arguements for respective simulations. See \code{\link{unisimrel}}, \code{\link{bisimrel}} and \code{\link{multisimrel}}}
 }
 \value{
-A simrel object with list of following items,
-    \item{call }{The call to simrel.} 
-    \item{X }{The (n x p) simulated predictor matrix.} 
-    \item{Y }{The n-vector of simulated response values.}
-    \item{beta }{The vector of true regression coefficients.} 
-    \item{beta0 }{The true intercept. This is zero if muY=NULL and muX=NULL} 
-    \item{muY}{The true mean of the response variable.} 
-    \item{muX}{The \code{p}-vector of true means of the predictor variables.} 
-    \item{relpred }{The index of the true relevant predictors, that is the x-variables with non-zero true regression coefficients.} 
-    \item{TESTX }{The (ntest x p) matrix of optional test samples.} 
-    \item{TESTY }{The ntest-vector of responses of the optional test samples.} 
-    \item{n }{The number of simulated samples.} 
-    \item{p }{The number of predictor variables.} 
-    \item{m }{The number of relevant components.}
-    \item{q }{The number of relevant predictors.} 
-    \item{gamma }{The decline parameter in the exponential model for the true eigenvalues.} 
-    \item{lambda}{The true eigenvalues of the covariance matrix of the p predictor variables.} 
-    \item{R2 }{The true R-squared value of the linear model.}
-    \item{relpos }{The positions of the relevant components.} 
-    \item{minerror}{The minimum achievable prediction error. Also the variance of the noise term in the linear model.} 
-    \item{r }{The sampled correlations between the principal components and the response.} 
-    \item{Sigma }{The true covariance matrix of \eqn{(y,z_1, z_2, ..., z_p)^t}.} 
-    \item{Rotation }{The random rotation matrix which is used to achieve the predictor variables as rotations of the latent components. Equals the transposed of the eigenvector-matrix of the covariance matrix of \eqn{(x_1,...,x_p)^t}.}
-
-    \item{type}{The type of response generated, either "univariate" as returned from \code{simrel}, or "bivariate" as returned from \code{simrel2}.}
+A simrel object with all the input arguments along with following additional items.
+    \item{X}{Simulated predictors}
+    \item{Y}{Simulated responses}
+    \item{W}{Simulated predictor components}
+    \item{Z}{Simulated response components}
+    \item{beta}{True regression coefficients}
+    \item{beta0}{True regression intercept}
+    \item{relpred}{Position of relevant predictors}
+    \item{testX}{Test Predictors}
+    \item{testY}{Test Response}
+    \item{testW}{Test predictor components}
+    \item{testZ}{Test response components}
+    \item{minerror}{Minimum model error}
+    \item{Xrotation}{Rotation matrix of predictor (R)}
+    \item{Yrotation}{Rotation matrix of response (Q)}
+    \item{type}{Type of simrel object \emph{univariate} or \emph{multivariate}}
+    \item{lambda}{Eigenvalues of predictors}
+    \item{SigmaWZ}{Variance-Covariance matrix of components of response and predictors}
+    \item{SigmaWX}{Covariance matrix of response components and predictors}
+    \item{SigmaYZ}{Covariance matrix of response and predictor components}
+    \item{Sigma}{Variance-Covariance matrix of response and predictors}
+    \item{RsqW}{Coefficient of determination corresponding to response components}
+    \item{RsqY}{Coefficient of determination corresponding to response variables}
 }
 \description{
-Functions for data simulation from a random regression model with one
-response variable where the data properties can be controlled by a few input
-parameters.  The data simulation is based on the concept of relevant latent
-components and relevant predictors, and was developed for the purpose of
-testing methods for variable selection for prediction.
-}
-\details{
-The data are simulated according to a multivariate normal model for the
-vector \eqn{(y, z_1, z_2, z_3, ..., z_p)^t} where \eqn{y} is the response
-variable and \eqn{z = (z_1,..., z_p)^t} is the vector of latent (principal)
-components. The ordered principal components are uncorrelated variables with
-declining variances (eigenvalues) defined for component \eqn{j} as
-\eqn{e^{-\gamma * j}/e^{-\gamma}}. Hence, the variance (eigenvalue) of the
-first principal component is equal to 1, and a large value of \eqn{\gamma}
-gives a rapid decline in the variances. The variance of the response
-variable is by default fixed equal to 1.
-
-Some of the principal components (ordered by their decreasing variances) are
-assumed to be relevant for the prediction of the response. The indices of
-the positions of the relevant components are set by the \code{relpos}
-argument. The joint degree of relevance for the relevant components is
-determined by the population R-squared defined by \code{R2}.
-
-In order to obtain predictor variables \eqn{x = (x_1, x_2, ..., x_p)^t} for
-\eqn{y}, a random rotation of the principal components is performed. Hence,
-\eqn{x = R^t*z} for some random rotation matrix \eqn{R}. For values of
-\eqn{q} satisfying \eqn{m <= q <p} only a subspace of dimension \eqn{q}
-containing the \eqn{m} relevant component(s) is rotated. This facilitates
-the possibility to generate \eqn{q} relevant predictor variables
-(\eqn{x}'s). The indices of the relevant predictors is randomly selected
-with the only restriction that the index set contains the indices in
-\code{relpos}. The final index set of the relevant predictors is saved in
-the output argument \code{relpred}. If \code{q=p} all \eqn{p} predictor
-variables are relevant for the prediction of \eqn{y}.
-
-For further details on the simulation approach, please see S<e6>b<f8>,
-Alm<f8>y and Helland (2015).
-}
-\examples{
-
-#Linear model data, large n, small p
-mydata <- simrel(n=250, p=20, q=5, relpos=c(2,4), gamma=0.25, R2=0.75 )
-
-#Estimating model parameters using ordinary least squares
-lmfit <- lm(mydata$Y ~ mydata$X)
-summary(lmfit)
-
-#Comparing true with estimated regression coefficients
-plot(mydata$beta, lmfit$coef[-1],xlab="True regression coefficients", 
-  ylab="Estimated regression coefficients")
-abline(0,1)
-
-#Linear model data, small n, large p
-mydata <- simrel(n=50, p=200, q=25, relpos=c(2,4), gamma=0.25, R2=0.8 )
-
-#Simulating more samples with identical distribution as previous simulation
-mydata2 <- simrel(n=2500, sim=mydata)
-
-\dontrun{
-#Estimating model parameters using partial least squares regression with
-#cross-validation to determine the number of relevant components.
-require(pls)
-plsfit <- plsr(mydata$Y ~ mydata$X, 15, validation="CV")
-
-#Validation plot and finding the number of relevant components.
-plot(0:15, c(plsfit$validation$PRESS0,plsfit$validation$PRESS), 
-  type="b", xlab="Components", ylab="PRESS")
-mincomp <- which(plsfit$validation$PRESS==min(plsfit$validation$PRESS))
-
-#Comparing true with estimated regression coefficients
-plot(mydata$beta, plsfit$coef[,1,mincomp],xlab="True regression coefficients", 
-  ylab="Estimated regression coefficients")
-abline(0,1)
-}
+Simulation of Multivariate Linear Model Data
 }
 \references{
-Helland, I. S. and Alm<f8>y, T., 1994, Comparison of prediction methods when only a few components are relevant, \emph{J. Amer. Statist. Ass.}, \bold{89}(426), 583 -- 591.
+Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors. Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
 
-S<e6>b<f8>, S., Alm<f8>y, T. and Helland, I. S., 2015, simrel - A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors, \emph{Chemometr. Intell. Lab.}(in press),doi:10.1016/j.chemolab.2015.05.012.
+Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 }
-\author{
-Solve S<e6>b<f8> and Kristian H. Liland
-}
-\keyword{Model}
-\keyword{Simulation}
+\keyword{data}
+\keyword{linear}
+\keyword{model}
+\keyword{model,}
+\keyword{simulation,}

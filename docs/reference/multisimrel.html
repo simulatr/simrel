@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulation of Multivariate Linear Model Data — simulatr • simulatr</title>
+<title>Simulation of Multivariate Linear Model Data — multisimrel • simrel</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -46,7 +46,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">simulatr</a>
+      <a class="navbar-brand" href="../index.html">simrel</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -57,8 +57,14 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/therimalaya/simulatr">
+  <a href="https://github.com/simulatr/simrel">
     <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://simulatr.github.com/simrel">
+    <span class="fa fa-globe fa-lg"></span>
      
   </a>
 </li>
@@ -80,48 +86,67 @@
     <p>Simulation of Multivariate Linear Model Data</p>
     
 
-    <pre class="usage"><span class='fu'>simulatr</span>(<span class='no'>n</span>, <span class='no'>p</span>, <span class='no'>q</span>, <span class='no'>relpos</span>, <span class='no'>gamma</span>, <span class='no'>R2</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"univariate"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>multisimrel</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>3</span>), <span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fu'>c</span>(<span class='fl'>1</span>,
+  <span class='fl'>2</span>), <span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>6</span>), <span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>7</span>)), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.8</span>, <span class='fl'>0.7</span>, <span class='fl'>0.8</span>), <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>ntest</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>muX</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>muY</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ypos</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fu'>c</span>(<span class='fl'>1</span>), <span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>4</span>), <span class='fu'>c</span>(<span class='fl'>2</span>,
+  <span class='fl'>5</span>)))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>n</th>
-      <td><p>Number of observations.</p></td>
+      <td><p>Number of observations</p></td>
     </tr>
     <tr>
       <th>p</th>
-      <td><p>Number of variables.</p></td>
+      <td><p>Number of variables</p></td>
     </tr>
     <tr>
       <th>q</th>
-      <td><p>An integer for univariate, a vector of 3 integers for bivariate and 3 or more for multivariate simulation (for details see Notes).</p></td>
+      <td><p>Vector containing the number of relevant predictor variables for each relevant response components</p></td>
+    </tr>
+    <tr>
+      <th>m</th>
+      <td><p>Number of response variables</p></td>
     </tr>
     <tr>
       <th>relpos</th>
-      <td><p>A list (vector in case of univariate simulation) of position of relevant component for predictor variables corresponding to each response.</p></td>
+      <td><p>A list of position of relevant component for predictor variables. The list contains vectors of position index, one vector or each relevant response components</p></td>
     </tr>
     <tr>
       <th>gamma</th>
-      <td><p>A declining (decaying) factor of eigenvalues of predictors (X). Higher the value of <code>gamma</code>, the decrease of eigenvalues will be steeper.</p></td>
+      <td><p>A declining (decaying) factor of eigen value of predictors (X). Higher the value of <code>gamma</code>, the decrease of eigenvalues will be steeper</p></td>
     </tr>
     <tr>
       <th>R2</th>
-      <td><p>Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components.</p></td>
+      <td><p>Vector of coefficient of determination (proportion of variation explained by predictor variable) for each relevant response components</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>Type of simulation - <code>univariate</code>, <code>bivariate</code> and <code>multivariate</code></p></td>
+      <th>eta</th>
+      <td><p>A declining (decaying) factor of eigenvalues of response (Y). Higher the value of <code>eta</code>, more will be the declining of eigenvalues of Y. <code>eta = 0</code> refers that all eigenvalues of responses (Y) are 1.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Since this is a wrapper function to simulate univariate, bivariate or multivariate, it calls their respective function. This parameter should contain all the necessary arguements for respective simulations. See <code><a href='simrel.html'>simrel</a></code>, <code><a href='simrel2.html'>simrel2</a></code> and <code><a href='simrel_m.html'>simrel_m</a></code></p></td>
+      <th>ntest</th>
+      <td><p>Number of test observation</p></td>
+    </tr>
+    <tr>
+      <th>muX</th>
+      <td><p>Vector of average (mean) for each predictor variable</p></td>
+    </tr>
+    <tr>
+      <th>muY</th>
+      <td><p>Vector of average (mean) for each response variable</p></td>
+    </tr>
+    <tr>
+      <th>ypos</th>
+      <td><p>List of position of relevant response components that are combined to generate response variable during orthogonal rotation</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A simrel object with all the input arguments along with following additional items.</p>
+    <p>A simrel object with all the input arguments along with following additional items</p>
 <dt>X</dt><dd><p>Simulated predictors</p></dd>
     <dt>Y</dt><dd><p>Simulated responses</p></dd>
     <dt>W</dt><dd><p>Simulated predictor components</p></dd>
@@ -168,7 +193,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://mathatistics.com'>Raju Rimal</a>.</p>
+  <p>Developed by <a href='http://mathatistics.com'>Raju Rimal</a>, <a href='http://solvsa.nmbu.no'>Solve Sæbø</a>.</p>
 </div>
 
 <div class="pkgdown">

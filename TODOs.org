@@ -1,14 +1,24 @@
-* Simulator Paper
-** Data Analysis
-*** TODO Validate all the parameters in ~simulatr~ wrapper function
-*** TODO Make a common plot function with both ~base~ and ~ggplot2~ package
-*** TODO Test and finalize the package
-** Shiny Application
-*** TODO Edit previous Shiny Application using new ~simulatr~ package
-*** TODO Include option for /univariate/, /bivariate/ and /multi-variate/ simulation 
-*** TODO Create Interactive plot but not model fittings
-*** TODO Option for downloading simulated data
-** Paper Writing
-*** TODO Reorganize the contents for more smooth flow of story
-*** TODO Make is simple and less technical
-*** TODO Describe all the details as much as possible
+#+TITLE: R package:: ~simrel~
+#+AUTHOR: Raju Rimal
+
+* TODO Overall [/]
+DEADLINE: <2017-11-01 on.>
+- [X] Move the repository ~therimalaya/simulatr -> simulatr/simrel~
+- [ ] Rename ~simulatr~ to ~simrel~ everywhere
+- [ ] Update the package documentation site (using `pkgdown`)
+* Readme
+- [ ] Discuss about how can a design with different cases (parameter settings) can be constructed
+- [ ] Include some example and use cases
+- [ ] Introduce about shiny application and rstudio gadget
+- [ ] Link to package documentation site
+* R-code [3/5]
+- [X] Rename ~simrel~ function to ~unisimrel~ and change wrapper function (~simulatr~) to ~simrel~
+- [X] Rename ~simrel2~ into ~bisimrel~ and ~simrel_m~ to ~multisimrel~
+- [X] Change ~plot.simulatr~ function to ~plot~ in order to used generic function
+  - Could not change to `plot` generic function. Instead a function `simrelplot` is created for base plotting
+  - In addition, `ggplotsimrel` is used to plot `ggplot` version
+- [ ] Import ~mbrd~ function for creating fractional design from old simrel package
+- [ ] Add option to select parameter values from supplied simrel object
+* Documentation [/]
+- [ ] Include examples and cases for all type of simulation
+- [ ] Describe the input parameters clearly
