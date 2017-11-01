@@ -7,7 +7,9 @@ navbar:
   type: inverse
   right:
     - icon: fa-github fa-lg
-      href: https://github.com/therimalaya/simulatr
+      href: https://github.com/simulatr/simrel
+    - icon: fa-globe fa-lg
+      href: https://simulatr.github.com/simrel
 template:
   params:
     bootswatch: cosmo
