@@ -2,6 +2,7 @@
 
 export(AppSimrel)
 export(bisimrel)
+export(cov_plot)
 export(ggsimrelplot)
 export(multisimrel)
 export(parse_parm)

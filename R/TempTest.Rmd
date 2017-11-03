@@ -7,7 +7,6 @@ output:
     runtime: shiny
 ---
 
-
 # Simulation Parameters
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -109,18 +108,30 @@ column(
 column(
   width = 6,
   h4("True coefficient of determination"),
-  renderPrint({
-    sobj()[["RsqY"]]
-  }),
-  div("\\[\\rho_y^2 = \\beta^t\\Sigma_{xx}\\beta\\Sigma_{yy}^{-1}\\]"),
+  div(
+    column(
+      width = 6, 
+      h5("Rsq for Y"),
+      renderPrint({
+        sobj()[["RsqY"]]
+      })
+    ),
+    column(
+      width = 6,
+      h5("Rsq for W"),
+      renderPrint({
+        sobj()[["RsqW"]]
+      })
+    )
+  ),
+  div("\\[\\rho_y^2 = \\Sigma_{yy}^{-1/2}\\beta^t\\Sigma_{xx}\\beta\\Sigma_{yy}^{-1/2}\\]"),
   renderPrint({
     beta <- sobj()[["beta"]]
     m <- sobj()[["m"]]
     sigma <- sobj()[["Sigma"]][-c(1:m), -c(1:m)]
     sigma_y <- sobj()[["Sigma"]][1:m, 1:m]
-    round(t(beta) %*% sigma %*% beta %*% solve(sigma_y), 4)
+    round(sqrt(solve(sigma_y)) %*% t(beta) %*% sigma %*% beta %*% sqrt(solve(sigma_y)), 4)
   })
-  
 )
 ```
 

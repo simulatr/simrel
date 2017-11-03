@@ -12,5 +12,4 @@ _config.yml
 ^docs$
 R/*.bak
 R/*.Rmd
-R/covPlot.r
 _pkgdown.yml

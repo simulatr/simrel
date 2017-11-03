@@ -100,19 +100,19 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
 
   ## Constructing Sigma
   lambda    <- exp(-gamma * (1:p))/exp(-gamma)
-  eta       <- exp(-eta * (1:m))/exp(-eta)
+  kappa       <- exp(-eta * (1:m))/exp(-eta)
   SigmaZ    <- diag(lambda);
   SigmaZinv <- diag(1 / lambda)
   # SigmaW  <- matrix(rho, nW, nW); diag(SigmaW) <- 1
   # SigmaW  <- as.matrix(Matrix::bdiag(SigmaW, diag(m - nW)))
-  SigmaW    <- diag(eta) ## diag(m)
+  SigmaW    <- diag(kappa) ## diag(m)
   rhoMat    <- SigmaW
 
   ### Covariance Construction
-  get_cov <- function(pos, Rsq, eta = 1, p = p, lambda = lambda){
+  get_cov <- function(pos, Rsq, kappa = 1, p = p, lambda = lambda){
     out      <- vector("numeric", p)
     alph     <- runif(length(pos), -1, 1)
-    out[pos] <- sign(alph) * sqrt(Rsq * abs(alph) / sum(abs(alph)) * lambda[pos] * eta)
+    out[pos] <- sign(alph) * sqrt(Rsq * abs(alph) / sum(abs(alph)) * lambda[pos] * kappa)
     return(out)
   }
   get_rho <- function(rhoMat, RsqVec) {
@@ -124,7 +124,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     })
   }
 
-  SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, eta = eta, MoreArgs = list(p = p, lambda = lambda))
+  SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, kappa = kappa, MoreArgs = list(p = p, lambda = lambda))
   Sigma   <- cbind(rbind(SigmaW, SigmaZW), rbind(t(SigmaZW), SigmaZ))
   rho.out <- get_rho(rhoMat, R2)
   rho.out[is.nan(rho.out)] <- 0
@@ -169,9 +169,18 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     beta0 <- beta0 - t(betaX) %*% muX
   }
 
-  ## True Coefficient of Determination for W's
-  RsqW <- t(betaZ) %*% SigmaZW %*% solve(SigmaW)
-  RsqY <- t(RotY) %*% RsqW %*% RotY
+  ## Since W's are principal components, I can write its squareroot as 
+  sigma_root <- sqrt(SigmaW)
+  sigma_root_inv <- solve(sigma_root)
+  # browser()
+  # RotY_egn <- eigen(RotY)
+  # RotY_root <- RotY_egn$vectors %*% diag(sqrt(RotY_egn$values)) %*% solve(RotY_egn$vectors)
+  # RotY_root_inv <- solve(RotY_root)
+
+  # SigmaY <- RotY %*% SigmaW %*% t(RotY)
+  # egnY <- eigen(SigmaY)
+  # SigmaY_root <- egnY$vectors %*% diag(sqrt(egnY$values)) %*% t(egnY$vectors)
+  # SigmaY_root_inv <- solve(SigmaY_root)
 
   ## Var-Covariance for Response and Predictors
   ## SigmaY   <- t(RotY) %*% SigmaW %*% RotY
@@ -190,6 +199,13 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(SigmaY, SigmaYX),
     cbind(t(SigmaYX), SigmaX)
   )
+  
+  ## Coefficient of determination for W and Y
+  # RsqW <- sigma_root_inv %*% t(SigmaZW) %*% SigmaZinv %*% SigmaZW %*% sigma_root_inv
+  RsqW <- t(betaZ) %*% SigmaZW %*% solve(SigmaW)
+  # RsqY <- SigmaY_root_inv %*% SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% SigmaY_root_inv
+  RsqY <- RotY %*% RsqW %*% t(RotY)
+  
   ## Minimum Error
   minerror <- SigmaY - RsqY
   ## Check for Positive Definite
