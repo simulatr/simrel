@@ -1,0 +1,103 @@
+sobj <- multisimrel()
+
+
+cov_plot <- function(sobj, type = "relpos") {
+  require(ggplot2)
+  require(reshape2)
+  
+  lab1 <- "x"
+  lab2 <- "y"
+  sigma <- sobj$Sigma
+  m <- sobj$m
+  p <- sobj$p
+  zidx <- (m+1):(m+p)
+  widx <- 1:ifelse(type == "relpos", length(sobj$relpos), m)
+  irrelw <- setdiff(widx, widx)
+  zz <- sigma[zidx, zidx]
+  ww <- sigma[widx, widx]
+  zw <- sigma[widx, zidx]
+  labs <- c(paste0(lab2, 1:m), paste0(lab1, 1:p))
+  
+
+  
+  colmat <- matrix(NA, m + p, m + p)
+  
+  for(iw in widx) {
+    if (iw %in% irrelw) {
+      colmat[iw, iw] <- "None"
+    } else {
+      idx <- which(sigma[iw, ] != 0)
+      colmat[idx, iw] <- colmat[iw, idx] <- paste0(lab2, iw)
+    }
+  }
+  
+  
+  for(iz in zidx) {
+    idx <- which(sigma[widx, iz] != 0)
+    browser()
+    if(length(idx) != 0) colmat[iz, iz] <- paste0(lab2, idx)
+    if(length(idx) == 0 & sigma[iz, iz] != 0) colmat[iz, iz] <- "None"
+  }
+  
+  dt <- reshape2::melt(sigma, varnames = paste0("v", 1:2), value.name = "var")
+  col.dt <- reshape2::melt(colmat, varnames = paste0("v", 1:2), value.name = "relw")
+  df <- merge(dt, col.dt, by = paste0("v", 1:2))
+  
+  
+  plt <- ggplot(df, aes(v1, v2, fill = relw, alpha = var)) + 
+    geom_tile() + 
+    scale_y_reverse(breaks = 1:(p+m), labels = labs) + 
+    scale_x_continuous(breaks = 1:(p+m), labels = labs) +
+    geom_hline(yintercept = m/(p+m), color = "white") +
+    labs(fill = "Relevant For:", x = NULL, y = NULL) +
+    theme(legend.position = "top") +
+    scale_alpha_continuous(guide = "none")
+  
+  
+  browser()
+  
+  plot(plt)
+  
+  return(plt)
+}
+
+cov_plot <- function(sobj) {
+  require(tibble)
+  require(reshape2)
+  require(ggplot2)
+  require(dplyr)
+  
+  browser()
+  m <- sobj$m
+  p <- sobj$p
+  wz <- sobj$SigmaWZ
+  xy <- sobj$Sigma
+  xrot <- sobj$Xrotation
+  yrot <- sobj$Yrotation
+  lab1 <- "z"
+  lab2 <- "w"
+  labs <- c(paste0(lab2, 1:m), paste0(lab1, 1:p))
+  relpos <- sobj$relpos
+  
+  col_df <- which(wz[1:m, (m+1):(m+p)] != 0, 1)
+  colnames(col_df) <- c("v1", "v2")
+  
+  flatten_list <- function(list, name.string, value.string) {
+    out <- melt(unname(list))
+    out <- `names<-`(out[, 2], out[, 1])
+    ret <- paste0(value.string, out)
+    names(ret) <- paste0(name.string, names(out))
+    return(ret)
+  }
+  
+  dt <- as.tibble(reshape2::melt(wz, varnames = paste0("v", 1:2)))
+  
+  plt <- ggplot(dt, aes(v1, v2, fill = value)) + 
+    geom_tile() + 
+    scale_y_reverse(breaks = 1:(p+m), labels = labs) + 
+    scale_x_continuous(breaks = 1:(p+m), labels = labs) +
+    geom_hline(yintercept = m/(p+m), color = "white")
+  
+  plot(plt)
+  return(plt)
+}
