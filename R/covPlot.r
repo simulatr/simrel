@@ -16,17 +16,26 @@
 
 cov_plot <- function(sobj, type = "relpos", ordering = TRUE, facetting = TRUE) {
   m <- switch(sobj$type, multivariate = sobj$m, bivariate = 2, univariate = 1)
-  
   p <- sobj$p
   nvar <- p + m
   xvar <- ifelse(type == "relpred", "X", "Z")
   yvar <- ifelse(sobj$type == "multivariate", ifelse(type == "relpred", "Y", "W"), "Y")
   axlbl <- c(paste0(yvar, 1:m), paste0(xvar, 1:p))
-  lst <- unname(unlist(switch(type, relpos = sobj$relpos, relpred = sobj$relpred)))
+  lst <- unname(unlist(switch(type, relpos = sobj$relpos, 
+                              relpred = sobj$relpred, 
+                              rotation = sobj$relpred)))
   idx <- unique(c(lst, setdiff(1:p, lst)))
   
   if (sobj$type == "multivariate") {
-    mat <- switch(type, relpos = sobj$SigmaWZ, relpred = sobj$Sigma)
+    if (type == "rotation") {
+      rotY <- sobj$Yrotation
+      rotX <- sobj$Xrotation
+      rotMat <- Reduce(rbind, rep(0, m), 
+                       Reduce(cbind, rep(0, m), rotX, right = TRUE), 
+                       right = TRUE)
+      rotMat[1:m, 1:m] <- rotY
+    }
+    mat <- switch(type, relpos = sobj$SigmaWZ, relpred = sobj$Sigma, rotation = rotMat)
     idx <- c(unlist(sobj$ypos), idx + m)
   } else {
     idx <- c(1:m, idx + m)
@@ -35,33 +44,53 @@ cov_plot <- function(sobj, type = "relpos", ordering = TRUE, facetting = TRUE) {
                     Reduce(cbind, rep(0, m), sobj$Rotation, right = TRUE), 
                     right = TRUE)
       diag(rot)[1:m] <- 1
-      sgma <- sobj$Sigma
-      mat <- rot %*% sgma %*% t(rot)
+      if (type == "rotation") {
+        mat <- rot
+      } else {
+        sgma <- sobj$Sigma
+        mat <- rot %*% sgma %*% t(rot)
+      }
     } else {
       mat <- sobj$Sigma
     }
   }
-  genmat <- (mat[1:m, -c(1:m), drop = FALSE] != 0)
+  if (type == "rotation") {
+    genmat <- (sobj$Sigma[1:m, -c(1:m), drop = FALSE] != 0)
+    genmat[!genmat] <- NA
+    
+    genmat0 <- (mat[1:m, -c(1:m), drop = FALSE] != 0)
+    genmat0[!genmat0] <- NA 
+  } else {
+    genmat <- (mat[1:m, -c(1:m), drop = FALSE] != 0)
+    genmat[!genmat] <- NA
+  }
   if (sobj$type == "multivariate") {
     ypos <- vector("character", length = m)
-    names(ypos) <- paste0("W", seq.int(m))
-    for (x in sobj$ypos) ypos[x] <- paste0("W", x[1])
+    names(ypos) <- paste0(yvar, seq.int(m))
+    for (x in sobj$ypos) ypos[x] <- paste0(yvar, x[1])
   }
-  for (row in 1:nrow(genmat)) {
-    for (col in 1:ncol(genmat)) {
-      if (genmat[row, col]) genmat[row, col] <- paste0("W", row)
-      else genmat[row, col] <- NA
-      if (sobj$type == "multivariate") {
-        genmat[row, col] <- ypos[genmat[row, col]]
-      }
-    }
+  
+  for (row in seq_len(NROW(genmat))) {
+    genmat[row, as.logical(genmat[row, ])] <- 
+      if (sobj$type == "multivariate") ypos[row] else paste0(yvar, row)
   }
+  
   sxx <- genmat[apply(genmat, 2, function(col) match(TRUE, !is.na(col))), ]
   syy <- genmat[, apply(genmat, 1, function(row) match(TRUE, !is.na(row)))]
-  colmat <- rbind(cbind(syy, genmat), cbind(t(genmat), sxx))
+  
+  if (type == "rotation") {
+    colmat <- rbind(cbind(syy, genmat0), cbind(t(genmat0), sxx))  
+  } else {
+    colmat <- rbind(cbind(syy, genmat), cbind(t(genmat), sxx))
+  }
+  
   coldf <- cbind(expand.grid(v1 = axlbl, v2 = axlbl), col = c(colmat))
   covdf <- cbind(expand.grid(v1 = axlbl, v2 = axlbl), cov = c(mat))
   df <- merge(covdf, coldf, by = c("v1", "v2"))
+  df$col <- as.character(df$col)
+  df[df$cov != 0 & is.na(df$col), "col"] <- "None"
+  df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "None", NA))
+  
   if (ordering) {
     df$v1 <- factor(as.character(df$v1), axlbl[idx])
     df$v2 <- factor(as.character(df$v2), rev(axlbl[idx]))
