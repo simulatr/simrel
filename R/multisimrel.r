@@ -177,8 +177,8 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   # RotY_root <- RotY_egn$vectors %*% diag(sqrt(RotY_egn$values)) %*% solve(RotY_egn$vectors)
   # RotY_root_inv <- solve(RotY_root)
 
-  # SigmaY <- RotY %*% SigmaW %*% t(RotY)
-  # egnY <- eigen(SigmaY)
+  SigmaY <- RotY %*% SigmaW %*% t(RotY)
+  egnY <- eigen(SigmaY)
   # SigmaY_root <- egnY$vectors %*% diag(sqrt(egnY$values)) %*% t(egnY$vectors)
   # SigmaY_root_inv <- solve(SigmaY_root)
 
@@ -204,7 +204,9 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   # RsqW <- sigma_root_inv %*% t(SigmaZW) %*% SigmaZinv %*% SigmaZW %*% sigma_root_inv
   RsqW <- t(betaZ) %*% SigmaZW %*% solve(SigmaW)
   # RsqY <- SigmaY_root_inv %*% SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% SigmaY_root_inv
-  RsqY <- RotY %*% RsqW %*% t(RotY)
+  # RsqY <- solve(diag(sqrt(diag(SigmaY)))) %*% SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% solve(diag(sqrt(diag(SigmaY))))
+  RsqY <- SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% solve(diag(diag(SigmaY)))
+  # RsqY <- RotY %*% RsqW %*% t(RotY)
   
   ## Minimum Error
   minerror <- SigmaY - RsqY

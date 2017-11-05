@@ -1,10 +1,10 @@
 ---
 title: Testing Multivariate simulation for decreasing response variance
 author: Raju Rimal
+runtime: shiny
 output: 
   html_document:
     theme: cosmo
-    runtime: shiny
 ---
 
 # Simulation Parameters
@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 )
 library(shiny)
 library(simrel)
+library(gridExtra)
 ```
 
 ```{r}
@@ -110,29 +111,34 @@ column(
   h4("True coefficient of determination"),
   div(
     column(
-      width = 6, 
+      width = 12, 
       h5("Rsq for Y"),
       renderPrint({
         sobj()[["RsqY"]]
       })
     ),
     column(
-      width = 6,
+      width = 12,
       h5("Rsq for W"),
       renderPrint({
         sobj()[["RsqW"]]
       })
     )
-  ),
-  div("\\[\\rho_y^2 = \\Sigma_{yy}^{-1/2}\\beta^t\\Sigma_{xx}\\beta\\Sigma_{yy}^{-1/2}\\]"),
-  renderPrint({
-    beta <- sobj()[["beta"]]
-    m <- sobj()[["m"]]
-    sigma <- sobj()[["Sigma"]][-c(1:m), -c(1:m)]
-    sigma_y <- sobj()[["Sigma"]][1:m, 1:m]
-    round(sqrt(solve(sigma_y)) %*% t(beta) %*% sigma %*% beta %*% sqrt(solve(sigma_y)), 4)
-  })
-)
+  ))
 ```
 
+# Covariance Plot
+```{r, fig.asp = 0.9}
+fluidRow(
+  column(
+    12, 
+    renderPlot({
+      p1 <- cov_plot(sobj(), type = "relpos")
+      p2 <- cov_plot(sobj(), type = "rotation")
+      p3 <- cov_plot(sobj(), type = "relpred")
+      gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
+    }, res = 100)
+  )
+)
+```
 

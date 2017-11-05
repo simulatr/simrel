@@ -3,6 +3,7 @@
 #' @param type Type of covariance matrix - can take two values \code{relpos} for relevant position of principal components  and \code{relpred} for relevant position of predictor variables
 #' @param ordering TRUE for ordering the covariance for block diagonal display
 #' @param facetting TRUE for facetting the predictor and response space. FALSE will give a single facet plot
+#' @import ggplot2
 #' @return A covariance plot
 #' @keywords simulation, linear model, linear model data, covariance plot
 #' @references Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors. Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
@@ -14,56 +15,51 @@
 #' cov_plot(sobj, type = "relpos", facetting = FALSE)
 #' @export
 
-cov_plot <- function(sobj, type = "relpos", ordering = TRUE, facetting = TRUE) {
-  m <- switch(sobj$type, multivariate = sobj$m, bivariate = 2, univariate = 1)
+cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
+  simtype <- sobj$type
+  m <- switch(simtype, univariate = 1, bivariate = 2, multivariate = sobj$m)
   p <- sobj$p
-  nvar <- p + m
-  xvar <- ifelse(type == "relpred", "X", "Z")
-  yvar <- ifelse(sobj$type == "multivariate", ifelse(type == "relpred", "Y", "W"), "Y")
+  xvar <- if(type == "relpos") "Z" else "X"
+  yvar <- if(type == "relpos" & m > 2) "W" else "Y"
   axlbl <- c(paste0(yvar, 1:m), paste0(xvar, 1:p))
-  lst <- unname(unlist(switch(type, relpos = sobj$relpos, 
-                              relpred = sobj$relpred, 
-                              rotation = sobj$relpred)))
+  lst <- if(type == "relpos") sobj$relpos else sobj$relpred
+  lst <- unname(unlist(lst))
   idx <- unique(c(lst, setdiff(1:p, lst)))
   
-  if (sobj$type == "multivariate") {
-    if (type == "rotation") {
-      rotY <- sobj$Yrotation
-      rotX <- sobj$Xrotation
-      rotMat <- Reduce(rbind, rep(0, m), 
-                       Reduce(cbind, rep(0, m), rotX, right = TRUE), 
-                       right = TRUE)
-      rotMat[1:m, 1:m] <- rotY
-    }
-    mat <- switch(type, relpos = sobj$SigmaWZ, relpred = sobj$Sigma, rotation = rotMat)
+  ## ---- Setting up matrices ----
+  if (simtype == "multivariate") {
+    ## Rotation Matrix
+    rot <- Reduce(rbind, rep(0, m),
+                  Reduce(cbind, rep(0, m), sobj$Xrotation, right = TRUE),
+                  right = TRUE)
+    rot[1:m, 1:m] <- sobj$Yrotation
+    ## Covariance Matrix
+    mat <- if(type == "relpos") sobj$SigmaWZ else sobj$Sigma
     idx <- c(unlist(sobj$ypos), idx + m)
   } else {
-    idx <- c(1:m, idx + m)
-    if (type != "relpos") {
-      rot <- Reduce(rbind, rep(0, m), 
-                    Reduce(cbind, rep(0, m), sobj$Rotation, right = TRUE), 
-                    right = TRUE)
-      diag(rot)[1:m] <- 1
-      if (type == "rotation") {
-        mat <- rot
-      } else {
-        sgma <- sobj$Sigma
-        mat <- rot %*% sgma %*% t(rot)
-      }
+    ## Rotation Matrix
+    rotX <- sobj$Rotation
+    rot <- Reduce(rbind, rep(0, m),
+                  Reduce(cbind, rep(0, m), rotX, right = TRUE),
+                  right = TRUE)
+    diag(rot)[1:m] <- 1
+    ## Covariance Matrix
+    sigma <- sobj$Sigma
+    if (simtype == "univariate") {
+      sigma <- rot %*% sigma %*% t(rot)
     } else {
-      mat <- sobj$Sigma
+      sigma[-c(1:m), -c(1:m)] <- rotX %*% sigma[-c(1:m), -c(1:m)] %*% t(rotX)
     }
+    mat <- if(type == "relpos") sobj$Sigma else sigma
+    ## setting up index
+    idx <- c(1:m, idx + m)
   }
-  if (type == "rotation") {
-    genmat <- (sobj$Sigma[1:m, -c(1:m), drop = FALSE] != 0)
-    genmat[!genmat] <- NA
-    
-    genmat0 <- (mat[1:m, -c(1:m), drop = FALSE] != 0)
-    genmat0[!genmat0] <- NA 
-  } else {
-    genmat <- (mat[1:m, -c(1:m), drop = FALSE] != 0)
-    genmat[!genmat] <- NA
-  }
+  
+  ## ---- Color Generator Matrix ----
+  genmat <- mat[1:m, -c(1:m), drop = FALSE] != 0
+  genmat[!genmat] <- NA
+  
+  ## ypos map
   if (sobj$type == "multivariate") {
     ypos <- vector("character", length = m)
     names(ypos) <- paste0(yvar, seq.int(m))
@@ -71,22 +67,19 @@ cov_plot <- function(sobj, type = "relpos", ordering = TRUE, facetting = TRUE) {
   }
   
   for (row in seq_len(NROW(genmat))) {
-    genmat[row, as.logical(genmat[row, ])] <- 
-      if (sobj$type == "multivariate") ypos[row] else paste0(yvar, row)
+    yvec <- if (sobj$type == "multivariate") ypos[row] else paste0(yvar, row)
+    genmat[row, as.logical(genmat[row, ])] <- yvec
   }
   
-  sxx <- genmat[apply(genmat, 2, function(col) match(TRUE, !is.na(col))), ]
-  syy <- genmat[, apply(genmat, 1, function(row) match(TRUE, !is.na(row)))]
+  col_xx <- genmat[apply(genmat, 2, function(col) match(TRUE, !is.na(col))), ]
+  col_yy <- genmat[, apply(genmat, 1, function(row) match(TRUE, !is.na(row)))]
+  colmat <- rbind(cbind(col_yy, genmat), cbind(t(genmat), col_xx))
+  if (type == "rotation") colmat[1:m, -c(1:m)] <- colmat[-c(1:m), 1:m] <- NA
   
-  if (type == "rotation") {
-    colmat <- rbind(cbind(syy, genmat0), cbind(t(genmat0), sxx))  
-  } else {
-    colmat <- rbind(cbind(syy, genmat), cbind(t(genmat), sxx))
-  }
-  
-  coldf <- cbind(expand.grid(v1 = axlbl, v2 = axlbl), col = c(colmat))
-  covdf <- cbind(expand.grid(v1 = axlbl, v2 = axlbl), cov = c(mat))
-  df <- merge(covdf, coldf, by = c("v1", "v2"))
+  id_df <- expand.grid(v1 = axlbl, v2 = axlbl)
+  coldf <- cbind(id_df, col = c(colmat))
+  covdf <- cbind(id_df, cov = if (type == "rotation") c(rot) else c(mat))
+  df <- merge(coldf, covdf, by = c("v1", "v2"))
   df$col <- as.character(df$col)
   df[df$cov != 0 & is.na(df$col), "col"] <- "None"
   df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "None", NA))
@@ -103,18 +96,21 @@ cov_plot <- function(sobj, type = "relpos", ordering = TRUE, facetting = TRUE) {
     df$facet2 <- factor(gsub("[0-9]+", "", df$v2), c(yvar, xvar))
   }
   
-  
   plt <- ggplot(df, aes(v1, v2, fill = col)) + 
     geom_tile(aes(alpha = cov), show.legend = c(alpha = FALSE)) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    scale_fill_discrete(na.value = '#ffffef') +
-    labs(x = NULL, y = NULL, fill = "Relevant for:") +
+    labs(x = NULL, y = NULL, fill = if (type == "rotation") NULL else "Relevant for:") +
+    scale_fill_discrete(na.value = "#fffffc", breaks = levels(df$col)) +
     theme(legend.position = "top")
   
   if (facetting) {
     plt <- plt  +
       facet_grid(facet2 ~ facet1, scales = 'free', 
                  space = 'free', drop = TRUE)
+  } else {
+    plt <- plt +
+      geom_hline(yintercept = p + 0.5, color = "#fffffc", size = 1.5) +
+      geom_vline(xintercept = m + 0.5, color = "#fffffc", size = 1.5)
   }
   return(plt)
 }
