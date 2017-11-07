@@ -65,6 +65,8 @@ sobj <- eventReactive(input$simulate, {
 column(
   width = 6, 
   h4("Estimated covariance of response"),
+  div("Covariance of simulated response"),
+  div(code("cov(sim.obj[['Y']]")),
   renderPrint({
     round(var(sobj()$Y), 4)
   })
@@ -73,6 +75,8 @@ column(
 column(
   width = 6, 
   h4("True covariance of response"),
+  div("Covariance of response extracted from true sigma matrix"),
+  div(code("cov(sim.obj[['Sigma']][1:m, 1:m])")),
   renderPrint({
     sigma <- sobj()$Sigma
     m <- sobj()$m
@@ -93,18 +97,20 @@ mdl <- reactive({
 column(
   width = 6,
   h4("Estimated coefficient of determination"),
+  div("\\(R^2\\) obtained from", code("lm")),
   renderPrint({
     sapply(summary(mdl()), function(x) {
       round(unname(x[["r.squared"]]), 3)
     })
   }),
-  div("\\[\\widehat{\\rho_y^2} = \\widehat{\\beta^t}S_{xx}\\widehat{\\beta}S_{yy}^{-1}\\]"),
-  renderPrint({
-    beta <- mdl()$coef[-1,]
-    sigma <- cov(sobj()[["X"]])
-    sigma_y <- cov(sobj()[["Y"]])
-    round(t(beta) %*% sigma %*% beta %*% solve(sigma_y), 3)
-  })
+  h4("Correlation between true and fitted response"),
+  div("\\[\\text{cor}(Y, \\widehat{Y})\\]"),
+  column(
+    12,
+    renderPrint({
+      cor(sobj()[["Y"]], fitted(mdl()))
+    })
+  )
 )
 column(
   width = 6,
@@ -112,23 +118,44 @@ column(
   div(
     column(
       width = 12, 
-      h5("Rsq for Y"),
+      h5("\\[\\rho_y^2 = \\Sigma_{xy}^t\\Sigma_{xx}^{-1}\\Sigma_{xy}\\left[\\text{diag(diag(}\\Sigma_{yy}\\text{))}\\right]^{-1}\\]"),
+      renderPrint({
+        sobj()[["RsqYalt"]]
+      })
+    ),
+    column(
+      width = 12,
+      h5("Rsq matrix for Y"),
+      div("\\[\\rho^2_y = Q\\cdot \\rho^2_w\\cdot Q^t = Q \\cdot \\Sigma_{zw}^t\\Sigma_{zz}^{-1}\\Sigma_{zw}\\Sigma_{ww}^{-1} \\cdot Q^t\\]"),
       renderPrint({
         sobj()[["RsqY"]]
       })
     ),
     column(
       width = 12,
-      h5("Rsq for W"),
+      h5("Theoritical Correlation between fitted and true response"),
+      div("\\[\\Sigma_{y|x}\\]"),
       renderPrint({
-        sobj()[["RsqW"]]
+        m <- sobj()[["m"]]
+        sigma0 <- sobj()[["SigmaWZ"]]
+        rotY <- sobj()[["Yrotation"]]
+        rho_w <- sigma0[c(1:m), -c(1:m)] %*% 
+          solve(sigma0[-c(1:m), -c(1:m)]) %*%
+          sigma0[-c(1:m), c(1:m)] %*%
+          solve(sigma0[1:m, 1:m])
+        rho_w
+      }),
+      h5("Minimum Error"),
+      div("\\[Q\\cdot (\\Sigma_{ww} - \\Sigma_{zw}^t\\Sigma_{zz}^{-1}\\Sigma_{zw}\\Sigma_{ww}^{-1}) \\cdot Q^t\\]"),
+      renderPrint({
+        sobj()[["minerror"]]
       })
     )
   ))
 ```
 
-# Covariance Plot
-```{r, fig.asp = 0.9}
+<!-- # Covariance Plot -->
+```{r, fig.asp = 0.9, eval = FALSE}
 fluidRow(
   column(
     12, 
