@@ -1,0 +1,178 @@
+---
+title: Testing Multivariate simulation for decreasing response variance
+author: Raju Rimal
+runtime: shiny
+output: 
+  html_document:
+    css: custom.css
+    theme: cosmo
+---
+
+
+
+# Simulation Parameters
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  comment = NULL,
+  echo = FALSE
+)
+library(shiny)
+library(simrel)
+```
+
+```{r}
+fluidRow(
+  column(3, numericInput("n", "Number of observation", 10000, step = 50, min = 10, width = "100%")),
+  column(3, numericInput("p", "Number of predictors", 10, min = 2, width = "100%")),
+  column(3, numericInput("m", "Number of responses", 3, min = 2, width = "100%")),
+  column(2, numericInput("seed", "seed", 123, min = 2, width = "100%")),
+  column(1, actionButton('simulate', label = NULL, class="btn-primary", icon = icon("refresh"), width = '100%')),
+  column(4, textInput("q", "Number of relevant predictors", value = "5, 4", width = "100%")),
+  column(4, textInput("relpos", "Position of Relevant components", value = "1, 2; 3, 4, 6", width = '100%')),
+  column(4, textInput("ypos", "Position of response components", value = "1; 2, 3", width = '100%')),
+  column(4, sliderInput("gamma", "Decay factor of eigenvector of predictors", 
+                        value = 0.5, min = 0, max = 3, width = '100%', step = 0.01)),
+  column(4, sliderInput("eta", "Decay factor of eigenvector of response", 
+                        value = 0.5, min = 0, max = 3, width = '100%', step = 0.01)),
+  column(4, textInput("R2", "Coefficient of Determination", value = "0.7, 0.8", width = '100%'))
+)
+evl <- function(x) {
+  out <- lapply(strsplit(unlist(strsplit(x, ";")), ","), as.numeric)
+  if (length(out) == 1) out <- out[[1]]
+  return(out)
+}
+opts <- reactive({
+  list(
+    n = input$n,
+    p = input$p,
+    q = evl(input$q),
+    relpos = evl(input$relpos),
+    gamma = input$gamma,
+    R2 = evl(input$R2),
+    ypos = evl(input$ypos),
+    m = input$m,
+    eta = input$eta,
+    type = "multivariate"
+  )
+})
+```
+
+## Simulation and Modeling {.tabset}
+
+```{r}
+sobj <- eventReactive(input$simulate, {
+  set.seed(input$seed)
+  do.call(simrel, opts())
+})
+mdl <- reactive({
+  dta <- data.frame(
+    y = I(sobj()[["Y"]]),
+    x = I(sobj()[["X"]])
+  )
+  return(lm(y ~ x, data = dta))
+})
+mdl1 <- reactive({
+  dta <- data.frame(
+    w <- I(sobj()[["W"]]),
+    z <- I(sobj()[["Z"]])
+  )
+  return(lm(w ~ z, data = dta))
+})
+```
+
+### Covariance of Responses {.colset}
+
+#### Covariance of simulated Response {.cols}
+
+```{r}
+column(
+  width = 12, 
+  renderPrint({
+    round(var(sobj()$Y), 4)
+  })
+)
+```
+
+#### True covariance of response {.cols}
+
+```{r}
+column(
+  width = 12, 
+  renderPrint({
+  sigma <- sobj()$Sigma
+  m <- sobj()$m
+  round(sigma[1:m, 1:m], 4)
+})
+)
+```
+
+### Coefficient of Determination of W {.colset}
+
+#### Estimated Coefficient of determination {.cols}
+
+$$\widehat{\rho_w^2} = \text{sign}(\text{cor}(\mathbf{w}, \mathbf{\widehat{w}})) \times \left[\text{cor}(\mathbf{w}, \mathbf{\widehat{w}})\right]^2$$
+
+```{r}
+column(
+  width = 12,
+    renderPrint({
+    fittedW <- fitted(mdl1())
+    trueW <- sobj()[["W"]]
+    cormat <- cor(trueW, fittedW)
+    sgn <- sign(cormat)
+    round(cormat^2 * sgn, 4)
+  })
+)
+```
+
+#### Population Coefficient of determination {.cols}
+
+$$\left(\rho_w^2\right)_{ij} = \left(
+\frac{\sigma_{zw_i}^t\Sigma_{zz}^{-1}\sigma_{zw_i}}{\sigma_{w_{ii}}\sigma_{w_{jj}}}
+\right) \\\forall i \text{ (row) and }j\text{ (column) } = 1, 2, \ldots, m$$
+
+```{r}
+column(
+  width = 12,
+    renderPrint({
+    sobj()[["RsqW"]]
+  })
+)
+```
+
+
+### Coefficient of Determination of Y {.colset}
+
+#### Estimated Coefficient of determination {.cols}
+
+$$\widehat{\rho_y^2} = \text{sign}(\text{cor}(\mathbf{y}, \mathbf{\widehat{y}})) \times \left[\text{cor}(\mathbf{y}, \mathbf{\widehat{y}})\right]^2$$
+
+```{r}
+column(
+  width = 12,
+    renderPrint({
+    fittedY <- fitted(mdl())
+    trueY <- sobj()[["Y"]]
+    cormat <- cor(trueY, fittedY)
+    sgn <- sign(cormat)
+    round(cormat^2 * sgn, 4)
+  })
+)
+```
+
+#### Population Coefficient of determination {.cols}
+
+$$\left(\rho_y^2\right)_{ij} = \left(
+\frac{\sigma_{xy_i}^t\Sigma_{xx}^{-1}\sigma_{xy_i}}{\sigma_{y_{ii}}\sigma_{y_{jj}}}
+\right) \\\forall i \text{ (row) and }j\text{ (column) } = 1, 2, \ldots, m$$
+
+```{r}
+column(
+  width = 12,
+    renderPrint({
+    sobj()[["RsqY"]]
+  })
+)
+```
+
+

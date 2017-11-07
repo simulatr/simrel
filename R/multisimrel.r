@@ -169,10 +169,6 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     beta0 <- beta0 - t(betaX) %*% muX
   }
 
-  ## True Coefficient of Determination for W's
-  RsqW <- t(betaZ) %*% SigmaZW %*% solve(SigmaW)
-  RsqY <- t(RotY) %*% RsqW %*% RotY
-
   ## Var-Covariance for Response and Predictors
   ## SigmaY   <- t(RotY) %*% SigmaW %*% RotY
   ## SigmaX   <- t(RotX) %*% SigmaZ %*% RotX
@@ -190,8 +186,25 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(SigmaY, SigmaYX),
     cbind(t(SigmaYX), SigmaX)
   )
+
+  ## True Coefficient of Determination for W's
+  RsqW <- matrix(0, nrow = m, ncol = m)
+  for (row in 1:m) {
+    for (col in 1:m) {
+      RsqW[row, col] <- (SigmaZW[, row] %*% SigmaZinv %*% t(SigmaZW)[col, ])/
+        sqrt(SigmaW[row, row] * SigmaW[col, col])
+    }
+  }
+  RsqY <- matrix(0, nrow = m, ncol = m)
+  for (row in 1:m) {
+    for (col in 1:m) {
+      RsqY[row, col] <- (SigmaYX[row, ] %*% solve(SigmaX) %*% t(SigmaYX)[ , col])/
+        sqrt(SigmaY[row, row] * SigmaY[col, col])
+    }
+  }
+
   ## Minimum Error
-  minerror <- SigmaY - RsqY
+  minerror <- SigmaY - SigmaYX %*% solve(SigmaX) %*% t(SigmaYX)
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)
   if (!pd) stop("No positive definite coveriance matrix found with current parameter settings")

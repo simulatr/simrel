@@ -1,0 +1,14 @@
+.section.colset.active{
+  display:flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.colset>.cols{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.colset>.cols>*{
+  flex: 1;
+}
