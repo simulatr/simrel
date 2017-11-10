@@ -6,9 +6,4 @@
 
 .colset>.cols{
   flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.colset>.cols>*{
-  flex: 1;
 }

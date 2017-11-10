@@ -141,6 +141,43 @@ column(
 ```
 
 
+#### R-squared values obtained from linear model W ~ Z {.cols}
+
+
+```{r}
+column(
+  width = 12,
+  renderPrint({
+    sapply(summary(mdl1()), function(x) x[["r.squared"]])
+  })
+)
+```
+
+#### Explained to Total Ratio {.cols}
+$$(\widehat{\rho}_w)_{ij} = \frac{\text{cov}(\widehat{w}_i \widehat{w}_j)}{\sqrt{\text{var}(w_i) \times \text{var}(w_j)}} \\\forall i \text{ (row) and }j\text{ (column) } = 1, 2, \ldots, m$$
+```{r}
+column(
+  width = 12,
+  renderPrint({
+    W <- sobj()[["W"]]
+    fitted_w <- fitted(mdl1())
+    cov_fitted_w <- cov(fitted_w)
+    cov_w <- cov(W)
+    m <- sobj()[["m"]]
+    out <- matrix(0, m, m)
+    for (row in 1:m){
+      for (col in 1:m) {
+        out[row, col] <- cov_fitted_y[row, col] / sqrt(cov_y[row, row] * cov_y[col, col])
+      }
+    }
+    out
+  })
+)
+```
+
+
+
+
 ### Coefficient of Determination of Y {.colset}
 
 #### Estimated Coefficient of determination {.cols}
@@ -174,5 +211,41 @@ column(
   })
 )
 ```
+
+
+#### R-squared values obtained from linear model Y ~ X {.cols}
+
+```{r}
+column(
+  width = 12,
+  renderPrint({
+    sapply(summary(mdl()), function(x) x[["r.squared"]])
+  })
+)
+```
+
+
+#### Explained to Total Ratio {.cols}
+$$(\widehat{\rho}_y)_{ij} = \frac{\text{cov}(\widehat{y}_i \widehat{y}_j)}{\sqrt{\text{var}(y_i) \times \text{var}(y_j)}} \\\forall i \text{ (row) and }j\text{ (column) } = 1, 2, \ldots, m$$
+```{r}
+column(
+  width = 12,
+  renderPrint({
+    Y <- sobj()[["Y"]]
+    fitted_y <- fitted(mdl())
+    cov_fitted_y <- cov(fitted_y)
+    cov_y <- cov(Y)
+    m <- sobj()[["m"]]
+    out <- matrix(0, m, m)
+    for (row in 1:m){
+      for (col in 1:m) {
+        out[row, col] <- cov_fitted_y[row, col] / sqrt(cov_y[row, row] * cov_y[col, col])
+      }
+    }
+    out
+  })
+)
+```
+
 
 
