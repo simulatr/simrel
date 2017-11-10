@@ -16,14 +16,24 @@
 #' @export
 
 cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
+  ## ---- Warm up ----
   simtype <- sobj$type
   m <- switch(simtype, univariate = 1, bivariate = 2, multivariate = sobj$m)
   p <- sobj$p
+  if (type == "relpos") {
+    lst <- sobj$relpos
+    if (simtype == "bivariate") {
+      comn <- do.call(intersect, lst)
+      lst <- append(lapply(lst, function(x) setdiff(x, comn)), list(comn), after = 1)
+    }
+  } else {
+    lst <- unname(sobj$relpred)
+    if (simtype == "bivariate") lst <- append(lst[-3], lst[3], after = 1)
+  }
   xvar <- if(type == "relpos") "Z" else "X"
-  yvar <- if(type == "relpos" & m > 2) "W" else "Y"
+  yvar <- if(type == "relpos" & simtype == "multivariate") "W" else "Y"
   axlbl <- c(paste0(yvar, 1:m), paste0(xvar, 1:p))
-  lst <- if(type == "relpos") sobj$relpos else sobj$relpred
-  lst <- unname(unlist(lst))
+  lst <- unlist(lst)
   idx <- unique(c(lst, setdiff(1:p, lst)))
   
   ## ---- Setting up matrices ----
@@ -45,16 +55,13 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     diag(rot)[1:m] <- 1
     ## Covariance Matrix
     sigma <- sobj$Sigma
-    if (simtype == "univariate") {
-      sigma <- rot %*% sigma %*% t(rot)
-    } else {
-      sigma[-c(1:m), -c(1:m)] <- rotX %*% sigma[-c(1:m), -c(1:m)] %*% t(rotX)
-    }
+    sigma <- rot %*% sigma %*% t(rot)
     mat <- if(type == "relpos") sobj$Sigma else sigma
     ## setting up index
     idx <- c(1:m, idx + m)
   }
   
+  # browser()
   ## ---- Color Generator Matrix ----
   genmat <- mat[1:m, -c(1:m), drop = FALSE] != 0
   genmat[!genmat] <- NA
@@ -73,6 +80,13 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
   
   col_xx <- genmat[apply(genmat, 2, function(col) match(TRUE, !is.na(col))), ]
   col_yy <- genmat[, apply(genmat, 1, function(row) match(TRUE, !is.na(row)))]
+  if(simtype == "bivariate") {
+    col_xxt <- t(genmat)[, apply(t(genmat), 1, function(col) match(TRUE, !is.na(col)))]
+    col_yy[row(col_yy) != col(col_yy)] <- "Both"
+    col_xx[!is.na(col_xxt)] <- col_xxt[!is.na(col_xxt)]
+    comn_col <- which(apply(is.na(genmat), 2, sum) == 0)
+    col_xx[comn_col, comn_col] <- "Both"
+  }
   colmat <- rbind(cbind(col_yy, genmat), cbind(t(genmat), col_xx))
   if (type == "rotation") colmat[1:m, -c(1:m)] <- colmat[-c(1:m), 1:m] <- NA
   
@@ -82,7 +96,12 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
   df <- merge(coldf, covdf, by = c("v1", "v2"))
   df$col <- as.character(df$col)
   df[df$cov != 0 & is.na(df$col), "col"] <- "None"
-  df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "None", NA))
+  if(simtype == "bivariate") {
+    df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "Both", "None", NA))
+  } else {
+    df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "None", NA))
+  }
+  
   
   if (ordering) {
     df$v1 <- factor(as.character(df$v1), axlbl[idx])
