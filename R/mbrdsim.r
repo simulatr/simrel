@@ -17,26 +17,25 @@
 #'@references Martens, H., Måge, I., Tøndel, K., Isaeva, J., Høy, M. and Sæbø¸, S., 2010, Multi-level binary replacement (MBR) design for computer experiments in high-dimensional nonlinear systems, \emph{J, Chemom}, \bold{24}, 748--756.
 #'@author Solve Sæbø
 #'@examples
-#'  # Input: A list of factors with their levels (number of levels must be a multiple of 2).
-#'  simlist <- list(R2=c(0.5,0.9),
-#'                  pos = c(12,45),
-#'                  gamma = c(0.1, 0.9),
-#'                  comp = 1:8,
-#'                  alpha = c(0.01, 0.05, 0.1, 0.25))
+#'# Input: A list of factors with their levels (number of levels must be a multiple of 2).
+#'simlist <- list(R2 = list(c(0.5, 0.9), c(0.6, 0.8)),
+#'                relpos = list(1:4, 1:3),
+#'                gamma = c(0.1, 0.9),
+#'                )
 #'
-#'  # A 1/8 design
-#'  des <- mbrdsim(simlist, fraction=3)
-#'  # Setting generators manually as interactions between base bit-level factors.
-#'  des <- mbrdsim(simlist, fraction=3, gen=list(c(1,2,4,5),c(2,3,5),c(3,4,5)))
+#'# A 1/8 design
+#'des <- mbrdsim(simlist, fraction=2)
+#'# Setting generators manually as interactions between base bit-level factors.
+#'des <- mbrdsim(simlist, fraction=3, gen=list(c(1,2,4,5),c(2,3,5),c(3,4,5)))
 #'
-#'  # The MBRD-design at original factor level
-#'  des$Design
+#'# The MBRD-design at original factor level
+#'des$Design
 #'
-#'  # Info about the bit-design including bit-level aliasing (and resolution if \code{gen = NULL})
-#'  \dontrun{
-#'  # library(DoE.base)
-#'  # design.info(des$BitDesign)
-#'  }
+#'# Info about the bit-design including bit-level aliasing (and resolution if \code{gen = NULL})
+#'\dontrun{
+#'# library(DoE.base)
+#'# design.info(des$BitDesign)
+#'}
 #'@keywords MBRD
 #'@keywords Design
 #'@export

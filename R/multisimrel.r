@@ -205,7 +205,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   RsqW <- t(betaZ) %*% SigmaZW %*% solve(SigmaW)
   # RsqY <- SigmaY_root_inv %*% SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% SigmaY_root_inv
   # RsqY <- solve(diag(sqrt(diag(SigmaY)))) %*% SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% solve(diag(sqrt(diag(SigmaY))))
-  RsqYalt <- SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% solve(diag(diag(SigmaY)))
+  # RsqYalt <- SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% solve(diag(diag(SigmaY)))
   RsqY <- RotY %*% RsqW %*% t(RotY)
   
   ## Minimum Error
@@ -271,8 +271,8 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     Sigma     = SigmaOut,
     rho.out   = rho.out,
     RsqW      = RsqW,
-    RsqY      = RsqY,
-    RsqYalt   = RsqYalt
+    RsqY      = RsqY#,
+    # RsqYalt   = RsqYalt
   )
   ret <- `class<-`(append(arg_list, ret), 'simrel')
   return(ret)

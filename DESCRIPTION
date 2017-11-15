@@ -23,4 +23,6 @@ Imports:
     ggplot2,
     purrr,
     gridExtra,
-    reshape2
+    reshape2,
+    sfsmisc,
+    FrF2

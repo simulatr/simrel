@@ -1,18 +1,24 @@
 #' Plotting Covariance Matrix
 #' @param sobj A simrel object
-#' @param type Type of covariance matrix - can take two values \code{relpos} for relevant position of principal components  and \code{relpred} for relevant position of predictor variables
+#' @param type Type of covariance matrix - can take two values \code{relpos} for relevant position 
+#' of principal components  and \code{relpred} for relevant position of predictor variables
 #' @param ordering TRUE for ordering the covariance for block diagonal display
 #' @param facetting TRUE for facetting the predictor and response space. FALSE will give a single facet plot
 #' @import ggplot2
 #' @return A covariance plot
 #' @keywords simulation, linear model, linear model data, covariance plot
-#' @references Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors. Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
-#' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
+#' @references Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear 
+#' model data simulation based on the concept of a relevant subspace and relevant predictors. 
+#' Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
+#' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a 
+#' few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 #' @examples
-#' sobj <- simrel(n = 100, p = 10, q = c(4, 5), relpos = list(c(1, 2, 3), c(4, 6, 7)),
+#' sobj <- simrel(n = 100, p = 10, q = c(4, 5), relpos = list(c(1, 2, 3), c(4, 6, 7)), m = 3,
 #'                R2 = c(0.8, 0.7), ypos = list(c(1, 3), 2), gamma = 0.7, type = "multivariate")
-#' cov_plot(sobj, type = "relpred")
-#' cov_plot(sobj, type = "relpos", facetting = FALSE)
+#' p1 <- cov_plot(sobj, type = "relpos", facetting = FALSE)
+#' p2 <- cov_plot(sobj, type = "rotation", facetting = FALSE)
+#' p3 <- cov_plot(sobj, type = "relpred", facetting = FALSE)
+#' gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 #' @export
 
 cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
@@ -101,8 +107,6 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
   } else {
     df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "None", NA))
   }
-  
-  
   if (ordering) {
     df$v1 <- factor(as.character(df$v1), axlbl[idx])
     df$v2 <- factor(as.character(df$v2), rev(axlbl[idx]))
@@ -115,8 +119,8 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     df$facet2 <- factor(gsub("[0-9]+", "", df$v2), c(yvar, xvar))
   }
   
-  plt <- ggplot(df, aes(v1, v2, fill = col)) + 
-    geom_tile(aes(alpha = cov), show.legend = c(alpha = FALSE)) +
+  plt <- ggplot(df, aes_string("v1", "v2", fill = "col")) + 
+    geom_tile(aes_string(alpha = "cov"), show.legend = c(alpha = FALSE)) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(x = NULL, y = NULL, fill = if (type == "rotation") NULL else "Relevant for:") +
     scale_fill_discrete(na.value = "#fffffc", breaks = levels(df$col)) +
