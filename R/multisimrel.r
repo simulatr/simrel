@@ -169,13 +169,6 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     beta0 <- beta0 - t(betaX) %*% muX
   }
 
-  ## Var-Covariance for Response and Predictors
-  ## SigmaY   <- t(RotY) %*% SigmaW %*% RotY
-  ## SigmaX   <- t(RotX) %*% SigmaZ %*% RotX
-  ## SigmaYX  <- t(RotY) %*% t(SigmaZW) %*% RotX
-  ## SigmaYZ  <- t(RotY) %*% t(SigmaZW)
-  ## SigmaWX  <- t(SigmaZW) %*% t(RotX)
-
   ## Rotation was not correct, now it is good, i suppose
   SigmaY   <- RotY %*% SigmaW %*% t(RotY)
   SigmaX   <- RotX %*% SigmaZ %*% t(RotX)
