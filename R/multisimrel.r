@@ -169,6 +169,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     beta0 <- beta0 - t(betaX) %*% muX
   }
 
+<<<<<<< HEAD
   ## Since W's are principal components, I can write its squareroot as 
   sigma_root <- sqrt(SigmaW)
   sigma_root_inv <- solve(sigma_root)
@@ -189,6 +190,8 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   ## SigmaYZ  <- t(RotY) %*% t(SigmaZW)
   ## SigmaWX  <- t(SigmaZW) %*% t(RotX)
 
+=======
+>>>>>>> hotfix/Rsq
   ## Rotation was not correct, now it is good, i suppose
   SigmaY   <- RotY %*% SigmaW %*% t(RotY)
   SigmaX   <- RotX %*% SigmaZ %*% t(RotX)
@@ -199,6 +202,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(SigmaY, SigmaYX),
     cbind(t(SigmaYX), SigmaX)
   )
+<<<<<<< HEAD
   
   ## Coefficient of determination for W and Y
   # RsqW <- sigma_root_inv %*% t(SigmaZW) %*% SigmaZinv %*% SigmaZW %*% sigma_root_inv
@@ -211,6 +215,27 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   ## Minimum Error
   # minerror <- SigmaY - RsqY
   minerror <- RotY %*% (SigmaW - t(SigmaZW) %*% SigmaZinv %*% SigmaZW) %*% t(RotY)
+=======
+
+  ## True Coefficient of Determination for W's
+  RsqW <- matrix(0, nrow = m, ncol = m)
+  for (row in 1:m) {
+    for (col in 1:m) {
+      RsqW[row, col] <- (SigmaZW[, row] %*% SigmaZinv %*% t(SigmaZW)[col, ])/
+        sqrt(SigmaW[row, row] * SigmaW[col, col])
+    }
+  }
+  RsqY <- matrix(0, nrow = m, ncol = m)
+  for (row in 1:m) {
+    for (col in 1:m) {
+      RsqY[row, col] <- (SigmaYX[row, ] %*% RotX %*% SigmaZinv %*% t(RotX) %*% t(SigmaYX)[ , col])/
+        sqrt(SigmaY[row, row] * SigmaY[col, col])
+    }
+  }
+
+  ## Minimum Error
+  minerror <- SigmaY - SigmaYX %*% solve(SigmaX) %*% t(SigmaYX)
+>>>>>>> hotfix/Rsq
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)
   if (!pd) stop("No positive definite coveriance matrix found with current parameter settings")
@@ -262,7 +287,6 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     minerror  = minerror,
     Xrotation = RotX,
     Yrotation = RotY,
-    type      = "multivariate",
     lambda    = lambda,
     SigmaWZ   = Sigma,
     SigmaWX   = SigmaWX,
@@ -271,8 +295,13 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     Sigma     = SigmaOut,
     rho.out   = rho.out,
     RsqW      = RsqW,
+<<<<<<< HEAD
     RsqY      = RsqY#,
     # RsqYalt   = RsqYalt
+=======
+    RsqY      = RsqY,
+    type      = "multivariate"
+>>>>>>> hotfix/Rsq
   )
   ret <- `class<-`(append(arg_list, ret), 'simrel')
   return(ret)
