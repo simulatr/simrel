@@ -191,7 +191,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   RsqY <- matrix(0, nrow = m, ncol = m)
   for (row in 1:m) {
     for (col in 1:m) {
-      RsqY[row, col] <- (SigmaYX[row, ] %*% solve(SigmaX) %*% t(SigmaYX)[ , col])/
+      RsqY[row, col] <- (SigmaYX[row, ] %*% RotX %*% SigmaZinv %*% t(RotX) %*% t(SigmaYX)[ , col])/
         sqrt(SigmaY[row, row] * SigmaY[col, col])
     }
   }
@@ -249,7 +249,6 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     minerror  = minerror,
     Xrotation = RotX,
     Yrotation = RotY,
-    type      = "multivariate",
     lambda    = lambda,
     SigmaWZ   = Sigma,
     SigmaWX   = SigmaWX,
@@ -258,7 +257,8 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     Sigma     = SigmaOut,
     rho.out   = rho.out,
     RsqW      = RsqW,
-    RsqY      = RsqY
+    RsqY      = RsqY,
+    type      = "multivariate"
   )
   ret <- `class<-`(append(arg_list, ret), 'simrel')
   return(ret)
