@@ -40,10 +40,10 @@
 #' @export
 
 multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
-                    relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
-                    gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
-                    eta = 0, ntest = NULL, muX = NULL, muY = NULL,
-                    ypos = list(c(1), c(3, 4), c(2, 5))) {
+                        relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
+                        gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
+                        eta = 0, ntest = NULL, muX = NULL, muY = NULL,
+                        ypos = list(c(1), c(3, 4), c(2, 5))) {
   ## Get all input parameter also for output ---
   arg_list <- as.list(environment())
   ## Validate Inputs ----
@@ -103,12 +103,10 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   kappa       <- exp(-eta * (1:m))/exp(-eta)
   SigmaZ    <- diag(lambda);
   SigmaZinv <- diag(1 / lambda)
-  # SigmaW  <- matrix(rho, nW, nW); diag(SigmaW) <- 1
-  # SigmaW  <- as.matrix(Matrix::bdiag(SigmaW, diag(m - nW)))
   SigmaW    <- diag(kappa) ## diag(m)
   rhoMat    <- SigmaW
 
-  ### Covariance Construction
+### Covariance Construction
   get_cov <- function(pos, Rsq, kappa = 1, p = p, lambda = lambda){
     out      <- vector("numeric", p)
     alph     <- runif(length(pos), -1, 1)
@@ -124,7 +122,8 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     })
   }
 
-  SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, kappa = kappa, MoreArgs = list(p = p, lambda = lambda))
+  SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, kappa = kappa,
+                    MoreArgs = list(p = p, lambda = lambda))
   Sigma   <- cbind(rbind(SigmaW, SigmaZW), rbind(t(SigmaZW), SigmaZ))
   rho.out <- get_rho(rhoMat, R2)
   rho.out[is.nan(rho.out)] <- 0
@@ -169,29 +168,6 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     beta0 <- beta0 - t(betaX) %*% muX
   }
 
-<<<<<<< HEAD
-  ## Since W's are principal components, I can write its squareroot as 
-  sigma_root <- sqrt(SigmaW)
-  sigma_root_inv <- solve(sigma_root)
-  # browser()
-  # RotY_egn <- eigen(RotY)
-  # RotY_root <- RotY_egn$vectors %*% diag(sqrt(RotY_egn$values)) %*% solve(RotY_egn$vectors)
-  # RotY_root_inv <- solve(RotY_root)
-
-  SigmaY <- RotY %*% SigmaW %*% t(RotY)
-  egnY <- eigen(SigmaY)
-  # SigmaY_root <- egnY$vectors %*% diag(sqrt(egnY$values)) %*% t(egnY$vectors)
-  # SigmaY_root_inv <- solve(SigmaY_root)
-
-  ## Var-Covariance for Response and Predictors
-  ## SigmaY   <- t(RotY) %*% SigmaW %*% RotY
-  ## SigmaX   <- t(RotX) %*% SigmaZ %*% RotX
-  ## SigmaYX  <- t(RotY) %*% t(SigmaZW) %*% RotX
-  ## SigmaYZ  <- t(RotY) %*% t(SigmaZW)
-  ## SigmaWX  <- t(SigmaZW) %*% t(RotX)
-
-=======
->>>>>>> hotfix/Rsq
   ## Rotation was not correct, now it is good, i suppose
   SigmaY   <- RotY %*% SigmaW %*% t(RotY)
   SigmaX   <- RotX %*% SigmaZ %*% t(RotX)
@@ -202,20 +178,6 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(SigmaY, SigmaYX),
     cbind(t(SigmaYX), SigmaX)
   )
-<<<<<<< HEAD
-  
-  ## Coefficient of determination for W and Y
-  # RsqW <- sigma_root_inv %*% t(SigmaZW) %*% SigmaZinv %*% SigmaZW %*% sigma_root_inv
-  RsqW <- t(betaZ) %*% SigmaZW %*% solve(SigmaW)
-  # RsqY <- SigmaY_root_inv %*% SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% SigmaY_root_inv
-  # RsqY <- solve(diag(sqrt(diag(SigmaY)))) %*% SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% solve(diag(sqrt(diag(SigmaY))))
-  # RsqYalt <- SigmaYX %*% solve(SigmaX) %*% t(SigmaYX) %*% solve(diag(diag(SigmaY)))
-  RsqY <- RotY %*% RsqW %*% t(RotY)
-  
-  ## Minimum Error
-  # minerror <- SigmaY - RsqY
-  minerror <- RotY %*% (SigmaW - t(SigmaZW) %*% SigmaZinv %*% SigmaZW) %*% t(RotY)
-=======
 
   ## True Coefficient of Determination for W's
   RsqW <- matrix(0, nrow = m, ncol = m)
@@ -235,7 +197,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
 
   ## Minimum Error
   minerror <- SigmaY - SigmaYX %*% solve(SigmaX) %*% t(SigmaYX)
->>>>>>> hotfix/Rsq
+
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)
   if (!pd) stop("No positive definite coveriance matrix found with current parameter settings")
@@ -253,7 +215,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   colnames(X) <- paste0('X', 1:p)
   colnames(Y) <- paste0('Y', 1:m)
 
-  ### Test Data
+### Test Data
   if (!is.null(ntest)) {
     test_cal <- matrix(rnorm(ntest * (p + m), 0, 1), nrow = ntest)
     test_cal <- test_cal %*% SigmaRot
@@ -295,13 +257,8 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     Sigma     = SigmaOut,
     rho.out   = rho.out,
     RsqW      = RsqW,
-<<<<<<< HEAD
-    RsqY      = RsqY#,
-    # RsqYalt   = RsqYalt
-=======
     RsqY      = RsqY,
     type      = "multivariate"
->>>>>>> hotfix/Rsq
   )
   ret <- `class<-`(append(arg_list, ret), 'simrel')
   return(ret)
