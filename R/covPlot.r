@@ -124,7 +124,8 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(x = NULL, y = NULL, fill = if (type == "rotation") NULL else "Relevant for:") +
     scale_fill_discrete(na.value = "#fffffc", breaks = levels(df$col)) +
-    theme(legend.position = "top")
+    theme(legend.position = "top",
+          aspect.ratio = 1)
   
   if (facetting) {
     plt <- plt  +
