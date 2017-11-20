@@ -12,3 +12,4 @@ _config.yml
 ^docs$
 R/*.bak
 _pkgdown.yml
+R/test-simrel/
