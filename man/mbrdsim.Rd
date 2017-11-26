@@ -26,26 +26,35 @@ takes as input a list containing a set of factors with their levels. The output 
 with the combinations of the factor levels to be run.
 }
 \examples{
- # Input: A list of factors with their levels (number of levels must be a multiple of 2).
- simlist <- list(R2=c(0.5,0.9),
-                 pos = c(12,45),
-                 gamma = c(0.1, 0.9),
-                 comp = 1:8,
-                 alpha = c(0.01, 0.05, 0.1, 0.25))
+# Input: A list of factors with their levels (number of levels must be a multiple of 2).
+## Simrel Parameters ----
+sim_list <- list(
+p = c(20, 150),
+gamma = seq(0.2, 1.1, length.out = 4),
+relpos = list(list(c(1, 2, 3), c(4, 5, 6)), list(c(1, 5, 6), c(2, 3, 4))),
+R2 = list(c(0.4, 0.8), c(0.8, 0.8)),
+ypos = list(list(1, c(2, 3)), list(c(1, 3), 2))
+)
+## 1/8 fractional Design ----
+design <- mbrdsim(sim_list, fraction = 3)[["Design"]]
+design <- cbind(
+  design,
+  q = lapply(design[, "p"], function(x) rep(x/2, 2)),
+  type = "multivariate",
+  n = 100,
+  ntest = 200,
+  m = 3,
+  eta = 0.6
+)
+## Simulation ----
+sobj <- apply(design, 1, function(x) do.call(simrel, x))
+names(sobj) <- paste0("Design", seq.int(sobj))
 
- # A 1/8 design
- des <- mbrdsim(simlist, fraction=3)
- # Setting generators manually as interactions between base bit-level factors.
- des <- mbrdsim(simlist, fraction=3, gen=list(c(1,2,4,5),c(2,3,5),c(3,4,5)))
-
- # The MBRD-design at original factor level
- des$Design
-
- # Info about the bit-design including bit-level aliasing (and resolution if \\code{gen = NULL})
- \dontrun{
- # library(DoE.base)
- # design.info(des$BitDesign)
- }
+# Info about the bit-design including bit-level aliasing (and resolution if \\code{gen = NULL})
+\dontrun{
+# library(DoE.base)
+# design.info(des$BitDesign)
+}
 }
 \references{
 Martens, H., Måge, I., Tøndel, K., Isaeva, J., Høy, M. and Sæbø¸, S., 2010, Multi-level binary replacement (MBR) design for computer experiments in high-dimensional nonlinear systems, \emph{J, Chemom}, \bold{24}, 748--756.

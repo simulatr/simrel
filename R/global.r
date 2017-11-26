@@ -129,7 +129,7 @@ commonInputUI <- function(id) {
     ),
     fluidRow(
       column(12, sliderInput(ns("gamma"), "Gamma",
-                             min = 0, max = 1, value = 0.6, step = 0.1, width = "100%"))
+                             min = 0, max = 2, value = 0.6, step = 0.1, width = "100%"))
     )
   )
 }
@@ -142,8 +142,9 @@ multivariateInputUI <- function(id) {
   tagList(
     fluidRow(
       column(6, numericInput(ns("m"), label = "N: Response", value = 4, min = 2, step = 1)),
-      column(6, textInput(ns("ypos"), label = "Response Mixup",
-                          value = "1, 3; 2, 4"))
+      column(6, textInput(ns("ypos"), label = "Response Mixup", value = "1, 3; 2, 4")),
+      column(12, sliderInput(ns("eta"), label = "Decay factor of Response Eigenvalues", 
+                             value = 0, min = 0, max = 1.2, step = 0.1, width = "100%"))
     )
   )
 }

@@ -167,7 +167,6 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   if (!(is.null(muX))) {
     beta0 <- beta0 - t(betaX) %*% muX
   }
-
   ## Rotation was not correct, now it is good, i suppose
   SigmaY   <- RotY %*% SigmaW %*% t(RotY)
   SigmaX   <- RotX %*% SigmaZ %*% t(RotX)
@@ -178,25 +177,30 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(SigmaY, SigmaYX),
     cbind(t(SigmaYX), SigmaX)
   )
-
-  ## True Coefficient of Determination for W's
-  RsqW <- matrix(0, nrow = m, ncol = m)
-  for (row in 1:m) {
-    for (col in 1:m) {
-      RsqW[row, col] <- (SigmaZW[, row] %*% SigmaZinv %*% t(SigmaZW)[col, ])/
-        sqrt(SigmaW[row, row] * SigmaW[col, col])
-    }
-  }
-  RsqY <- matrix(0, nrow = m, ncol = m)
-  for (row in 1:m) {
-    for (col in 1:m) {
-      RsqY[row, col] <- (SigmaYX[row, ] %*% RotX %*% SigmaZinv %*% t(RotX) %*% t(SigmaYX)[ , col])/
-        sqrt(SigmaY[row, row] * SigmaY[col, col])
-    }
-  }
+  
+  # True Coefficient of Determination for W's
+  # RsqW <- matrix(0, nrow = m, ncol = m)
+  # for (row in 1:m) {
+  #   for (col in 1:m) {
+  #     RsqW[row, col] <- (SigmaZW[, row] %*% SigmaZinv %*% t(SigmaZW)[col, ])/
+  #       sqrt(SigmaW[row, row] * SigmaW[col, col])
+  #   }
+  # }
+  # 
+  # RsqY <- matrix(0, nrow = m, ncol = m)
+  # for (row in 1:m) {
+  #   for (col in 1:m) {
+  #     RsqY[row, col] <- (SigmaYX[row, ] %*% (RotX %*% SigmaZinv %*% t(RotX)) %*% t(SigmaYX)[ , col])/
+  #       sqrt(SigmaY[row, row] * SigmaY[col, col])
+  #   }
+  # }
+  var_w <- diag(1/sqrt(diag(SigmaW)))
+  RsqW <- var_w %*% (t(SigmaZW) %*% SigmaZinv %*% SigmaZW) %*% var_w
+  var_y <- diag(1/sqrt(diag(SigmaY)))
+  RsqY <- var_y %*% (RotY %*% t(SigmaZW) %*% SigmaZinv %*% SigmaZW %*% t(RotY)) %*% var_y
 
   ## Minimum Error
-  minerror <- SigmaY - SigmaYX %*% solve(SigmaX) %*% t(SigmaYX)
+  minerror <- SigmaY - SigmaYX %*% (RotX %*% SigmaZinv %*% t(RotX)) %*% t(SigmaYX)
 
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)
