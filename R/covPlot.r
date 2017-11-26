@@ -1,16 +1,16 @@
 #' Plotting Covariance Matrix
 #' @param sobj A simrel object
-#' @param type Type of covariance matrix - can take two values \code{relpos} for relevant position 
+#' @param type Type of covariance matrix - can take two values \code{relpos} for relevant position
 #' of principal components  and \code{relpred} for relevant position of predictor variables
 #' @param ordering TRUE for ordering the covariance for block diagonal display
 #' @param facetting TRUE for facetting the predictor and response space. FALSE will give a single facet plot
 #' @import ggplot2
 #' @return A covariance plot
 #' @keywords simulation, linear model, linear model data, covariance plot
-#' @references Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear 
-#' model data simulation based on the concept of a relevant subspace and relevant predictors. 
+#' @references Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear
+#' model data simulation based on the concept of a relevant subspace and relevant predictors.
 #' Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
-#' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a 
+#' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a
 #' few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 #' @examples
 #' sobj <- simrel(n = 100, p = 10, q = c(4, 5), relpos = list(c(1, 2, 3), c(4, 6, 7)), m = 3,
@@ -41,7 +41,7 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
   axlbl <- c(paste0(yvar, 1:m), paste0(xvar, 1:p))
   lst <- unlist(lst)
   idx <- unique(c(lst, setdiff(1:p, lst)))
-  
+
   ## ---- Setting up matrices ----
   if (simtype == "multivariate") {
     ## Rotation Matrix
@@ -66,24 +66,24 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     ## setting up index
     idx <- c(1:m, idx + m)
   }
-  
+
   # browser()
   ## ---- Color Generator Matrix ----
   genmat <- mat[1:m, -c(1:m), drop = FALSE] != 0
   genmat[!genmat] <- NA
-  
+
   ## ypos map
   if (sobj$type == "multivariate") {
     ypos <- vector("character", length = m)
     names(ypos) <- paste0(yvar, seq.int(m))
     for (x in sobj$ypos) ypos[x] <- paste0(yvar, x[1])
   }
-  
+
   for (row in seq_len(NROW(genmat))) {
     yvec <- if (sobj$type == "multivariate") ypos[row] else paste0(yvar, row)
     genmat[row, as.logical(genmat[row, ])] <- yvec
   }
-  
+
   col_xx <- genmat[apply(genmat, 2, function(col) match(TRUE, !is.na(col))), ]
   col_yy <- genmat[, apply(genmat, 1, function(row) match(TRUE, !is.na(row)))]
   if(simtype == "bivariate") {
@@ -95,7 +95,7 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
   }
   colmat <- rbind(cbind(col_yy, genmat), cbind(t(genmat), col_xx))
   if (type == "rotation") colmat[1:m, -c(1:m)] <- colmat[-c(1:m), 1:m] <- NA
-  
+
   id_df <- expand.grid(v1 = axlbl, v2 = axlbl)
   coldf <- cbind(id_df, col = c(colmat))
   covdf <- cbind(id_df, cov = if (type == "rotation") c(rot) else c(mat))
@@ -118,18 +118,18 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     df$facet1 <- factor(gsub("[0-9]+", "", df$v1), c(yvar, xvar))
     df$facet2 <- factor(gsub("[0-9]+", "", df$v2), c(yvar, xvar))
   }
-  
-  plt <- ggplot(df, aes_string("v1", "v2", fill = "col")) + 
+
+  plt <- ggplot(df, aes_string("v1", "v2", fill = "col")) +
     geom_tile(aes_string(alpha = "cov"), show.legend = c(alpha = FALSE)) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(x = NULL, y = NULL, fill = if (type == "rotation") NULL else "Relevant for:") +
     scale_fill_discrete(na.value = "#fffffc", breaks = levels(df$col)) +
     theme(legend.position = "top",
           aspect.ratio = 1)
-  
+
   if (facetting) {
     plt <- plt  +
-      facet_grid(facet2 ~ facet1, scales = 'free', 
+      facet_grid(facet2 ~ facet1, scales = 'free',
                  space = 'free', drop = TRUE)
   } else {
     plt <- plt +

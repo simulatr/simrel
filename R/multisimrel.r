@@ -177,7 +177,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(SigmaY, SigmaYX),
     cbind(t(SigmaYX), SigmaX)
   )
-  
+
   # True Coefficient of Determination for W's
   # RsqW <- matrix(0, nrow = m, ncol = m)
   # for (row in 1:m) {
@@ -186,7 +186,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   #       sqrt(SigmaW[row, row] * SigmaW[col, col])
   #   }
   # }
-  # 
+  #
   # RsqY <- matrix(0, nrow = m, ncol = m)
   # for (row in 1:m) {
   #   for (col in 1:m) {
