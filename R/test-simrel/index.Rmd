@@ -212,17 +212,6 @@ column(
 )
 ```
 
-
-```{r}
-column(
-  width = 12,
-    renderPrint({
-    sobj()[["RsqYalt"]]
-  })
-)
-```
-
-
 #### R-squared values obtained from linear model Y ~ X {.cols}
 
 ```{r}

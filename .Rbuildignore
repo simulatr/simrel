@@ -11,5 +11,8 @@ inst
 _config.yml
 ^docs$
 R/*.bak
+R/*.Rmd
 _pkgdown.yml
 R/test-simrel/
+R/TestSimrel/
+pkgdown/

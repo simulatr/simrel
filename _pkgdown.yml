@@ -4,12 +4,11 @@ authors:
   Solve Sæbø:
     href: http://solvsa.nmbu.no
 navbar:
-  type: inverse
   right:
     - icon: fa-github fa-lg
       href: https://github.com/simulatr/simrel
     - icon: fa-globe fa-lg
-      href: https://simulatr.github.com/simrel
+      href: https://simulatr.github.io/simrel
 template:
   params:
-    bootswatch: cosmo
+    bootswatch: simplex

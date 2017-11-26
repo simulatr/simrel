@@ -40,10 +40,10 @@
 #' @export
 
 multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
-                    relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
-                    gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
-                    eta = 0, ntest = NULL, muX = NULL, muY = NULL,
-                    ypos = list(c(1), c(3, 4), c(2, 5))) {
+                        relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
+                        gamma = 0.6, R2 = c(0.8, 0.7, 0.8),
+                        eta = 0, ntest = NULL, muX = NULL, muY = NULL,
+                        ypos = list(c(1), c(3, 4), c(2, 5))) {
   ## Get all input parameter also for output ---
   arg_list <- as.list(environment())
   ## Validate Inputs ----
@@ -100,19 +100,17 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
 
   ## Constructing Sigma
   lambda    <- exp(-gamma * (1:p))/exp(-gamma)
-  eta       <- exp(-eta * (1:m))/exp(-eta)
+  kappa       <- exp(-eta * (1:m))/exp(-eta)
   SigmaZ    <- diag(lambda);
   SigmaZinv <- diag(1 / lambda)
-  # SigmaW  <- matrix(rho, nW, nW); diag(SigmaW) <- 1
-  # SigmaW  <- as.matrix(Matrix::bdiag(SigmaW, diag(m - nW)))
-  SigmaW    <- diag(eta) ## diag(m)
+  SigmaW    <- diag(kappa) ## diag(m)
   rhoMat    <- SigmaW
 
-  ### Covariance Construction
-  get_cov <- function(pos, Rsq, eta = 1, p = p, lambda = lambda){
+### Covariance Construction
+  get_cov <- function(pos, Rsq, kappa = 1, p = p, lambda = lambda){
     out      <- vector("numeric", p)
     alph     <- runif(length(pos), -1, 1)
-    out[pos] <- sign(alph) * sqrt(Rsq * abs(alph) / sum(abs(alph)) * lambda[pos] * eta)
+    out[pos] <- sign(alph) * sqrt(Rsq * abs(alph) / sum(abs(alph)) * lambda[pos] * kappa)
     return(out)
   }
   get_rho <- function(rhoMat, RsqVec) {
@@ -124,7 +122,8 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     })
   }
 
-  SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, eta = eta, MoreArgs = list(p = p, lambda = lambda))
+  SigmaZW <- mapply(get_cov, pos = relpos, Rsq = R2, kappa = kappa,
+                    MoreArgs = list(p = p, lambda = lambda))
   Sigma   <- cbind(rbind(SigmaW, SigmaZW), rbind(t(SigmaZW), SigmaZ))
   rho.out <- get_rho(rhoMat, R2)
   rho.out[is.nan(rho.out)] <- 0
@@ -168,7 +167,6 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   if (!(is.null(muX))) {
     beta0 <- beta0 - t(betaX) %*% muX
   }
-
   ## Rotation was not correct, now it is good, i suppose
   SigmaY   <- RotY %*% SigmaW %*% t(RotY)
   SigmaX   <- RotX %*% SigmaZ %*% t(RotX)
@@ -180,24 +178,30 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(t(SigmaYX), SigmaX)
   )
 
-  ## True Coefficient of Determination for W's
-  RsqW <- matrix(0, nrow = m, ncol = m)
-  for (row in 1:m) {
-    for (col in 1:m) {
-      RsqW[row, col] <- (SigmaZW[, row] %*% SigmaZinv %*% t(SigmaZW)[col, ])/
-        sqrt(SigmaW[row, row] * SigmaW[col, col])
-    }
-  }
-  RsqY <- matrix(0, nrow = m, ncol = m)
-  for (row in 1:m) {
-    for (col in 1:m) {
-      RsqY[row, col] <- (SigmaYX[row, ] %*% RotX %*% SigmaZinv %*% t(RotX) %*% t(SigmaYX)[ , col])/
-        sqrt(SigmaY[row, row] * SigmaY[col, col])
-    }
-  }
+  # True Coefficient of Determination for W's
+  # RsqW <- matrix(0, nrow = m, ncol = m)
+  # for (row in 1:m) {
+  #   for (col in 1:m) {
+  #     RsqW[row, col] <- (SigmaZW[, row] %*% SigmaZinv %*% t(SigmaZW)[col, ])/
+  #       sqrt(SigmaW[row, row] * SigmaW[col, col])
+  #   }
+  # }
+  #
+  # RsqY <- matrix(0, nrow = m, ncol = m)
+  # for (row in 1:m) {
+  #   for (col in 1:m) {
+  #     RsqY[row, col] <- (SigmaYX[row, ] %*% (RotX %*% SigmaZinv %*% t(RotX)) %*% t(SigmaYX)[ , col])/
+  #       sqrt(SigmaY[row, row] * SigmaY[col, col])
+  #   }
+  # }
+  var_w <- diag(1/sqrt(diag(SigmaW)))
+  RsqW <- var_w %*% (t(SigmaZW) %*% SigmaZinv %*% SigmaZW) %*% var_w
+  var_y <- diag(1/sqrt(diag(SigmaY)))
+  RsqY <- var_y %*% (RotY %*% t(SigmaZW) %*% SigmaZinv %*% SigmaZW %*% t(RotY)) %*% var_y
 
   ## Minimum Error
-  minerror <- SigmaY - SigmaYX %*% solve(SigmaX) %*% t(SigmaYX)
+  minerror <- SigmaY - SigmaYX %*% (RotX %*% SigmaZinv %*% t(RotX)) %*% t(SigmaYX)
+
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)
   if (!pd) stop("No positive definite coveriance matrix found with current parameter settings")
@@ -215,7 +219,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   colnames(X) <- paste0('X', 1:p)
   colnames(Y) <- paste0('Y', 1:m)
 
-  ### Test Data
+### Test Data
   if (!is.null(ntest)) {
     test_cal <- matrix(rnorm(ntest * (p + m), 0, 1), nrow = ntest)
     test_cal <- test_cal %*% SigmaRot

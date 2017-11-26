@@ -64,7 +64,7 @@ AppSimrel <- function() {
                   conditionalPanel(
                     "!input['sim-id-update']",
                     h3(class = "text-center lead text-primary",
-                       "Press Simulate Now Button for Simulation")
+                       "Press 'Simulate Now' to simulate data.")
                   ),
                   conditionalPanel(
                     "input['sim-id-update']",
@@ -153,6 +153,7 @@ AppSimrel <- function() {
         type   = input[['sim-type-type']]
       )
       if (type() == "multivariate") {
+        param$eta <- input[['multi-parm-eta']]
         param$m <- input[['multi-parm-m']]
         param$ypos <- parseText(input[['multi-parm-ypos']])
       }
@@ -218,9 +219,7 @@ AppSimrel <- function() {
              paste("Your",
                    isolate(simObj()[["type"]]),
                    "data is ready with seed",
-                   isolate(input[["seed-id-newSeed"]]),
-                   "You can explore some plots or",
-                   "download the data"))
+                   isolate(input[["seed-id-newSeed"]])))
         )
       })
 
