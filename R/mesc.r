@@ -8,18 +8,20 @@
 #'
 #'
 #' @param character_string A character string for parameter where the items in a list is separated by semicolon. For example: 1, 2; 3, 4
+#' @param in_list TRUE if the result need to wrap in a list, default is FALSE
 #' @return A list or a vector
 #' @examples
 #' parse_parm("1, 2; 3, 4")
 #' parse_parm("1, 2")
 #' @rdname parse_parm
 #' @export
-parse_parm <- function(character_string){
+parse_parm <- function(character_string, in_list = FALSE){
   x = unlist(strsplit(character_string, ";"))
   x = gsub("[[:space:]]", "", x)
   y = lapply(x, function(y) unlist(strsplit(y, ",")))
   ret = lapply(y, as.numeric)
   if (!grepl(";", character_string)) ret <- ret[[1]]
+  if (in_list) ret <- list(ret)
   return(ret)
 }
 

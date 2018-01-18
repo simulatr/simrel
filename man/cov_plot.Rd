@@ -9,7 +9,7 @@ cov_plot(sobj, type = "relpos", ordering = TRUE, facetting = TRUE)
 \arguments{
 \item{sobj}{A simrel object}
 
-\item{type}{Type of covariance matrix - can take two values \code{relpos} for relevant position 
+\item{type}{Type of covariance matrix - can take two values \code{relpos} for relevant position
 of principal components  and \code{relpred} for relevant position of predictor variables}
 
 \item{ordering}{TRUE for ordering the covariance for block diagonal display}
@@ -31,11 +31,11 @@ p3 <- cov_plot(sobj, type = "relpred", facetting = FALSE)
 gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 }
 \references{
-Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear 
-model data simulation based on the concept of a relevant subspace and relevant predictors. 
+Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear
+model data simulation based on the concept of a relevant subspace and relevant predictors.
 Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
 
-Almøy, T. (1996). A simulation study on comparison of prediction methods when only a 
+Almøy, T. (1996). A simulation study on comparison of prediction methods when only a
 few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 }
 \keyword{covariance}

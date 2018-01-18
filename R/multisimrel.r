@@ -100,7 +100,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
 
   ## Constructing Sigma
   lambda    <- exp(-gamma * (1:p))/exp(-gamma)
-  kappa       <- exp(-eta * (1:m))/exp(-eta)
+  kappa     <- exp(-eta * (1:m))/exp(-eta)
   SigmaZ    <- diag(lambda);
   SigmaZinv <- diag(1 / lambda)
   SigmaW    <- diag(kappa) ## diag(m)
@@ -178,7 +178,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(t(SigmaYX), SigmaX)
   )
 
-  # True Coefficient of Determination for W's
+  ## True Coefficient of Determination for W's
   # RsqW <- matrix(0, nrow = m, ncol = m)
   # for (row in 1:m) {
   #   for (col in 1:m) {
@@ -186,7 +186,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   #       sqrt(SigmaW[row, row] * SigmaW[col, col])
   #   }
   # }
-  #
+  # 
   # RsqY <- matrix(0, nrow = m, ncol = m)
   # for (row in 1:m) {
   #   for (col in 1:m) {
@@ -194,13 +194,15 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   #       sqrt(SigmaY[row, row] * SigmaY[col, col])
   #   }
   # }
+  
   var_w <- diag(1/sqrt(diag(SigmaW)))
   RsqW <- var_w %*% (t(SigmaZW) %*% SigmaZinv %*% SigmaZW) %*% var_w
   var_y <- diag(1/sqrt(diag(SigmaY)))
   RsqY <- var_y %*% (RotY %*% t(SigmaZW) %*% SigmaZinv %*% SigmaZW %*% t(RotY)) %*% var_y
 
   ## Minimum Error
-  minerror <- SigmaY - SigmaYX %*% (RotX %*% SigmaZinv %*% t(RotX)) %*% t(SigmaYX)
+  # minerror <- SigmaY - SigmaYX %*% (RotX %*% SigmaZinv %*% t(RotX)) %*% t(SigmaYX)
+  minerror <- t(RotY) %*% (SigmaW - t(SigmaZW) %*% SigmaZinv %*% SigmaZW) %*% RotY
 
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)

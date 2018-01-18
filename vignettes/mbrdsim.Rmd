@@ -2,11 +2,14 @@
 title: "Experimental Design and Simulation"
 author: "Raju Rimal"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    keep_md: true
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Experimental Design and Simulation}
+  %\VignetteEngine{knitr::knitr}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include = FALSE}

@@ -5,12 +5,14 @@
 \alias{prepare_design}
 \title{Some helper function for simulation}
 \usage{
-parse_parm(character_string)
+parse_parm(character_string, in_list = FALSE)
 
 prepare_design(option_list, tabular = T)
 }
 \arguments{
 \item{character_string}{A character string for parameter where the items in a list is separated by semicolon. For example: 1, 2; 3, 4}
+
+\item{in_list}{TRUE if the result need to wrap in a list, default is FALSE}
 
 \item{option_list}{A list of options that is to be parsed}
 

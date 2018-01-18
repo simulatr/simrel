@@ -15,9 +15,9 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Imports:
-    shiny (>= 0.13),
-    miniUI (>= 0.1.1),
-    rstudioapi (>= 0.5),
+    shiny,
+    miniUI,
+    rstudioapi,
     shinyBS,
     jsonlite,
     ggplot2,
