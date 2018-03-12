@@ -36,8 +36,8 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     lst <- unname(sobj$relpred)
     if (simtype == "bivariate") lst <- append(lst[-3], lst[3], after = 1)
   }
-  xvar <- if(type == "relpos") "Z" else "X"
-  yvar <- if(type == "relpos" & simtype == "multivariate") "W" else "Y"
+  xvar <- if (type == "relpos") "Z" else "X"
+  yvar <- if (type == "relpos" & simtype == "multivariate") "W" else "Y"
   axlbl <- c(paste0(yvar, 1:m), paste0(xvar, 1:p))
   lst <- unlist(lst)
   idx <- unique(c(lst, setdiff(1:p, lst)))
@@ -50,7 +50,7 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
                   right = TRUE)
     rot[1:m, 1:m] <- sobj$Yrotation
     ## Covariance Matrix
-    mat <- if(type == "relpos") sobj$SigmaWZ else sobj$Sigma
+    mat <- if (type == "relpos") sobj$SigmaWZ else sobj$Sigma
     idx <- c(unlist(sobj$ypos), idx + m)
   } else {
     ## Rotation Matrix
@@ -62,7 +62,7 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     ## Covariance Matrix
     sigma <- sobj$Sigma
     sigma <- rot %*% sigma %*% t(rot)
-    mat <- if(type == "relpos") sobj$Sigma else sigma
+    mat <- if (type == "relpos") sobj$Sigma else sigma
     ## setting up index
     idx <- c(1:m, idx + m)
   }
@@ -83,16 +83,16 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     yvec <- if (sobj$type == "multivariate") ypos[row] else paste0(yvar, row)
     genmat[row, as.logical(genmat[row, ])] <- yvec
   }
-
   col_xx <- genmat[apply(genmat, 2, function(col) match(TRUE, !is.na(col))), ]
   col_yy <- genmat[, apply(genmat, 1, function(row) match(TRUE, !is.na(row)))]
-  if(simtype == "bivariate") {
+  if (simtype == "bivariate") {
     col_xxt <- t(genmat)[, apply(t(genmat), 1, function(col) match(TRUE, !is.na(col)))]
     col_yy[row(col_yy) != col(col_yy)] <- "Both"
     col_xx[!is.na(col_xxt)] <- col_xxt[!is.na(col_xxt)]
     comn_col <- which(apply(is.na(genmat), 2, sum) == 0)
     col_xx[comn_col, comn_col] <- "Both"
   }
+  if (type == "relpos") col_xx[col(col_xx) != row(col_xx)] <- NA
   colmat <- rbind(cbind(col_yy, genmat), cbind(t(genmat), col_xx))
   if (type == "rotation") colmat[1:m, -c(1:m)] <- colmat[-c(1:m), 1:m] <- NA
 
@@ -102,7 +102,7 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
   df <- merge(coldf, covdf, by = c("v1", "v2"))
   df$col <- as.character(df$col)
   df[df$cov != 0 & is.na(df$col), "col"] <- "None"
-  if(simtype == "bivariate") {
+  if (simtype == "bivariate") {
     df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "Both", "None", NA))
   } else {
     df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "None", NA))
@@ -114,27 +114,29 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     df$v1 <- factor(as.character(df$v1), axlbl)
     df$v2 <- factor(as.character(df$v2), rev(axlbl))
   }
-  if (facetting) {
-    df$facet1 <- factor(gsub("[0-9]+", "", df$v1), c(yvar, xvar))
-    df$facet2 <- factor(gsub("[0-9]+", "", df$v2), c(yvar, xvar))
-  }
+  df$facet1 <- factor(gsub("[0-9]+", "", df$v1), c(yvar, xvar))
+  df$facet2 <- factor(gsub("[0-9]+", "", df$v2), c(yvar, xvar))
 
   plt <- ggplot(df, aes_string("v1", "v2", fill = "col")) +
-    geom_tile(aes_string(alpha = "cov"), show.legend = c(alpha = FALSE)) +
+    geom_tile(aes_string(alpha = "cov"), color = "grey70",
+              show.legend = c(alpha = FALSE)) +
+    theme_bw() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(x = NULL, y = NULL, fill = if (type == "rotation") NULL else "Relevant for:") +
-    scale_fill_discrete(na.value = "#fffffc", breaks = levels(df$col)) +
-    theme(legend.position = "top",
+    scale_fill_brewer(palette = "Set1", na.value = "#fffffc", breaks = levels(df$col)) +
+    theme(legend.position = "bottom",
+          panel.border = element_rect(color = "grey70"),
+          panel.grid = element_blank(),
+          panel.spacing = unit(1, 'mm'),
           aspect.ratio = 1)
-
-  if (facetting) {
-    plt <- plt  +
-      facet_grid(facet2 ~ facet1, scales = 'free',
-                 space = 'free', drop = TRUE)
-  } else {
+  plt <- plt  +
+    facet_grid(facet2 ~ facet1, scales = 'free',
+               space = 'free', drop = TRUE) +
+    theme(strip.background = element_rect(color = "grey", fill = "grey90"))
+  if (!facetting) {
     plt <- plt +
-      geom_hline(yintercept = p + 0.5, color = "#fffffc", size = 1.5) +
-      geom_vline(xintercept = m + 0.5, color = "#fffffc", size = 1.5)
+      theme(strip.background = element_blank(),
+            strip.text = element_blank())
   }
   return(plt)
 }
