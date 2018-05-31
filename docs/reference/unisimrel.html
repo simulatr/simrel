@@ -18,11 +18,25 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Function for data simulation — unisimrel" />
+
+<meta property="og:description" content="Functions for data simulation from a random regression model with one
+response variable where the data properties can be controlled by a few input
+parameters.  The data simulation is based on the concept of relevant latent
+components and relevant predictors, and was developed for the purpose of
+testing methods for variable selection for prediction." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,15 +60,34 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">simrel</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">simrel</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/mbrdsim.html">Experimental Design and Simulation</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -72,6 +105,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -79,12 +113,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Function for data simulation</h1>
+    
+    <div class="hidden name"><code>unisimrel.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Functions for data simulation from a random regression model with one
 response variable where the data properties can be controlled by a few input
@@ -92,11 +129,12 @@ parameters.  The data simulation is based on the concept of relevant latent
 components and relevant predictors, and was developed for the purpose of
 testing methods for variable selection for prediction.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>unisimrel</span>(<span class='no'>n</span>, <span class='no'>p</span>, <span class='no'>q</span>, <span class='no'>relpos</span>, <span class='no'>gamma</span>, <span class='no'>R2</span>, <span class='kw'>ntest</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>muY</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>muX</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lambda.min</span> <span class='kw'>=</span> <span class='no'>.Machine</span>$<span class='no'>double.eps</span>, <span class='kw'>sim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -256,26 +294,28 @@ Alm&lt;f8&gt;y and Helland (2015).</p>
 #&gt; </div><div class='input'>
 <span class='co'>#Comparing true with estimated regression coefficients</span>
 <span class='fu'>plot</span>(<span class='no'>mydata</span>$<span class='no'>beta</span>, <span class='no'>lmfit</span>$<span class='no'>coef</span>[-<span class='fl'>1</span>], <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"True regression coefficients"</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Estimated regression coefficients"</span>)</div><div class='input'><span class='fu'>abline</span>(<span class='fl'>0</span>,<span class='fl'>1</span>)</div><img src='unisimrel-5.png' alt='' width='540' height='400' /><div class='input'>
+  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Estimated regression coefficients"</span>)</div><div class='input'><span class='fu'>abline</span>(<span class='fl'>0</span>,<span class='fl'>1</span>)</div><div class='img'><img src='unisimrel-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Linear model data, small n, large p</span>
 <span class='no'>mydata</span> <span class='kw'>&lt;-</span> <span class='fu'>unisimrel</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>4</span>), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fl'>0.8</span> )
 
 <span class='co'>#Simulating more samples with identical distribution as previous simulation</span>
 <span class='no'>mydata2</span> <span class='kw'>&lt;-</span> <span class='fu'>unisimrel</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2500</span>, <span class='kw'>sim</span> <span class='kw'>=</span> <span class='no'>mydata</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: All parameters are collected from the supplied 'sim' object. </span></div><div class='input'>
-
+</div><span class='co'># NOT RUN {</span>
 <span class='co'>#Estimating model parameters using partial least squares regression with</span>
 <span class='co'>#cross-validation to determine the number of relevant components.</span>
 <span class='fu'>require</span>(<span class='no'>pls</span>)
-<span class='no'>plsfit</span> <span class='kw'>&lt;-</span> <span class='fu'>plsr</span>(<span class='no'>mydata</span>$<span class='no'>Y</span> ~ <span class='no'>mydata</span>$<span class='no'>X</span>, <span class='fl'>15</span>, <span class='kw'>validation</span> <span class='kw'>=</span> <span class='st'>"CV"</span>)
+<span class='no'>plsfit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/pls/topics/mvr'>plsr</a></span>(<span class='no'>mydata</span>$<span class='no'>Y</span> ~ <span class='no'>mydata</span>$<span class='no'>X</span>, <span class='fl'>15</span>, <span class='kw'>validation</span> <span class='kw'>=</span> <span class='st'>"CV"</span>)
 
 <span class='co'>#Validation plot and finding the number of relevant components.</span>
 <span class='fu'>plot</span>(<span class='fl'>0</span>:<span class='fl'>15</span>, <span class='fu'>c</span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS0</span>, <span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span>),
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Components"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"PRESS"</span>)</div><img src='unisimrel-9.png' alt='' width='540' height='400' /><div class='input'><span class='no'>mincomp</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span> <span class='kw'>==</span> <span class='fu'>min</span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span>))
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Components"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"PRESS"</span>)
+<span class='no'>mincomp</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span> <span class='kw'>==</span> <span class='fu'>min</span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span>))
 
 <span class='co'>#Comparing true with estimated regression coefficients</span>
 <span class='fu'>plot</span>(<span class='no'>mydata</span>$<span class='no'>beta</span>, <span class='no'>plsfit</span>$<span class='no'>coef</span>[, <span class='fl'>1</span>, <span class='no'>mincomp</span>], <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"True regression coefficients"</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Estimated regression coefficients"</span>)</div><div class='input'><span class='fu'>abline</span>(<span class='fl'>0</span>, <span class='fl'>1</span>)</div><img src='unisimrel-12.png' alt='' width='540' height='400' /><div class='input'>
-</div></pre>
+  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Estimated regression coefficients"</span>)
+<span class='fu'>abline</span>(<span class='fl'>0</span>, <span class='fl'>1</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -304,11 +344,14 @@ Solve S&lt;e6&gt;b&lt;f8&gt; and Kristian H. Liland
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

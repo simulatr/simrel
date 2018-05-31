@@ -18,11 +18,21 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Plotting Covariance Matrix — cov_plot" />
+
+<meta property="og:description" content="Plotting Covariance Matrix" />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,15 +56,34 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">simrel</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">simrel</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/mbrdsim.html">Experimental Design and Simulation</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -72,6 +101,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -79,19 +109,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plotting Covariance Matrix</h1>
+    
+    <div class="hidden name"><code>cov_plot.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Plotting Covariance Matrix</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>cov_plot</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"relpos"</span>, <span class='kw'>ordering</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -100,7 +134,7 @@
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Type of covariance matrix - can take two values <code>relpos</code> for relevant position 
+      <td><p>Type of covariance matrix - can take two values <code>relpos</code> for relevant position
 of principal components  and <code>relpred</code> for relevant position of predictor variables</p></td>
     </tr>
     <tr>
@@ -119,10 +153,10 @@ of principal components  and <code>relpred</code> for relevant position of predi
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Sæbø, S., Almøy, T., &amp; Helland, I. S. (2015). simrel—A versatile tool for linear 
-model data simulation based on the concept of a relevant subspace and relevant predictors. 
+    <p>Sæbø, S., Almøy, T., &amp; Helland, I. S. (2015). simrel—A versatile tool for linear
+model data simulation based on the concept of a relevant subspace and relevant predictors.
 Chemometrics and Intelligent Laboratory Systems, 146, 128-135.</p>
-<p>Almøy, T. (1996). A simulation study on comparison of prediction methods when only a 
+<p>Almøy, T. (1996). A simulation study on comparison of prediction methods when only a
 few components are relevant. Computational statistics &amp; data analysis, 21(1), 87-107.</p>
     
 
@@ -132,7 +166,7 @@ few components are relevant. Computational statistics &amp; data analysis, 21(1)
 <span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'>cov_plot</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"relpos"</span>, <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'>cov_plot</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"rotation"</span>, <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'>cov_plot</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"relpred"</span>, <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='kw'>gridExtra</span><span class='kw'>::</span><span class='fu'>grid.arrange</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><img src='cov_plot-2.png' alt='' width='540' height='400' /></pre>
+<span class='kw pkg'>gridExtra</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob'>grid.arrange</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='img'><img src='cov_plot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -155,11 +189,14 @@ few components are relevant. Computational statistics &amp; data analysis, 21(1)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

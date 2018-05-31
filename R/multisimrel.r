@@ -134,7 +134,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   RotX <- diag(p)
   RotY <- diag(m)
 
-  getRotate <- function(predPos){
+  getRotate <- function(predPos) {
     n    <- length(predPos)
     Qmat <- matrix(rnorm(n ^ 2), n)
     Qmat <- scale(Qmat, scale = FALSE)
@@ -157,7 +157,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
 
   ## True Regression Coefficient
   betaZ <- SigmaZinv %*% SigmaZW
-  betaX <- RotX %*% betaZ %*% t(RotY)
+  betaX <- Reduce(`%*%`, list(RotX, betaZ, t(RotY)))
 
   ## Geting Coef for Intercept
   beta0 <- rep(0, m)
@@ -168,9 +168,9 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     beta0 <- beta0 - t(betaX) %*% muX
   }
   ## Rotation was not correct, now it is good, i suppose
-  SigmaY   <- RotY %*% SigmaW %*% t(RotY)
-  SigmaX   <- RotX %*% SigmaZ %*% t(RotX)
-  SigmaYX  <- RotY %*% t(SigmaZW) %*% t(RotX)
+  SigmaY   <- Reduce(`%*%`, list(RotY, SigmaW, t(RotY)))
+  SigmaX   <- Reduce(`%*%`, list(RotX, SigmaZ, t(RotX)))
+  SigmaYX  <- Reduce(`%*%`, list(RotY, t(SigmaZW), t(RotX)))
   SigmaYZ  <- RotY %*% t(SigmaZW)
   SigmaWX  <- t(SigmaZW) %*% RotX
   SigmaOut <- rbind(
@@ -178,31 +178,16 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     cbind(t(SigmaYX), SigmaX)
   )
 
-  ## True Coefficient of Determination for W's
-  # RsqW <- matrix(0, nrow = m, ncol = m)
-  # for (row in 1:m) {
-  #   for (col in 1:m) {
-  #     RsqW[row, col] <- (SigmaZW[, row] %*% SigmaZinv %*% t(SigmaZW)[col, ])/
-  #       sqrt(SigmaW[row, row] * SigmaW[col, col])
-  #   }
-  # }
-  # 
-  # RsqY <- matrix(0, nrow = m, ncol = m)
-  # for (row in 1:m) {
-  #   for (col in 1:m) {
-  #     RsqY[row, col] <- (SigmaYX[row, ] %*% (RotX %*% SigmaZinv %*% t(RotX)) %*% t(SigmaYX)[ , col])/
-  #       sqrt(SigmaY[row, row] * SigmaY[col, col])
-  #   }
-  # }
-  
   var_w <- diag(1/sqrt(diag(SigmaW)))
-  RsqW <- var_w %*% (t(SigmaZW) %*% SigmaZinv %*% SigmaZW) %*% var_w
-  var_y <- diag(1/sqrt(diag(SigmaY)))
-  RsqY <- var_y %*% (RotY %*% t(SigmaZW) %*% SigmaZinv %*% SigmaZW %*% t(RotY)) %*% var_y
+  RsqW <- Reduce(`%*%`, list(var_w, t(SigmaZW), SigmaZinv, SigmaZW, var_w))
+  var_y <- diag(-1/sqrt(diag(SigmaY)))
+  RsqY <- Reduce(`%*%`, list(var_y, RotY, t(SigmaZW), SigmaZinv, SigmaZW, t(RotY), var_y))
 
   ## Minimum Error
-  # minerror <- SigmaY - SigmaYX %*% (RotX %*% SigmaZinv %*% t(RotX)) %*% t(SigmaYX)
-  minerror <- t(RotY) %*% (SigmaW - t(SigmaZW) %*% SigmaZinv %*% SigmaZW) %*% RotY
+  ## minerror <- SigmaY - SigmaYX, (RotX, SigmaZinv, t(RotX)), t(SigmaYX)
+
+  var_expl <- Reduce(`%*%`, list(RotY, t(SigmaZW), SigmaZinv, SigmaZW, t(RotY)))
+  minerror <- SigmaY - var_expl
 
   ## Check for Positive Definite
   pd <- all(eigen(Sigma)$values > 0)
@@ -221,7 +206,7 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   colnames(X) <- paste0('X', 1:p)
   colnames(Y) <- paste0('Y', 1:m)
 
-### Test Data
+  ## Test Data
   if (!is.null(ntest)) {
     test_cal <- matrix(rnorm(ntest * (p + m), 0, 1), nrow = ntest)
     test_cal <- test_cal %*% SigmaRot
