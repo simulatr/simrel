@@ -1,6 +1,6 @@
 Package: simrel
 Title: Simulation of Multivariate Linear Model Data
-Version: 0.1
+Version: 0.5
 Authors@R: c(
            person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut", "cre")),
            person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut")))
@@ -15,7 +15,10 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
 VignetteBuilder: knitr
+Suggests:
+    pls
 Imports:
+    knitr,
     shiny,
     miniUI,
     rstudioapi,
