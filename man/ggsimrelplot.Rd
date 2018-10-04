@@ -5,7 +5,7 @@
 \title{Simulation Plot with ggplot: The true beta, relevant component and eigen structure}
 \usage{
 ggsimrelplot(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
-  layout = NULL, print.cov = FALSE)
+  layout = NULL, print.cov = FALSE, use_population = TRUE)
 }
 \arguments{
 \item{obj}{A simrel object}
@@ -17,6 +17,8 @@ ggsimrelplot(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
 \item{layout}{A layout matrix of how to layout multiple plots}
 
 \item{print.cov}{Output estimated covariance structure}
+
+\item{use_population}{Logical, TRUE if population values should be used and FALSE if sample values should be used}
 }
 \value{
 A list of plots
@@ -32,7 +34,9 @@ sim.obj <- simrel(n = 100, p = 16, q = c(3, 4, 5),
 
 ggsimrelplot(sim.obj, layout = matrix(c(2, 1, 3, 1), 2))
 
-ggsimrelplot(sim.obj, which = c(1, 2))
+ggsimrelplot(sim.obj, which = c(1, 2), use_population = TRUE)
+
+ggsimrelplot(sim.obj, which = c(1, 2), use_population = FALSE)
 
 ggsimrelplot(sim.obj, which = c(1, 3), layout = matrix(c(1, 2), 1))
 }

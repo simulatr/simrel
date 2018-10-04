@@ -8,6 +8,7 @@
 #' @param layout A layout matrix of how to layout multiple plots
 #' @param print.cov Output estimated covariance structure
 #' @param which A character indicating which plot you want as output, it can take \code{TrueBeta}, \code{RelComp} and \code{EstRelComp}
+#' @param use_population Logical, TRUE if population values should be used and FALSE if sample values should be used
 #' @return A list of plots
 #' @examples
 #' sim.obj <- simrel(n = 100, p = 16, q = c(3, 4, 5),
@@ -17,13 +18,15 @@
 #'
 #' ggsimrelplot(sim.obj, layout = matrix(c(2, 1, 3, 1), 2))
 #'
-#' ggsimrelplot(sim.obj, which = c(1, 2))
+#' ggsimrelplot(sim.obj, which = c(1, 2), use_population = TRUE)
+#'
+#' ggsimrelplot(sim.obj, which = c(1, 2), use_population = FALSE)
 #'
 #' ggsimrelplot(sim.obj, which = c(1, 3), layout = matrix(c(1, 2), 1))
 #' @export
 
 ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
-           layout = NULL, print.cov = FALSE) {
+           layout = NULL, print.cov = FALSE, use_population = TRUE) {
     nx <- obj$p
     ny <- ncol(obj$Y)
     xticks <- 1:nx
@@ -58,8 +61,9 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
     ## Plot 2: Relevant Comoponents Plot
     idx <- if (obj$type == "univariate") 1 else ny
     covs <- obj$Sigma[-c(1:idx), 1:idx, drop = FALSE]
-    if (obj$type == "multivariate")
+    if (obj$type == "multivariate") {
       covs <- obj$SigmaWZ[-c(1:idx), 1:idx, drop = FALSE]
+    }
     covs.sc <- apply(covs, 2, function(x) {
       out <- abs(x)/max(abs(x))
       out[is.nan(out)] <- 0
@@ -100,15 +104,35 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
     })
 
     est.covs <- expression({
-      X <- scale(obj$X, center = TRUE, scale = FALSE)
-      Y <- scale(obj$Y, center = TRUE, scale = FALSE)
-
-      svdres <- svd(X)
-      eigval <- (svdres$d ^ 2)/(obj$n - 1)  #/(svdres$d ^ 2)[1]
-      eigval.sc <- eigval/eigval[1]
-
-      Z <- X %*% svdres$v
-      covs <- t(abs(cov(Y, Z)))
+      covs <- if (use_population) {
+          eigval <- obj$lambda
+          eigval.sc <- eigval/eigval[1]
+          covs <- switch(
+            obj$type,
+            univariate = {
+              m <- 1
+              rot <- obj$Rotation
+              covs <- obj$Sigma[-c(1:m), 1:m, drop = FALSE]
+              covs <- abs(rot %*% covs)
+            },
+            bivariate = {
+              m <- 2
+              covs <- obj$Sigma[-c(1:m), c(1:m), drop = FALSE]
+              covs <- abs(covs)
+            },
+            multivariate = abs(t(obj$SigmaYZ))
+          )
+        } else {
+          X <- scale(obj$X, center = TRUE, scale = FALSE)
+          Y <- scale(obj$Y, center = TRUE, scale = FALSE)
+          
+          svdres <- svd(X)
+          eigval <- (svdres$d ^ 2)/(obj$n - 1)  #/(svdres$d ^ 2)[1]
+          eigval.sc <- eigval/eigval[1]
+          
+          Z <- X %*% svdres$v
+          covs <- t(abs(cov(Y, Z)))
+        }
     })
 
     plt3 <- expression({
@@ -145,11 +169,55 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       coord_cartesian(xlim = c(1, ncomp)) +
       scale_color_discrete("Response")
     })
-
+    
+    est.covs.xy <- expression({
+      covs <- if (use_population) {
+          covs <- if(obj$type == "multivariate") {
+            abs(t(obj$SigmaYX))
+          } else {
+            m <- ifelse(obj$type == 'univariate', 1, 2)
+            p <- obj$p
+            covs <- obj$Sigma[-c(1:m), c(1:m), drop = FALSE]
+            covs <- abs(covs)
+          }
+        } else {
+          X <- scale(obj$X, center = TRUE, scale = FALSE)
+          Y <- scale(obj$Y, center = TRUE, scale = FALSE)
+          covs <- t(abs(cov(Y, X)))
+        }
+    })
+    
+    plt4 <- expression({
+      ## Plot 3: Estimated Relevant Component Plot
+      eval(est.covs.xy)
+      covs.sc <- apply(covs, 2, function(x) abs(x)/max(abs(x)))
+      covs.dt <- as.data.frame(cbind(1:obj$p, covs.sc[1:ncomp, ]), 1)
+      names(covs.dt) <- c("predictors", paste0("Y", 1:ny))
+      covs.stk <- melt(
+        covs.dt, 1,
+        variable.name = "response",
+        value.name = "covariance"
+      )
+      pjtr <- position_dodge(0.5)
+      plt4 <- ggplot(
+        covs.stk,
+        aes(predictors, covariance, color = response, group = response)) +
+        geom_line(position = pjtr) +
+        geom_point(position = pjtr) +
+        labs(x = "Predictors",
+             y = "Absolute Covariance between Predictors and Responses") +
+        theme(legend.position = if (ny == 1) "none" else "bottom") +
+        ggtitle("Estimated Covariance plot") +
+        scale_x_continuous(breaks = xticks) +
+        coord_cartesian(xlim = c(1, ncomp)) +
+        scale_color_discrete("Response")
+    })
+    
     plt <- list(
       TrueBeta = plt1,
       RelComp = plt2,
-      EstRelComp = plt3
+      EstRelComp = plt3,
+      EstCov = plt4
     )
 
     if (length(which) == 1) {
