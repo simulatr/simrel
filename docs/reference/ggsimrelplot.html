@@ -62,7 +62,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">simrel</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5</span>
       </span>
     </div>
 
@@ -128,7 +128,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>ggsimrelplot</span>(<span class='no'>obj</span>, <span class='kw'>ncomp</span> <span class='kw'>=</span> <span class='fu'>min</span>(<span class='no'>obj</span>$<span class='no'>p</span>, <span class='no'>obj</span>$<span class='no'>n</span>, <span class='fl'>20</span>), <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1L</span>:<span class='fl'>3L</span>,
-  <span class='kw'>layout</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>print.cov</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>layout</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>print.cov</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,6 +153,10 @@
       <th>print.cov</th>
       <td><p>Output estimated covariance structure</p></td>
     </tr>
+    <tr>
+      <th>use_population</th>
+      <td><p>Logical, TRUE if population values should be used and FALSE if sample values should be used</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -167,8 +171,9 @@
    <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.8</span>, <span class='fl'>0.7</span>, <span class='fl'>0.9</span>), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.8</span>)
 
 <span class='fu'>ggsimrelplot</span>(<span class='no'>sim.obj</span>, <span class='kw'>layout</span> <span class='kw'>=</span> <span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>1</span>), <span class='fl'>2</span>))</div><div class='img'><img src='ggsimrelplot-1.svg' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>ggsimrelplot</span>(<span class='no'>sim.obj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>))</div><div class='img'><img src='ggsimrelplot-2.svg' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>ggsimrelplot</span>(<span class='no'>sim.obj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='kw'>layout</span> <span class='kw'>=</span> <span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='fl'>1</span>))</div><div class='img'><img src='ggsimrelplot-3.svg' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>ggsimrelplot</span>(<span class='no'>sim.obj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='ggsimrelplot-2.svg' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggsimrelplot</span>(<span class='no'>sim.obj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='ggsimrelplot-3.svg' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggsimrelplot</span>(<span class='no'>sim.obj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='kw'>layout</span> <span class='kw'>=</span> <span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='fl'>1</span>))</div><div class='img'><img src='ggsimrelplot-4.svg' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
