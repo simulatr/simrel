@@ -12,6 +12,7 @@ output:
 knitr::opts_chunk$set(fig.show = "asis", comment = "#>",
                       fig.height = 6, fig.width = 9,
                       fig.path = "figure/",
+                      dev = 'svg', fig.retina = 2,
                       out.width = '100%')
 ```
 

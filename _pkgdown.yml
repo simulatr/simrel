@@ -12,3 +12,7 @@ navbar:
 template:
   params:
     bootswatch: simplex
+figures:
+  dev: grDevices::svg
+  fig.ext: svg
+  fig.retina: 2

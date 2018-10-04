@@ -1,7 +1,7 @@
 ---
 title: "Experimental Design and Simulation"
 author: "Raju Rimal"
-date: "`r Sys.Date()`"
+date: "2018-10-04"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -12,28 +12,19 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  out.width = "90%",
-  dev = "svg",
-  fig.retina = 2,
-  fig.width = 8,
-  fig.asp = 0.9,
-  fig.align = 'center'
-)
-```
+
 
 ## Loading Packages
-```{r, message = FALSE, warning=FALSE}
+
+```r
 library(simrel)
 library(pls)
 library(ggplot2)
 ```
 
 ## Setting up parameters list
-```{r}
+
+```r
 sim_list <- list(
     p = c(20, 150),
     gamma = seq(0.2, 1.1, length.out = 4),
@@ -47,7 +38,8 @@ sim_list <- list(
 
 ## Experimental Design
 
-```{r}
+
+```r
 design <- mbrdsim(sim_list, fraction = 3)[["Design"]]
   design <- cbind(
     design,
@@ -64,7 +56,8 @@ From the simulation parameters in each row of `design` table, we run our simulat
 
 ## Simulation
 
-```{r}
+
+```r
 sobj <- apply(design, 1, function(x) do.call(simrel, x))
   names(sobj) <- paste0("Design", seq.int(sobj))
 ```
@@ -75,7 +68,8 @@ Now we have eight datasets with distict properties as we have desired. We can no
 
 The estimation methods we have used here is PCR and PLS. Now we can fit each of our data using PCR and PLS method.
 
-```{r}
+
+```r
 fit <- list()
   fit$pcr <- lapply(sobj, function(obj) {
     dta <- data.frame(x = I(obj$X), y = I(obj$Y))
@@ -90,7 +84,8 @@ fit <- list()
 ### Calculating RMSEP
 We base our comparison on the basis of root mean square error of prediction. We can calculate and compare both cross-validated and test error.
 
-```{r}
+
+```r
 rmsep <- lapply(fit, function(f){
     sapply(names(f), function(d){
       new_data <- with(sobj[[d]], data.frame(x = I(testX), y = I(testY)))
@@ -101,7 +96,8 @@ rmsep <- lapply(fit, function(f){
 ```
 
 ## Plotting RMSEP
-```{r}
+
+```r
 get_error_plot <- function(dgn){
     df <- do.call(rbind, lapply(rmsep, "[[", dgn))
     df$method <- gsub("\\.[0-9]+", "", rownames(df))
@@ -118,9 +114,17 @@ get_error_plot <- function(dgn){
 
 The above function, can plot prediction error (RMSEP) from both estimation methods for all three response variables. Lets plot the error for first and second design,
 
-```{r}
+
+```r
 get_error_plot(1)
+```
+
+<img src="figure/unnamed-chunk-8-1.svg" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="90%" style="display: block; margin: auto;" />
+
+```r
 get_error_plot(2)
 ```
+
+<img src="figure/unnamed-chunk-8-2.svg" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="90%" style="display: block; margin: auto;" />
 
 
