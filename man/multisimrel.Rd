@@ -4,10 +4,10 @@
 \alias{multisimrel}
 \title{Simulation of Multivariate Linear Model Data}
 \usage{
-multisimrel(n = 100, p = 15, q = c(5, 4, 3), m = 5, relpos = list(c(1,
-  2), c(3, 4, 6), c(5, 7)), gamma = 0.6, R2 = c(0.8, 0.7, 0.8), eta = 0,
-  ntest = NULL, muX = NULL, muY = NULL, ypos = list(c(1), c(3, 4), c(2,
-  5)))
+multisimrel(n = 100, p = 15, q = c(5, 4, 3), m = 5,
+  relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)), gamma = 0.6,
+  R2 = c(0.8, 0.7, 0.8), eta = 0, ntest = NULL, muX = NULL,
+  muY = NULL, ypos = list(c(1), c(3, 4), c(2, 5)))
 }
 \arguments{
 \item{n}{Number of observations}
