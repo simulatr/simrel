@@ -103,9 +103,9 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
   df$col <- as.character(df$col)
   df[df$cov != 0 & is.na(df$col), "col"] <- "None"
   if (simtype == "bivariate") {
-    df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "Both", "None", NA))
+    df$col <- factor(df$col, levels = c(sort(unique(df$col)[grepl(yvar, unique(df$col))]), "Both", "None", NA))
   } else {
-    df$col <- factor(df$col, levels = c(unique(df$col)[grepl(yvar, unique(df$col))], "None", NA))
+    df$col <- factor(df$col, levels = c(sort(unique(df$col)[grepl(yvar, unique(df$col))]), "None", NA))
   }
   if (ordering) {
     df$v1 <- factor(as.character(df$v1), axlbl[idx])
