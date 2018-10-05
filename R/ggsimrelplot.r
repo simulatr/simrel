@@ -54,7 +54,8 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       labs(x = "Variable Number",
            y = expression(paste("Regression Coefficients (", beta, ")"))) +
       ggtitle("True Regression Coefficients") +
-      theme(legend.position = if (ny == 1) "none" else "bottom")
+      theme(legend.position = if (ny == 1) "none" else "bottom") +
+      scale_color_brewer(palette = 'Set1')
     })
 
     plt2 <- expression({
@@ -99,8 +100,9 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       ggtitle("Relevant Components Plot") +
       scale_x_continuous(breaks = xticks) +
       coord_cartesian(xlim = c(1, ncomp)) +
-      scale_color_discrete(ifelse(obj$type == "multivariate",
-                           "Response Component", "Response"))
+      scale_color_brewer(ifelse(obj$type == "multivariate",
+                           "Response Component", "Response"),
+                         palette = 'Set1')
     })
 
     est.covs <- expression({
@@ -167,7 +169,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       ggtitle("Estimated relevant components plot") +
       scale_x_continuous(breaks = xticks) +
       coord_cartesian(xlim = c(1, ncomp)) +
-      scale_color_discrete("Response")
+      scale_color_brewer("Response", palette = 'Set1')
     })
     
     est.covs.xy <- expression({
@@ -205,12 +207,12 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
         geom_line(position = pjtr) +
         geom_point(position = pjtr) +
         labs(x = "Predictors",
-             y = "Absolute Covariance between Predictors and Responses") +
+             y = "abs(covariance) between Predictor & Response") +
         theme(legend.position = if (ny == 1) "none" else "bottom") +
         ggtitle("Estimated Covariance plot") +
         scale_x_continuous(breaks = xticks) +
         coord_cartesian(xlim = c(1, ncomp)) +
-        scale_color_discrete("Response")
+        scale_color_brewer("Response", palette = 'Set1')
     })
     
     plt <- list(
