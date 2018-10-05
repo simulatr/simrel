@@ -89,10 +89,11 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
   n.relpos <- vapply(relpos, length, 0L)
 
   ## Irrelevant position of predictors
+  resample <- function(x,...){if(length(x)==1) x else sample(x,...)} 
   irrelpos <- setdiff(seq_len(p), Reduce(union, relpos))
   predPos  <- lapply(seq_along(relpos), function(i){
     pos      <- relpos[[i]]
-    ret      <- c(pos, sample(irrelpos, q[i] - length(pos)))
+    ret      <- c(pos, resample(irrelpos, q[i] - length(pos)))
     irrelpos <<- setdiff(irrelpos, ret)
     return(ret)
   })
@@ -150,10 +151,9 @@ multisimrel <- function(n = 100, p = 15, q = c(5, 4, 3), m = 5,
     rotMat         <- getRotate(pos)
     RotY[pos, pos] <- rotMat
   }
-
+  
   ## Fill remaining irrelevant space with random normal variates
   RotX[irrelpos, irrelpos] <- getRotate(irrelpos)
-
 
   ## True Regression Coefficient
   betaZ <- SigmaZinv %*% SigmaZW
