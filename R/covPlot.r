@@ -67,7 +67,6 @@ cov_plot <- function(sobj, type= "relpos", ordering = TRUE, facetting = TRUE) {
     idx <- c(1:m, idx + m)
   }
 
-  # browser()
   ## ---- Color Generator Matrix ----
   genmat <- mat[1:m, -c(1:m), drop = FALSE] != 0
   genmat[!genmat] <- NA
