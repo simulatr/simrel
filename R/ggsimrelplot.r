@@ -65,11 +65,16 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
     if (obj$type == "multivariate") {
       covs <- obj$SigmaWZ[-c(1:idx), 1:idx, drop = FALSE]
     }
-    covs.sc <- apply(covs, 2, function(x) {
-      out <- abs(x)/max(abs(x))
-      out[is.nan(out)] <- 0
-      return(out)
-    })
+    ## DoNot normalize for response ----
+    # covs.sc <- apply(covs, 2, function(x) {
+    #   out <- abs(x)/max(abs(x))
+    #   out[is.nan(out)] <- 0
+    #   return(out)
+    # })
+    ## End DoNot -----
+    ## Normalize by overall maximum value ------
+    covs.sc <- abs(covs)/max(covs)
+    ## End Normalize -------
     covs.dt <- as.data.frame(
       cbind(
         1:ncomp,
@@ -140,7 +145,10 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
     plt3 <- expression({
     ## Plot 3: Estimated Relevant Component Plot
     eval(est.covs)
-    covs.sc <- apply(covs, 2, function(x) abs(x)/max(abs(x)))
+    ## Normalize by overall maximum value ------
+    covs.sc <- abs(covs)/max(covs)
+    # covs.sc <- apply(covs, 2, function(x) abs(x)/max(abs(x)))
+    ## End Normalize -------
     covs.dt <- as.data.frame(
       cbind(1:ncomp,
             eigval.sc[1:ncomp],
@@ -192,7 +200,10 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
     plt4 <- expression({
       ## Plot 3: Estimated Relevant Component Plot
       eval(est.covs.xy)
-      covs.sc <- apply(covs, 2, function(x) abs(x)/max(abs(x)))
+      ## Normalize by overall maximum value ------
+      covs.sc <- abs(covs)/max(covs)
+      # covs.sc <- apply(covs, 2, function(x) abs(x)/max(abs(x)))
+      ## End Normalize -------
       covs.dt <- as.data.frame(cbind(1:obj$p, covs.sc[1:ncomp, ]), 1)
       names(covs.dt) <- c("predictors", paste0("Y", 1:ny))
       covs.stk <- melt(
