@@ -11,7 +11,7 @@ navbar:
       href: https://simulatr.github.io/simrel
 template:
   params:
-    bootswatch: simplex
+    bootswatch: cosmo
 figures:
   dev: grDevices::svg
   fig.ext: svg

@@ -73,7 +73,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
     # })
     ## End DoNot -----
     ## Normalize by overall maximum value ------
-    covs.sc <- abs(covs)/max(covs)
+    covs.sc <- abs(covs)/max(abs(covs))
     ## End Normalize -------
     covs.dt <- as.data.frame(
       cbind(
@@ -146,7 +146,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
     ## Plot 3: Estimated Relevant Component Plot
     eval(est.covs)
     ## Normalize by overall maximum value ------
-    covs.sc <- abs(covs)/max(covs)
+    covs.sc <- abs(covs)/max(abs(covs))
     # covs.sc <- apply(covs, 2, function(x) abs(x)/max(abs(x)))
     ## End Normalize -------
     covs.dt <- as.data.frame(
@@ -201,7 +201,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       ## Plot 3: Estimated Relevant Component Plot
       eval(est.covs.xy)
       ## Normalize by overall maximum value ------
-      covs.sc <- abs(covs)/max(covs)
+      covs.sc <- abs(covs)/max(abs(covs))
       # covs.sc <- apply(covs, 2, function(x) abs(x)/max(abs(x)))
       ## End Normalize -------
       covs.dt <- as.data.frame(cbind(1:obj$p, covs.sc[1:ncomp, ]), 1)
