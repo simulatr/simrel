@@ -7,7 +7,7 @@
 \usage{
 parse_parm(character_string, in_list = FALSE)
 
-prepare_design(option_list, tabular = T)
+prepare_design(option_list, tabular = TRUE)
 }
 \arguments{
 \item{character_string}{A character string for parameter where the items in a list is separated by semicolon. For example: 1, 2; 3, 4}
@@ -25,9 +25,6 @@ A list of parsed parameters for simulatr
 }
 \description{
 These function helps to parse a character string into a list object and also creates parameters for performing multiple simulations
-}
-\details{
-Helper Functions
 }
 \examples{
 parse_parm("1, 2; 3, 4")

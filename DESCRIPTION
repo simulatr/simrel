@@ -29,4 +29,7 @@ Imports:
     gridExtra,
     reshape2,
     sfsmisc,
-    FrF2
+    FrF2,
+    magrittr,
+    tibble,
+    tidyr
