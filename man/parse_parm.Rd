@@ -2,26 +2,17 @@
 % Please edit documentation in R/mesc.r
 \name{parse_parm}
 \alias{parse_parm}
-\alias{prepare_design}
 \title{Some helper function for simulation}
 \usage{
 parse_parm(character_string, in_list = FALSE)
-
-prepare_design(option_list, tabular = TRUE)
 }
 \arguments{
 \item{character_string}{A character string for parameter where the items in a list is separated by semicolon. For example: 1, 2; 3, 4}
 
 \item{in_list}{TRUE if the result need to wrap in a list, default is FALSE}
-
-\item{option_list}{A list of options that is to be parsed}
-
-\item{tabular}{logical if output is needed in tabular form or list format}
 }
 \value{
 A list or a vector
-
-A list of parsed parameters for simulatr
 }
 \description{
 These function helps to parse a character string into a list object and also creates parameters for performing multiple simulations
@@ -29,20 +20,4 @@ These function helps to parse a character string into a list object and also cre
 \examples{
 parse_parm("1, 2; 3, 4")
 parse_parm("1, 2")
-opts <- list(
-  n = rep(100, 2),
-  p = c(20, 40),
-  q = c("5, 5, 4",
-        "10, 5, 5"),
-  m = c(5, 5),
-  relpos = c("1; 2, 4; 3",
-             "1, 2; 3, 4; 5"),
-  gamma = c(0.2, 0.4),
-  R2 = c("0.8, 0.9, 0.7",
-         "0.6, 0.8, 0.7"),
-  ypos = c("1, 4; 2, 5; 3",
-           "1; 2, 4; 3, 5"),
-  ntest = rep(1000, 2)
-)
-design <- prepare_design(opts)
 }

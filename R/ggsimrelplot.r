@@ -132,11 +132,11 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
         } else {
           X <- scale(obj$X, center = TRUE, scale = FALSE)
           Y <- scale(obj$Y, center = TRUE, scale = FALSE)
-          
+
           svdres <- svd(X)
           eigval <- (svdres$d ^ 2)/(obj$n - 1)  #/(svdres$d ^ 2)[1]
           eigval.sc <- eigval/eigval[1]
-          
+
           Z <- X %*% svdres$v
           covs <- t(abs(cov(Y, Z)))
         }
@@ -179,7 +179,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       coord_cartesian(xlim = c(1, ncomp)) +
       scale_color_brewer("Response", palette = 'Set1')
     })
-    
+
     est.covs.xy <- expression({
       covs <- if (use_population) {
           covs <- if(obj$type == "multivariate") {
@@ -196,7 +196,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
           covs <- t(abs(cov(Y, X)))
         }
     })
-    
+
     plt4 <- expression({
       ## Plot 3: Estimated Relevant Component Plot
       eval(est.covs.xy)
@@ -225,7 +225,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
         coord_cartesian(xlim = c(1, ncomp)) +
         scale_color_brewer("Response", palette = 'Set1')
     })
-    
+
     plt <- list(
       TrueBeta = plt1,
       RelComp = plt2,

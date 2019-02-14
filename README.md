@@ -152,11 +152,11 @@ sim_obj <-
 
 Here `sim_obj` is a object with class `simrel` and constitue of a list
 of simulated linear model data along with other relevant properties.
-Lets use `plot` function to overview the
-situation,
+Lets use `plot` function to overview the situation,
 
 ``` r
-ggsimrelplot(sim_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
+plot_simrel(sim_obj, which = c(1, 2, 4),
+            layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 ```
 
 <img src="figure/simrel1-plot-1.svg" width="100%" />
@@ -192,11 +192,11 @@ simrel2_obj <-
   )
 ```
 
-Lets look at the
-plot,
+Lets look at the plot,
 
 ``` r
-ggsimrelplot(simrel2_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
+plot_simrel(simrel2_obj, which = c(1, 3, 4),
+            layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
 ```
 
 <img src="figure/simrel2_plot-1.svg" width="100%" />
@@ -242,11 +242,11 @@ simrel(
   )
 ```
 
-Lets look at the `simrel`
-plot;
+Lets look at the `simrel` plot;
 
 ``` r
-ggsimrelplot(simrel_m_obj, layout = matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
+plot_simrel(simrel_m_obj, which = 1:4,
+            layout = matrix(1:4, 2, 2, byrow = TRUE))
 ```
 
 <img src="figure/simrelm_plot-1.svg" width="100%" />

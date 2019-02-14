@@ -24,7 +24,7 @@ Plotting Functions
 }
 \examples{
 sobj <- multisimrel()
-sobj \%>\% 
+sobj \%>\%
     plot_beta(
         base_theme = ggplot2::theme_bw,
         lab_list = list(

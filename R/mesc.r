@@ -45,7 +45,8 @@ parse_parm <- function(character_string, in_list = FALSE){
 #'   ntest = rep(1000, 2)
 #' )
 #' design <- prepare_design(opts)
-#' @rdname parse_parm
+#' design
+#' @rdname prepare_design
 #' @export
 prepare_design <- function(option_list, tabular = TRUE){
   n_design <- max(sapply(option_list, length))
@@ -75,7 +76,7 @@ prepare_design <- function(option_list, tabular = TRUE){
 #' @examples
 #' sobj <- multisimrel()
 #' beta_df <- tidy_beta(sobj)
-#' head(beta_df)
+#' beta_df
 #' @rdname tidy_beta
 #' @export
 tidy_beta <- function(obj) {
@@ -117,7 +118,6 @@ cov_mat <- function(obj, which = c("xy", "zy", "zw"), use_population = TRUE) {
 #' @name tidy_sigma
 #' @title Tidy covariance matrix
 #' @param covs A sigma matrix obtained from cov_mat function
-#' @param population A boolean to specify where the covariance should be estimated from sample data or computed from true population values
 #' @return A tibble with three columns: Predictor, Response and Covariance
 #' @importFrom purrr pluck modify_at
 #' @importFrom tibble as_tibble
@@ -130,7 +130,7 @@ cov_mat <- function(obj, which = c("xy", "zy", "zw"), use_population = TRUE) {
 #' head(sigma_df)
 #' @rdname tidy_sigma
 #' @export
-tidy_sigma <- function(covs, population = TRUE) {
+tidy_sigma <- function(covs) {
   n_pred <- nrow(covs)
   n_resp <- ncol(covs)
   dimnames(covs) <- list(1:n_pred, paste0("_", 1:n_resp))
@@ -160,7 +160,6 @@ abs_sigma <- function(sigma_df) {
     modify_at("Covariance", ~abs(..1)/max(abs(..1)))
 }
 
-
 #' @name tidy_lambda
 #' @title Extract Eigenvalues of predictors
 #' @param obj A simrel Object
@@ -188,7 +187,6 @@ tidy_lambda <- function(obj, use_population = TRUE) {
     lambda = lmd
   )
 }
-
 
 #' Helper Functions
 #' @keywords intgernal

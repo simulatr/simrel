@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulation of Multivariate Linear Model Data — AppSimrel • simrel</title>
+<title>Extract Eigenvalues of predictors — tidy_lambda • simrel</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Simulation of Multivariate Linear Model Data — AppSimrel" />
+<meta property="og:title" content="Extract Eigenvalues of predictors — tidy_lambda" />
 
-<meta property="og:description" content="Simulation of Multivariate Linear Model Data" />
+<meta property="og:description" content="Extract Eigenvalues of predictors" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,25 +117,68 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simulation of Multivariate Linear Model Data</h1>
+    <h1>Extract Eigenvalues of predictors</h1>
     
-    <div class="hidden name"><code>AppSimrel.Rd</code></div>
+    <div class="hidden name"><code>tidy_lambda.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Simulation of Multivariate Linear Model Data</p>
+    <p>Extract Eigenvalues of predictors</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>AppSimrel</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>tidy_lambda</span>(<span class='no'>obj</span>, <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>obj</th>
+      <td><p>A simrel Object</p></td>
+    </tr>
+    <tr>
+      <th>use_population</th>
+      <td><p>A boolean to specify where to use population value or calculate from sample</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A dataframe of eigenvalues for each predictors</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>sobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='multisimrel.html'>multisimrel</a></span>()
+<span class='no'>sobj</span> <span class='kw'>%&gt;%</span>
+    <span class='fu'>tidy_lambda</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 15 x 2</span><span>
+#&gt;    Predictor   lambda
+#&gt;        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>         1 1       
+#&gt; </span><span style='color: #555555;'> 2</span><span>         2 0.549   
+#&gt; </span><span style='color: #555555;'> 3</span><span>         3 0.301   
+#&gt; </span><span style='color: #555555;'> 4</span><span>         4 0.165   
+#&gt; </span><span style='color: #555555;'> 5</span><span>         5 0.090</span><span style='text-decoration: underline;'>7</span><span>  
+#&gt; </span><span style='color: #555555;'> 6</span><span>         6 0.049</span><span style='text-decoration: underline;'>8</span><span>  
+#&gt; </span><span style='color: #555555;'> 7</span><span>         7 0.027</span><span style='text-decoration: underline;'>3</span><span>  
+#&gt; </span><span style='color: #555555;'> 8</span><span>         8 0.015</span><span style='text-decoration: underline;'>0</span><span>  
+#&gt; </span><span style='color: #555555;'> 9</span><span>         9 0.008</span><span style='text-decoration: underline;'>23</span><span> 
+#&gt; </span><span style='color: #555555;'>10</span><span>        10 0.004</span><span style='text-decoration: underline;'>52</span><span> 
+#&gt; </span><span style='color: #555555;'>11</span><span>        11 0.002</span><span style='text-decoration: underline;'>48</span><span> 
+#&gt; </span><span style='color: #555555;'>12</span><span>        12 0.001</span><span style='text-decoration: underline;'>36</span><span> 
+#&gt; </span><span style='color: #555555;'>13</span><span>        13 0.000</span><span style='text-decoration: underline;'>747</span><span>
+#&gt; </span><span style='color: #555555;'>14</span><span>        14 0.000</span><span style='text-decoration: underline;'>410</span><span>
+#&gt; </span><span style='color: #555555;'>15</span><span>        15 0.000</span><span style='text-decoration: underline;'>225</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

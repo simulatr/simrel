@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plotting Covariance Matrix — cov_plot • simrel</title>
+<title>Extract various sigma matrices — cov_mat • simrel</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Plotting Covariance Matrix — cov_plot" />
+<meta property="og:title" content="Extract various sigma matrices — cov_mat" />
 
-<meta property="og:description" content="Plotting Covariance Matrix" />
+<meta property="og:description" content="Extract various sigma matrices" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,61 +117,75 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plotting Covariance Matrix</h1>
+    <h1>Extract various sigma matrices</h1>
     
-    <div class="hidden name"><code>cov_plot.Rd</code></div>
+    <div class="hidden name"><code>cov_mat.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Plotting Covariance Matrix</p>
+    <p>Extract various sigma matrices</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>cov_plot</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"relpos"</span>, <span class='kw'>ordering</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>cov_mat</span>(<span class='no'>obj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"xy"</span>, <span class='st'>"zy"</span>, <span class='st'>"zw"</span>), <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sobj</th>
+      <th>obj</th>
       <td><p>A simrel object</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>Type of covariance matrix - can take two values <code>relpos</code> for relevant position
-of principal components  and <code>relpred</code> for relevant position of predictor variables</p></td>
+      <th>which</th>
+      <td><p>A character string to specify which covariance matrix to extract, possible values are "xy", "zy" and "zw"</p></td>
     </tr>
     <tr>
-      <th>ordering</th>
-      <td><p>TRUE for ordering the covariance for block diagonal display</p></td>
-    </tr>
-    <tr>
-      <th>facetting</th>
-      <td><p>TRUE for facetting the predictor and response space. FALSE will give a single facet plot</p></td>
+      <th>use_population</th>
+      <td><p>A boolean whether to use compute population values or to estimate from sample</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A covariance plot</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Sæbø, S., Almøy, T., &amp; Helland, I. S. (2015). simrel—A versatile tool for linear
-model data simulation based on the concept of a relevant subspace and relevant predictors.
-Chemometrics and Intelligent Laboratory Systems, 146, 128-135.</p>
-<p>Almøy, T. (1996). A simulation study on comparison of prediction methods when only a
-few components are relevant. Computational statistics &amp; data analysis, 21(1), 87-107.</p>
+    <p>A matrix of covariances with column equals to the number of response and row equals to the number of predictors</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>sobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simrel.html'>simrel</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>5</span>), <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>7</span>)), <span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-               <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.8</span>, <span class='fl'>0.7</span>), <span class='kw'>ypos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='fl'>2</span>), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"multivariate"</span>)
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'>cov_plot</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"relpos"</span>, <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'>cov_plot</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"rotation"</span>, <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'>cov_plot</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"relpred"</span>, <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='kw pkg'>gridExtra</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob'>grid.arrange</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='img'><img src='cov_plot-1.svg' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1983</span>)
+<span class='no'>sobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='multisimrel.html'>multisimrel</a></span>()
+<span class='fu'>cov_mat</span>(<span class='no'>sobj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"xy"</span>, <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;              [,1]        [,2]        [,3]        [,4]        [,5]
+#&gt;  [1,]  0.05473538  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt;  [2,]  0.44858369  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt;  [3,]  0.00000000 -0.10890699  0.00000000  0.00000000  0.10890699
+#&gt;  [4,]  0.00000000  0.02184183  0.00000000  0.00000000 -0.02184183
+#&gt;  [5,]  0.00000000  0.00000000  0.01324199 -0.01324199  0.00000000
+#&gt;  [6,]  0.00000000  0.19497385  0.00000000  0.00000000 -0.19497385
+#&gt;  [7,]  0.00000000  0.00000000  0.10910888 -0.10910888  0.00000000
+#&gt;  [8,]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt;  [9,] -0.47857313  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [10,]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [11,] -0.38466577  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [12,]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [13,]  0.00000000 -0.10790869  0.00000000  0.00000000  0.10790869
+#&gt; [14,]  0.35991983  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [15,]  0.00000000  0.00000000 -0.12235087  0.12235087  0.00000000</div><div class='input'><span class='fu'>cov_mat</span>(<span class='no'>sobj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"xy"</span>, <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;               [,1]         [,2]         [,3]         [,4]         [,5]
+#&gt;  [1,]  0.145263915  0.017631669 -0.032045772 -0.018564666  0.002962169
+#&gt;  [2,]  0.323151799 -0.057343006 -0.040733768 -0.036911362  0.012970942
+#&gt;  [3,] -0.009934655 -0.062877145  0.016093506  0.043792272  0.060131832
+#&gt;  [4,]  0.078225100 -0.001245780 -0.033014796 -0.035162014  0.029018231
+#&gt;  [5,]  0.019800746  0.004753679  0.019276631 -0.003389837  0.002513105
+#&gt;  [6,] -0.012727953  0.142092195 -0.006986039 -0.066301173 -0.172192504
+#&gt;  [7,] -0.013961217  0.019943101  0.095711969 -0.116314980  0.008524964
+#&gt;  [8,]  0.002648292 -0.001714722 -0.010480929 -0.007980862 -0.007653784
+#&gt;  [9,] -0.458636089  0.025047687  0.078075671  0.054159473 -0.016694564
+#&gt; [10,]  0.003724002  0.003838364  0.012438437 -0.003391220  0.006066926
+#&gt; [11,] -0.380194600  0.022665575  0.043690289  0.050744647 -0.020487909
+#&gt; [12,] -0.001929436 -0.004590749 -0.001657028  0.009683063 -0.004324354
+#&gt; [13,] -0.046783434 -0.071168913  0.014365823  0.046946504  0.088783345
+#&gt; [14,]  0.365710152 -0.012629579 -0.047273239 -0.051212973  0.021874649
+#&gt; [15,] -0.003294031 -0.021345598 -0.112795448  0.118332842 -0.008652385</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -179,8 +193,6 @@ few components are relevant. Computational statistics &amp; data analysis, 21(1)
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -4,12 +4,10 @@
 \alias{tidy_sigma}
 \title{Tidy covariance matrix}
 \usage{
-tidy_sigma(covs, population = TRUE)
+tidy_sigma(covs)
 }
 \arguments{
 \item{covs}{A sigma matrix obtained from cov_mat function}
-
-\item{population}{A boolean to specify where the covariance should be estimated from sample data or computed from true population values}
 }
 \value{
 A tibble with three columns: Predictor, Response and Covariance

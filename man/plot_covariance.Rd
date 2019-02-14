@@ -4,7 +4,7 @@
 \alias{plot_covariance}
 \title{Plot Covariance between predictor (components) and response (components)}
 \usage{
-plot_covariance(sigma_df, lambda_df, base_theme = theme_grey,
+plot_covariance(sigma_df, lambda_df = NULL, base_theme = theme_grey,
   lab_list = NULL, theme_list = NULL)
 }
 \arguments{
@@ -26,11 +26,11 @@ Plot Covariance between predictor (components) and response (components)
 }
 \examples{
 sobj <- bisimrel(p = 12)
-sigma_df <- sobj \%>\% 
-    cov_mat(which = "zy") \%>\% 
-    tidy_sigma() \%>\% 
+sigma_df <- sobj \%>\%
+    cov_mat(which = "zy") \%>\%
+    tidy_sigma() \%>\%
     abs_sigma()
-lambda_df <- sobj \%>\% 
+lambda_df <- sobj \%>\%
     tidy_lambda()
 plot_covariance(
     sigma_df,
