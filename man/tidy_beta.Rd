@@ -27,7 +27,7 @@ Absolute value of sigma scaled by the overall maximum absolute value
 \examples{
 sobj <- multisimrel()
 beta_df <- tidy_beta(sobj)
-head(as.data.frame(beta_df))
+beta_df
 sobj <- multisimrel()
 sobj \%>\% 
     cov_mat("zy") \%>\% 

@@ -34,5 +34,5 @@ opts <- list(
   ntest = rep(1000, 2)
 )
 design <- prepare_design(opts)
-print(as.data.frame(design))
+design
 }
