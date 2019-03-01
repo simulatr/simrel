@@ -33,3 +33,5 @@ Imports:
     shinyBS,
     tibble,
     tidyr
+Suggests: 
+    testthat
