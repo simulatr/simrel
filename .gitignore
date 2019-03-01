@@ -3,6 +3,4 @@
 .RData
 .Ruserdata
 /.Rapp.history
-inst/doc
-R/TestSimrel/
-R/scratch/
+internal/

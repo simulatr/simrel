@@ -13,7 +13,5 @@ _config.yml
 R/*.bak
 R/*.Rmd
 _pkgdown.yml
-R/test-simrel/
-R/TestSimrel/
+internal/
 pkgdown/
-R/scratch/

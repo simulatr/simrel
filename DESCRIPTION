@@ -15,22 +15,21 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
-Suggests:
-    pls
 Imports:
-    knitr,
-    shiny,
-    miniUI,
-    rstudioapi,
-    shinyBS,
-    jsonlite,
-    ggplot2,
-    purrr,
-    gridExtra,
-    reshape2,
-    sfsmisc,
     FrF2,
+    ggplot2,
+    gridExtra,
+    jsonlite,
+    knitr,
     magrittr,
+    miniUI,
+    pls,
+    purrr,
+    reshape2,
+    rstudioapi,
+    scales,
+    sfsmisc,
+    shiny,
+    shinyBS,
     tibble,
-    tidyr,
-    scales
+    tidyr
