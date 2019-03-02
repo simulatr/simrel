@@ -17,8 +17,5 @@ Tidy covariance matrix
 }
 \examples{
 sobj <- multisimrel()
-sigma_df <- sobj \%>\% 
-    cov_mat("zy") \%>\% 
-    tidy_sigma()
 head(sigma_df)
 }

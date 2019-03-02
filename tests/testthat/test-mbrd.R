@@ -11,8 +11,10 @@ testthat::test_that(
     expect_named(design1, c("BitDesign", "Design"))
     expect_error(mbrd(l2levels = c(2, 2), fraction = 3),
                  "runs are not covered by FrF2.")
-    expect_dim(design1$BitDesign, c(16, 4))
-    expect_dim(design2$BitDesign, c(32, 8))
+    expect_equal(nrow(design1$BitDesign), 16)
+    expect_equal(ncol(design1$BitDesign), 4)
+    expect_equal(nrow(design2$BitDesign), 32)
+    expect_equal(ncol(design2$BitDesign), 8)
     expect_equal(nrow(design1$BitDesign), nrow(design1$Design))
     expect_equal(nrow(design2$BitDesign), nrow(design2$Design))
     expect_equal(ncol(design1$BitDesign), 2^ncol(design1$Design))
@@ -36,8 +38,10 @@ sim_list3 <- list(
 testthat::test_that(
   "Test function creating MBR simulation design.", {
     expect_true(all(sapply(sim_list1, length) == length(sim_list1[[1]])))
-    expect_dim(mbrdsim(sim_list1, 2)[["BitDesign"]], c(16, 6))
-    expect_dim(mbrdsim(sim_list1, 2)[["Design"]], c(16, 3))
+    expect_equal(ncol(mbrdsim(sim_list1, 2)[["BitDesign"]]), 6)
+    expect_equal(nrow(mbrdsim(sim_list1, 2)[["BitDesign"]]), 16)
+    expect_equal(ncol(mbrdsim(sim_list1, 2)[["Design"]]), 3)
+    expect_equal(nrow(mbrdsim(sim_list1, 2)[["Design"]]), 16)
     expect_error(mbrdsim(sim_list2, 1), "runs are not covered by FrF2")
     expect_error(mbrdsim(sim_list2), "argument \"fraction\" is missing")
     expect_error(mbrdsim(sim_list3, 1), "nruns must be a power of 2.")

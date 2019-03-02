@@ -56,9 +56,9 @@ cov_mat <- function(obj, which = c("xy", "zy", "zw"), use_population = TRUE) {
 #' @importFrom tidyr gather_
 #' @examples
 #' sobj <- multisimrel()
-#' sigma_df <- sobj %>% 
-#'     cov_mat("zy") %>% 
-#'     tidy_sigma()
+#  sigma_df <- sobj %>%
+#     cov_mat("zy") %>%
+#     tidy_sigma()
 #' head(sigma_df)
 #' @rdname tidy_sigma
 #' @export
