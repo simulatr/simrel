@@ -2,8 +2,8 @@ Simulation of Multivariate Linear Model Data
 ================
 Raju Rimal, Trygve Almøy & Solve Sæbø
 
-[![Build
-Status](https://travis-ci.org/simulatr/simrel.svg?branch=master)](https://travis-ci.org/simulatr/simrel)
+[![Build Status](https://travis-ci.org/simulatr/simrel.svg?branch=master)](https://travis-ci.org/simulatr/simrel)
+ [![Codecov test coverage](https://codecov.io/gh/simulatr/simrel/branch/master/graph/badge.svg)](https://codecov.io/gh/simulatr/simrel?branch=master)
 
 # Introduction
 

@@ -1,3 +1,4 @@
+^codecov\.yml$
 ^_pkgdown\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$

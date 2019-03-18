@@ -7,6 +7,7 @@ output:
 ---
 
 [![Build Status](https://travis-ci.org/simulatr/simrel.svg?branch=master)](https://travis-ci.org/simulatr/simrel)
+[![Codecov test coverage](https://codecov.io/gh/simulatr/simrel/branch/master/graph/badge.svg)](https://codecov.io/gh/simulatr/simrel?branch=master)
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(fig.show = "asis", comment = "#>",

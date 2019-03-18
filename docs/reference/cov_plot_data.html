@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tidy covariance matrix — tidy_sigma • simrel</title>
+<title>Prepare data for Plotting Covariance Matrix — cov_plot_data • simrel</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Tidy covariance matrix — tidy_sigma" />
+<meta property="og:title" content="Prepare data for Plotting Covariance Matrix — cov_plot_data" />
 
-<meta property="og:description" content="Tidy covariance matrix" />
+<meta property="og:description" content="Prepare data for Plotting Covariance Matrix" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,35 +117,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tidy covariance matrix</h1>
+    <h1>Prepare data for Plotting Covariance Matrix</h1>
     
-    <div class="hidden name"><code>tidy_sigma.Rd</code></div>
+    <div class="hidden name"><code>cov_plot_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Tidy covariance matrix</p>
+    <p>Prepare data for Plotting Covariance Matrix</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tidy_sigma</span>(<span class='no'>covs</span>)</pre>
+    <pre class="usage"><span class='fu'>cov_plot_data</span>(<span class='no'>sobj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"relpos"</span>, <span class='kw'>ordering</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>facetting</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>covs</th>
-      <td><p>A sigma matrix obtained from cov_mat function</p></td>
+      <th>sobj</th>
+      <td><p>A simrel object</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>Type of covariance matrix - can take two values <code>relpos</code> for relevant position
+of principal components  and <code>relpred</code> for relevant position of predictor variables</p></td>
+    </tr>
+    <tr>
+      <th>ordering</th>
+      <td><p>TRUE for ordering the covariance for block diagonal display</p></td>
+    </tr>
+    <tr>
+      <th>facetting</th>
+      <td><p>TRUE for facetting the predictor and response space. FALSE will give a single facet plot</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with three columns: Predictor, Response and Covariance</p>
+    <p>A data frame with covariances and related values based on <code>type</code> argument that is  ready to plot</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>sobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='multisimrel.html'>multisimrel</a></span>()</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>sobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simrel.html'>simrel</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>5</span>), <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>7</span>)), <span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+               <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.8</span>, <span class='fl'>0.7</span>), <span class='kw'>ypos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='fl'>2</span>), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"multivariate"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>cov_plot_data</span>(<span class='no'>sobj</span>))</div><div class='output co'>#&gt;   v1  v2  col       cov facet1 facet2
+#&gt; 1 W1  W1   W1 1.0000000      W      W
+#&gt; 2 W1  W2 &lt;NA&gt; 0.0000000      W      W
+#&gt; 3 W1  W3 &lt;NA&gt; 0.0000000      W      W
+#&gt; 4 W1  Z1   W1 0.5488763      W      Z
+#&gt; 5 W1 Z10 &lt;NA&gt; 0.0000000      W      Z
+#&gt; 6 W1  Z2   W1 0.4795793      W      Z</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

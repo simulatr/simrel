@@ -21,7 +21,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -84,31 +84,60 @@
 
       
       </header><div class="row">
-  <div class="col-md-9 contents">
-    
+  <div class="contents col-md-9">
 
-    
-    
-
-<div id="introduction" class="section level1">
+<div id="simulation-of-multivariate-linear-model-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1></div>
+<a href="#simulation-of-multivariate-linear-model-data" class="anchor"></a>Simulation of Multivariate Linear Model Data</h1></div>
+<p>Raju Rimal, Trygve Almøy &amp; Solve Sæbø</p>
+<p><a href="https://travis-ci.org/simulatr/simrel"><img src="https://travis-ci.org/simulatr/simrel.svg?branch=master" alt="Build Status"></a> <a href="https://codecov.io/gh/simulatr/simrel?branch=master"><img src="https://codecov.io/gh/simulatr/simrel/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></p>
+</div>
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h1>
 <p><code>Simrel</code> r-package is a versatile tool for simulation of multivariate linear model data. The package consist of four core functions – <code>unisimrel</code>, <code>bisimrel</code>, <code>multisimrel</code> and <code>simrel</code> for simulation. It also has two more functions – one for plotting covariance and rotation matrices and another for plotting different properties of simulated data. As the name suggests, <code>unisimrel</code> function is used for simulating univariate linear model data, <code>bisimrel</code> simulates bivariate linear model data where user can specify the correlation between two responses with and without given <strong>X</strong>. In addition, this function allows users to get responses (<strong>y</strong>) having common relevant components.</p>
 <p>An extension of <code>bisimrel</code> and <code>unisimrel</code> is <code>multisimrel</code>, by which user can simulate multivariate linear model data with multiple responses. In this simulation, each response must have exclusive set of predictors and relevant predictors components. Following examples will give a clear picture of these functions. The forth simulation function <code>simrel</code> wraps around these function and calls them according to what type of data a user is simulating. Following section discusses about the arguments required for each of these simulation function.</p>
 <div id="univariate-simulation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#univariate-simulation" class="anchor"></a>Univariate Simulation</h2>
 <p>A tool for simulating linear model data with single response discussed in sæbø et.al. (2015) is the basis for this function. The function require following arguments which are also parameters for the simulation.</p>
-<details><summary><strong><code>n</code>:</strong> Number of training samples (<span class="math inline">\(n\)</span>)</summary> An integer for number of training samples. For example: <code>n = 1000</code> simulates 1000 training observations.
-</details><details><summary><strong><code>p</code>:</strong> Number of predictor variables (<span class="math inline">\(p\)</span>)</summary> An integer for number of predictor variables. <code>p = 150</code> gives data with 150 predictor variables.
-</details><details><summary><strong><code>q</code>:</strong> Number of relevant predictors (<span class="math inline">\(q\)</span>)</summary> An integer for the number of predictor variables that are relevant for the response. For example: <code>q = 15</code> results 15 predictors out of <code>p</code> relevant for the response.
-</details><details><summary><strong><code>relpos</code>:</strong> Position of relevant components (<span class="math inline">\(\mathcal{P}\)</span>)</summary> A vector of position index of relevant principal components of <span class="math inline">\(\mathbf{x}\)</span>. For instance, <code>relpos = c(1, 2, 3, 5)</code> will give data with 4 relevant components at position 1, 2, 3 and 5.
-</details><details><summary><strong><code>R2</code>:</strong> Coefficient of determination</summary> A decimal value between 0 and 1 specifying the coefficient of determination. Input of <code>R2 = 0.8</code> gives data with 0.8 coefficient of determination.
-</details><details><p><summary><strong><code>gamma</code>:</strong> Decay factor for exponential decay of eigenvalues of predictor variables</summary> A numeric value greater than 0. It is a factor controlling exponential decay of eigenvalues of predictor variables. For <code>p</code> predictors, the eigenvalues are computed as,</p>
-<p><span class="math display">\[\lambda_i = e^{-\gamma(i - 1)}, i = 1, 2, \ldots, p\]</span></p>
-<p>So that, higher the value of <code>gamma</code> steeper will be the decay of eigenvalues. Since steeper eigenvalues corresponds to high multicollinearity in data, <code>gamma</code> also controls the multicollinearity present in the simulated data.</p>
-<p><img src="figure/gamma-decay-1.svg" width="100%"></p>
-</details><table class="table table">
+<details><summary>**`n`:** Number of training samples (\(n\))</summary> An
+integer for number of training samples. For example: `n = 1000`
+simulates 1000 training observations.
+
+</details><details><summary>**`p`:** Number of predictor variables (\(p\))</summary> An
+integer for number of predictor variables. `p = 150` gives data with 150
+predictor variables.
+
+</details><details><summary>**`q`:** Number of relevant predictors (\(q\))</summary> An
+integer for the number of predictor variables that are relevant for the
+response. For example: `q = 15` results 15 predictors out of `p`
+relevant for the response.
+
+</details><details><summary>**`relpos`:** Position of relevant components
+(\(\mathcal{P}\))</summary> A vector of position index of relevant
+principal components of \(\mathbf{x}\). For instance, `relpos =
+c(1, 2, 3, 5)` will give data with 4 relevant components at position 1,
+2, 3 and 5.
+
+</details><details><summary>**`R2`:** Coefficient of determination</summary> A decimal
+value between 0 and 1 specifying the coefficient of determination. Input
+of `R2 = 0.8` gives data with 0.8 coefficient of determination.
+
+</details><details><summary>**`gamma`:** Decay factor for exponential decay of eigenvalues
+of predictor variables</summary> A numeric value greater than 0. It is a
+factor controlling exponential decay of eigenvalues of predictor
+variables. For `p` predictors, the eigenvalues are computed as,
+
+\[\lambda_i = e^{-\gamma(i - 1)}, i = 1, 2, \ldots, p\]
+
+So that, higher the value of `gamma` steeper will be the decay of
+eigenvalues. Since steeper eigenvalues corresponds to high
+multicollinearity in data, `gamma` also controls the multicollinearity
+present in the simulated
+data.
+
+<img src="figure/gamma-decay-1.svg" width="100%"></details><table class="table">
 <thead><tr class="header">
 <th>Parameters</th>
 <th>Descriptions</th>
@@ -164,8 +193,8 @@
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p>Install the package from GitHub,</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.pacakges("devtools")</span></a>
-<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"simulatr/simrel"</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/install_bitbucket">install_bitbucket</a></span>(<span class="st">"simulatr/simrel"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"simulatr/simrel"</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_bitbucket</a></span>(<span class="st">"simulatr/simrel"</span>)</a></code></pre></div>
 </div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
@@ -240,11 +269,10 @@
 <h2 class="hasAnchor">
 <a href="#rstudio-addins" class="anchor"></a>RStudio Addins</h2>
 <p>To make the process easier to use, we have created a shiny gadget as an rstudio addons. If you are using Rstuio, you can access this app from Tools &gt; Addins &gt; simulatr. But you can also access this app using <code>simrel::app_simulatr()</code>. This will open the app in a browser from where you can choose all your parameter, see the true population parametrs you will get from the simulation. When the app is closed, it will give an command output on your R console.</p>
-<div class="figure">
-<img src="figure/AppSimrel.png" alt="App-Simulatr-Screenshot"><p class="caption">App-Simulatr-Screenshot</p>
+<p><img src="figure/AppSimrel.png" alt="App-Simulatr-Screenshot"></p>
 </div>
 </div>
-</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -271,23 +299,15 @@
 </ul>
 </div>
 
-      <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://travis-ci.org/simulatr/simrel"><img src="https://travis-ci.org/simulatr/simrel.svg?branch=master" alt="Build Status"></a></li>
-</ul>
+  </div>
 </div>
-</div>
-
-</div>
-
 
       <footer><div class="copyright">
   <p>Developed by <a href="http://mathatistics.com">Raju Rimal</a>, <a href="http://solvsa.nmbu.no">Solve Sæbø</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>
