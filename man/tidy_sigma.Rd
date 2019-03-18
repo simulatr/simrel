@@ -17,5 +17,4 @@ Tidy covariance matrix
 }
 \examples{
 sobj <- multisimrel()
-head(sigma_df)
 }

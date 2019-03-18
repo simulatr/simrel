@@ -32,6 +32,6 @@ Imports:
     shiny,
     shinyBS,
     tibble,
-    tidyr
-Suggests: 
+    tidyr,
+    rlang,
     testthat

@@ -16,6 +16,21 @@ sobj <- unisimrel(
 relpos <- unname(sobj$relpos)
 relpred <- unname(sobj$relpred)
 
+sobj2 <- expression({
+  set.seed(2019)
+  unisimrel(n = 500, sim = sobj)
+})
+
+testthat::test_that(
+  "Expect Warning when using old simrel", {
+    expect_warning({sobj2 <- eval(sobj2)}, 
+                   regexp = "All parameters are collected from the supplied")
+    expect_equal(sobj2$n, 500)
+    expect_equal(sobj2$relpos, sobj$relpos)
+    expect_equal(sobj2$Sigma, sobj$Sigma)
+    expect_equal(sobj2$relpred, sobj$relpred)
+  }
+)
 
 testthat::test_that(
   "Testing of names.", {
