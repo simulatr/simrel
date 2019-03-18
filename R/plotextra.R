@@ -149,7 +149,7 @@ cov_zy <- function(obj, use_population = TRUE) {
     if (type == "multivariate") {
       covs <- t(obj$SigmaYZ)
     } else {
-      m <- ifelse(type == "univariate", 1, obj %>% pluck('m') %>% unique)
+      m <- ifelse(type == "univariate", 1, 2)
       covs <- obj$Sigma[-c(1:m), 1:m, drop = FALSE]
     }
   } else {

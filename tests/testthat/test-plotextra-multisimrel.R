@@ -1,21 +1,21 @@
 library(simrel)
 library(testthat)
 
-context("Testing Plot Extra Functions.")
+context("Testing Plot Extra Functions for multisimrel.")
 
 set.seed(123)
 sobj <- multisimrel(
-  n      = 100, 
-  p      = 15, 
-  q      = c(5, 4, 3), 
-  m      = 5, 
-  relpos = list(c(1,  2), c(3, 4, 6), c(5, 7)), 
-  gamma  = 0.6, 
-  R2     = c(0.8, 0.7, 0.8), 
-   eta   = 0, 
-  ntest  = NULL, 
-  muX    = NULL, 
-  muY    = NULL, 
+  n      = 100,
+  p      = 15,
+  q      = c(5, 4, 3),
+  m      = 5,
+  relpos = list(c(1,  2), c(3, 4, 6), c(5, 7)),
+  gamma  = 0.6,
+  R2     = c(0.8, 0.7, 0.8),
+   eta   = 0,
+  ntest  = NULL,
+  muX    = NULL,
+  muY    = NULL,
   ypos   = list(c(1),  c(3, 4), c(2, 5))
 )
 cov_xy = simrel:::cov_xy(sobj)
