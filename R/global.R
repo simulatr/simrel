@@ -1,3 +1,4 @@
+library(shiny)
 ## Download Buttons
 downloadUI <- function(id, label = 'RData', type = "primary") {
   ns <- NS(id)
@@ -22,7 +23,7 @@ download <- function(input, output, session, sim.obj, file_type = "RData") {
   )
   downloadFn <- function(data, type = "Rdata") {
     downloadHandler(
-      filename <- function()
+      filename = function()
         ifelse(type == "simobj",
                paste("sim.obj.rdata"),
                paste("sim.obj", type, sep = ".")),
@@ -92,8 +93,7 @@ simTypeUI <- function(id) {
         selected = "multivariate",
         width = "100%"
       )
-    ),
-    bsTooltip(ns("type"), "Type of simulation you want to perform", "top", "hover")
+    )
   )
 }
 simType <- function(input, output, session) {

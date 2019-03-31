@@ -25,6 +25,17 @@
 #'     \item{lambda}{Eigenvalues of predictors}
 #'     \item{Sigma}{Variance-Covariance matrix of response and predictors}
 #' @keywords simulation, linear model, linear model data
+#' @examples sobj <- bisimrel(
+#'    n = 100,
+#'    p = 10,
+#'    q = c(5, 5, 3),
+#'    rho = c(0.8, 0.4),
+#'    relpos = list(c(1, 2, 3), c(2, 3, 4)),
+#'    gamma = 0.7,
+#'    R2 = c(0.8, 0.8)
+#' )
+#' # Regression Coefficients from this simulation
+#' sobj$beta
 #' @references Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors. Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
 #' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 #' @export

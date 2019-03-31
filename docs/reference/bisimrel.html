@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">simrel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0</span>
       </span>
     </div>
 
@@ -204,6 +204,28 @@
 <p>Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics &amp; data analysis, 21(1), 87-107.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>sobj</span> <span class='kw'>&lt;-</span> <span class='fu'>bisimrel</span>(
+   <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+   <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+   <span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>5</span>, <span class='fl'>3</span>),
+   <span class='kw'>rho</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.8</span>, <span class='fl'>0.4</span>),
+   <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>)),
+   <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+   <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.8</span>, <span class='fl'>0.8</span>)
+)
+<span class='co'># Regression Coefficients from this simulation</span>
+<span class='no'>sobj</span>$<span class='no'>beta</span></div><div class='output co'>#&gt;             [,1]       [,2]
+#&gt;  [1,]  0.2075561  0.0000000
+#&gt;  [2,]  1.3433192  1.2531284
+#&gt;  [3,] -0.9145119 -1.1075177
+#&gt;  [4,]  0.0000000 -0.2363580
+#&gt;  [5,] -0.2075561  0.0000000
+#&gt;  [6,]  0.0000000  0.0000000
+#&gt;  [7,]  0.0000000  0.0000000
+#&gt;  [8,] -0.4288073 -0.1456106
+#&gt;  [9,]  0.0000000  0.0000000
+#&gt; [10,]  0.0000000  0.2363580</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -213,14 +235,16 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://mathatistics.com'>Raju Rimal</a>, <a href='http://solvsa.nmbu.no'>Solve Sæbø</a>.</p>
+  <p>Developed by <a href='http://solvsa.nmbu.no'>Solve Sæbø</a>, <a href='http://mathatistics.com'>Raju Rimal</a>.</p>
 </div>
 
 <div class="pkgdown">

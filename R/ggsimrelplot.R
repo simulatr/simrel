@@ -1,8 +1,6 @@
 #' Simulation Plot with ggplot: The true beta, relevant component and eigen structure
 #' @keywords simrel-plot, simulation plot, simulation ggplot
 #' @import ggplot2
-#' @importFrom reshape2 melt
-#' @importFrom gridExtra grid.arrange
 #' @param obj A simrel object
 #' @param ncomp Number of components to plot
 #' @param layout A layout matrix of how to layout multiple plots
@@ -39,7 +37,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
     beta <- `dimnames<-`(
       obj$beta, list(c(1:nx), c(paste0("Y", 1:ny))))
     beta_stk <- `names<-`(
-      melt(beta), c("Predictor", "Response", "BetaCoef"))
+      reshape2::melt(beta), c("Predictor", "Response", "BetaCoef"))
     plt1 <- ggplot(
       beta_stk,
       aes(Predictor, BetaCoef,
@@ -83,7 +81,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       ), 1
     )
     names(covs.dt) <- c("comp", "lambda", paste0("W", 1:ny))
-    covs.stk <- melt(
+    covs.stk <- reshape2::melt(
       covs.dt, 1:2,
       variable.name = "response",
       value.name = "covariance"
@@ -155,7 +153,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
             covs.sc[1:ncomp, ]),
       1)
     names(covs.dt) <- c("comp", "lambda", paste0("Y", 1:ny))
-    covs.stk <- melt(
+    covs.stk <- reshape2::melt(
       covs.dt, 1:2,
       variable.name = "response",
       value.name = "covariance"
@@ -206,7 +204,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       ## End Normalize -------
       covs.dt <- as.data.frame(cbind(1:obj$p, covs.sc[1:ncomp, ]), 1)
       names(covs.dt) <- c("predictors", paste0("Y", 1:ny))
-      covs.stk <- melt(
+      covs.stk <- reshape2::melt(
         covs.dt, 1,
         variable.name = "response",
         value.name = "covariance"
@@ -243,7 +241,7 @@ ggsimrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
       if (length(which) > length(layout)) layout <- matrix(1:length(which), length(which))
 
       plts$layout_matrix <- layout
-      out <- do.call(grid.arrange, plts)
+      out <- do.call(gridExtra::grid.arrange, plts)
     }
 
     if (print.cov) {

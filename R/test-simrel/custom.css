@@ -1,9 +1,0 @@
-.section.colset.active{
-  display:flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.colset>.cols{
-  flex: 1;
-}

@@ -1,6 +1,0 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(2, 400px);
-  grid-gap: 20px;
-  justify-items: stretch;
-}

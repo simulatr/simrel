@@ -60,8 +60,7 @@ mbrd <- function(l2levels = c(2,2), fraction = 0, gen = NULL, fnames1 = NULL, fn
     return(res)
 }
 
-.bits2int <-
-  function(x, l2levels){
+.bits2int <- function(x, l2levels){
     nfac <- length(l2levels)
     cumlevels<-c(0,cumsum(l2levels))+1
     intvec <- rep(0,nfac)
