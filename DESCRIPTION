@@ -1,20 +1,25 @@
 Package: simrel
 Title: Simulation of Multivariate Linear Model Data
 Version: 2.0
+Contact: Raju Rimal <therimalaya@gmail.com>
+Maintainer: Raju Rimal <raju.rimal@nmbu.no>
 Authors@R: c(
            person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut", "cre")),
-           person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut")))
+           person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut", "cre")))
 Description: This package can be used to simulate multivariate linear model
     data. The package also consist of function to create plots for the simulation
-    objects. It can be a handy tool for model comparison, testing and many other
-    purposes.
+    objects and A shiny app as rstudio gadget. It can be a handy tool for model comparison, 
+    testing and many other purposes.
 Depends:
-    R (>= 3.1.0)
+    R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
+BugReports: https://github.com/simulatr/simrel/issues
+URL: https://simulatr.github.io/simrel/
+Repository: https://github.com/simulatr/simrel
 Imports:
     FrF2,
     ggplot2,
