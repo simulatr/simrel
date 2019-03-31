@@ -10,11 +10,12 @@ output:
 [![Codecov test coverage](https://codecov.io/gh/simulatr/simrel/branch/master/graph/badge.svg)](https://codecov.io/gh/simulatr/simrel?branch=master)
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(fig.show = "asis", comment = "#>",
-                      fig.height = 6, fig.width = 9,
-                      fig.path = "figure/",
-                      dev = 'svg', fig.retina = 2,
-                      out.width = '100%')
+knitr::opts_chunk$set(
+  fig.show = "asis", comment = "#>",
+  fig.height = 6, fig.width = 9,
+  fig.path = "figure/",
+  dev = 'svg', fig.retina = 2,
+  out.width = '100%')
 ```
 
 # Introduction

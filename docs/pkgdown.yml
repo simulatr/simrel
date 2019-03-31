@@ -1,6 +1,6 @@
 pandoc: 2.7.1
 pkgdown: 1.3.0.9000
-pkgdown_sha: 7e788c41d20ab28d4bf97556e18382391d359c9f
+pkgdown_sha: a267beee11ac619011b359471c66178dc13685ab
 articles:
   mbrdsim: mbrdsim.html
 
