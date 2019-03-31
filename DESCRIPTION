@@ -2,8 +2,8 @@ Package: simrel
 Title: Simulation of Multivariate Linear Model Data
 Version: 2.0
 Authors@R: c(
-           person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut", "cre")),
-           person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut")))
+           person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut", "cre")),
+           person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut")))
 Description: This package can be used to simulate multivariate linear model
     data. The package also consist of function to create plots for the simulation
     objects. It can be a handy tool for model comparison, testing and many other
