@@ -1,19 +1,19 @@
 suppressPackageStartupMessages(library(simrel))
 suppressPackageStartupMessages(library(testthat))
 
-context("Testing Bivariate Simulation.")
+context("Testing Multivariate Simulation.")
 
 set.seed(2019)
 sobj <- multisimrel(
-  n = 100, 
-  p = 15, 
-  q = c(5, 4, 3), 
-  m = 5, 
-  relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)), 
+  n = 100,
+  p = 15,
+  q = c(5, 4, 3),
+  m = 5,
+  relpos = list(c(1, 2), c(3, 4, 6), c(5, 7)),
   ypos = list(c(1), c(3, 4), c(2, 5)),
-  gamma = 0.6, 
-  R2 = c(0.8, 0.7, 0.8), 
-  eta = 0, 
+  gamma = 0.6,
+  R2 = c(0.8, 0.7, 0.8),
+  eta = 0,
   ntest = 50
 )
 relpos <- unname(sobj$relpos)

@@ -1,7 +1,7 @@
-library(simrel)
-library(testthat)
+suppressPackageStartupMessages(library(simrel))
+suppressPackageStartupMessages(library(testthat))
 
-context("Testing Plot Extra Functions for bisimrel.")
+context("Testing Plot Extra Functions for Bivariate Simulation.")
 
 set.seed(2019)
 sobj <- bisimrel(
@@ -15,7 +15,9 @@ sobj <- bisimrel(
     ntest = 50
 )
 cov_xy = simrel:::cov_xy(sobj)
+cov_xy_sample = simrel:::cov_xy(sobj, use_population=FALSE)
 cov_zy = simrel:::cov_zy(sobj)
+cov_zy_sample = simrel:::cov_zy(sobj, use_population=FALSE)
 
 test_that("Tidyed Beta Coefficients from simrel.", {
     expect_equal(nrow(tidy_beta(sobj)), 15 * 2)
@@ -42,12 +44,18 @@ test_that("Test Sample Covariance of the simulated data.", {
   }
 )
 
-test_that("Test tidy lambda.", {
+test_that("Test tidy lambda population.", {
     expect_equal(tidy_lambda(sobj)[["Predictor"]], seq.int(sobj$p))
     expect_equal(tidy_lambda(sobj)[["lambda"]][2], exp(-sobj$gamma))
     expect_true(all(tidy_lambda(sobj)[["lambda"]] > 0))
   }
 )
+
+test_that("Test tidy lambda sample.", {
+    expect_equal(tidy_lambda(sobj, use_population = FALSE)[["Predictor"]], seq.int(sobj$p))
+    expect_true(all(tidy_lambda(sobj, use_population = FALSE)[["lambda"]] > 0))
+    expect_equal(tidy_lambda(sobj, use_population = FALSE)[["lambda"]][2], 0.5886537, tol = 1e-5)
+})
 
 test_that("Test tidy sigma.", {
     expect_equal(tidy_sigma(cov_zy)[["Covariance"]][1],  0.2959773, tol = 1e-5)
@@ -63,6 +71,19 @@ test_that("Test Covariance Matrices", {
     expect_equal(ncol(simrel:::cov_xy(sobj)), 2)
   }
 )
+
+test_that("Test Sample Covariance Matrices.", {
+    expect_equal(nrow(simrel:::cov_zy(sobj, use_population = FALSE)), sobj$p)
+    expect_equal(ncol(simrel:::cov_zy(sobj, use_population = FALSE)), 2)
+    expect_equal(simrel:::cov_zy(sobj, use_population = FALSE)[1], 0.2189661, tol = 1e-5)
+    expect_equal(nrow(simrel:::cov_xy(sobj, use_population = FALSE)), sobj$p)
+    expect_equal(ncol(simrel:::cov_xy(sobj, use_population = FALSE)), 2)
+    expect_equal(simrel:::cov_xy(sobj, use_population = FALSE)[1], -0.03749517, tol = 1e-5)
+})
+
+test_that("Function cov_zw stops for bivariate simrel.", {
+    expect_error(cov_zw(sobj), "Use cov_zy function instead")
+})
 
 test_that("Absolute Covariances.", {
     expect_true(all(abs_sigma(tidy_sigma(cov_xy))[["Covariance"]] >= 0))

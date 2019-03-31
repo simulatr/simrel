@@ -49,6 +49,19 @@ A simrel object with all the input arguments along with following additional ite
 \description{
 Simulation of Multivariate Linear Model data with response
 }
+\examples{
+sobj <- bisimrel(
+   n = 100,
+   p = 10,
+   q = c(5, 5, 3),
+   rho = c(0.8, 0.4),
+   relpos = list(c(1, 2, 3), c(2, 3, 4)),
+   gamma = 0.7,
+   R2 = c(0.8, 0.8)
+)
+# Regression Coefficients from this simulation
+sobj$beta
+}
 \references{
 Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors. Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
 
