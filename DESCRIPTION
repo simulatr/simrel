@@ -25,20 +25,19 @@ Imports:
     ggplot2,
     gridExtra,
     jsonlite,
-    knitr,
     magrittr,
     miniUI,
-    pls,
     purrr,
     reshape2,
     rstudioapi,
     scales,
     sfsmisc,
     shiny,
-    shinyBS,
     tibble,
     tidyr,
     rlang,
     testthat
 Suggests: 
-    covr
+    covr,
+    knitr,
+    pls
