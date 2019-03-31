@@ -4,7 +4,7 @@ Version: 2.0
 Contact: Raju Rimal <therimalaya@gmail.com>
 Maintainer: Raju Rimal <raju.rimal@nmbu.no>
 Authors@R: c(
-           person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut", "cre")),
+           person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut")),
            person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut", "cre")))
 Description: This package can be used to simulate multivariate linear model
     data. The package also consist of function to create plots for the simulation
