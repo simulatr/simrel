@@ -55,6 +55,7 @@ testthat::test_that("Testing of position indices.", {
 })
 
 testthat::test_that("Testing different values.", {
+    testthat::skip_on_cran()
     expect_equal(sobj$lambda[1], 1)
     expect_equal(sobj$lambda[2], exp(-sobj$gamma))
     expect_equal(sobj$minerror[1, 1], 0.2)
@@ -80,6 +81,7 @@ sobj_expr <- expression({
 sobj2 <- suppressWarnings(eval(sobj_expr))
 
 testthat::test_that("Testing different values.", {
+    testthat::skip_on_cran()
     expect_warning(eval(sobj_expr))
     expect_equal(sobj2$lambda[1], 1)
     expect_equal(sobj2$lambda[2], exp(-sobj2$gamma))

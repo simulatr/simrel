@@ -21,7 +21,7 @@ sobj2   <- expression({
 })
 
 testthat::test_that("Expect Warning when using old simrel", {
-    expect_warning({sobj2 <- eval(sobj2)}, 
+    expect_warning({sobj2 <- eval(sobj2)},
                    regexp = "All parameters are collected from the supplied")
     expect_equal(sobj2$n, 500)
     expect_equal(sobj2$relpos, sobj$relpos)
@@ -60,6 +60,7 @@ testthat::test_that("Testing of position indices.", {
 testthat::test_that("Testing different values.", {
     expect_equal(sobj$lambda[1], 1)
     expect_equal(sobj$lambda[2], exp(-sobj$gamma))
+    testthat::skip_on_cran()
     expect_equal(sobj$minerror[1, 1], 0.2)
     expect_equal(sobj$beta[1,1], 0.37312493)
   }

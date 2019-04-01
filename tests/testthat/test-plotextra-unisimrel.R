@@ -21,14 +21,16 @@ cov_zy_sample = simrel:::cov_zy(sobj, use_population=FALSE)
 test_that("Tidyed Beta Coefficients from simrel.", {
     expect_equal(nrow(tidy_beta(sobj)), 15 * 1)
     expect_equal(ncol(tidy_beta(sobj)), 3)
-    expect_equal(tidy_beta(sobj)[['BetaCoef']][1], 0.37312493, tolorance = 1e-5)
     expect_equal(unique(tidy_beta(sobj)[['Predictor']]), 1:15)
     expect_equal(unique(tidy_beta(sobj)[['Response']]), 1)
+    testthat::skip_on_cran()
+    expect_equal(tidy_beta(sobj)[['BetaCoef']][1], 0.37312493, tolorance = 1e-5)
 })
 
 test_that("Test Population Covariance of the simulated data.", {
     expect_equal(nrow(cov_xy(sobj)), 15)
     expect_equal(ncol(cov_xy(sobj)), 1)
+    testthat::skip_on_cran()
     expect_equal(cov_xy(sobj)[1, 1], -0.1058502332, tol = 1e-5)
     expect_equal(cov_xy(sobj)[6, 1], -0.1197740858)
 })
@@ -36,6 +38,7 @@ test_that("Test Population Covariance of the simulated data.", {
 test_that("Test Sample Covariance of the simulated data.", {
     expect_equal(nrow(cov_xy(sobj, FALSE)), 15)
     expect_equal(ncol(cov_xy(sobj, FALSE)), 1)
+    testthat::skip_on_cran()
     expect_equal(cov_xy(sobj, FALSE)[1, 1], 0.185069740, tol = 1e-5)
     expect_equal(cov_xy(sobj, FALSE)[6, 1], 0.055623607, tol = 1e-5)
 })
@@ -49,10 +52,12 @@ test_that("Test tidy lambda population.", {
 test_that("Test tidy lambda sample.", {
     expect_equal(tidy_lambda(sobj, use_population = FALSE)[["Predictor"]], seq.int(sobj$p))
     expect_true(all(tidy_lambda(sobj, use_population = FALSE)[["lambda"]] > 0))
+    testthat::skip_on_cran()
     expect_equal(tidy_lambda(sobj, use_population = FALSE)[["lambda"]][2], 0.4084102, tol = 1e-5)
 })
 
 test_that("Test tidy sigma.", {
+    testthat::skip_on_cran()
     expect_equal(tidy_sigma(cov_zy)[["Covariance"]][1],  0.14773852, tol = 1e-5)
     expect_equal(tidy_sigma(cov_xy)[["Covariance"]][1], -0.1058502332, tol = 1e-5)
 })
@@ -68,9 +73,10 @@ test_that("Test Covariance Matrices.", {
 test_that("Test Sample Covariance Matrices.", {
     expect_equal(nrow(simrel:::cov_zy(sobj, use_population = FALSE)), sobj$p)
     expect_equal(ncol(simrel:::cov_zy(sobj, use_population = FALSE)), 1)
-    expect_equal(simrel:::cov_zy(sobj, use_population = FALSE)[1], 0.3638807789, tol = 1e-8)
     expect_equal(nrow(simrel:::cov_xy(sobj, use_population = FALSE)), sobj$p)
     expect_equal(ncol(simrel:::cov_xy(sobj, use_population = FALSE)), 1)
+    testthat::skip_on_cran()
+    expect_equal(simrel:::cov_zy(sobj, use_population = FALSE)[1], 0.3638807789, tol = 1e-8)
     expect_equal(simrel:::cov_xy(sobj, use_population = FALSE)[1], 0.1850697, tol = 1e-5)
 })
 
