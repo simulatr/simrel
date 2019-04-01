@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(testthat))
 
 context("Testing Plot Extra Functions for Univariate Simulation.")
 
-set.seed(2019)
+set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
 sobj    <- unisimrel(
     n = 100,
     p = 15,

@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(testthat))
 
 context("Testing Plot Extra Functions for Multivariate Simulation.")
 
-set.seed(123)
+set.seed(123, kind = "Mersenne-Twister", normal.kind = "Inversion")
 sobj <- multisimrel(
     n      = 100,
     p      = 15,

@@ -16,3 +16,7 @@ R/*.Rmd
 _pkgdown.yml
 internal/
 pkgdown/
+.github
+CONTRIBUTING.md
+.Rapp*
+

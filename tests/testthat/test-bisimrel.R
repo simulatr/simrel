@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(testthat))
 
 context("Testing Bivariate Simulation.")
 
-set.seed(2019)
+set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
 sobj <- bisimrel(
     n      = 100,
     p      = 15,
@@ -64,7 +64,7 @@ testthat::test_that("Testing different values.", {
 
 context("Testing Bivariate Simulation with every components common.")
 
-set.seed(2019)
+set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
 sobj_expr <- expression({
     bisimrel(
         n      = 100,

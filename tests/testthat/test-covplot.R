@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(testthat))
 
 context("Testing Covariance Plot for Bivariate Simulation.")
 
-set.seed(2019)
+set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
 sobj <- bisimrel(
     n       = 100,
     p       = 15,

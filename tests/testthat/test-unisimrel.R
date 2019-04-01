@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(testthat))
 
 context("Testing Univariate Simulation.")
 
-set.seed(2019)
+set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
 sobj    <- unisimrel(
   n = 100,
   p = 15,
@@ -16,8 +16,8 @@ sobj    <- unisimrel(
 relpos  <- unname(sobj$relpos)
 relpred <- unname(sobj$relpred)
 sobj2   <- expression({
-  set.seed(2019)
-  unisimrel(n = 500, sim = sobj)
+    set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
+    unisimrel(n = 500, sim = sobj)
 })
 
 testthat::test_that("Expect Warning when using old simrel", {
