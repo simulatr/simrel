@@ -2,6 +2,8 @@ Simulation of Multivariate Linear Model Data
 ================
 Raju Rimal, Trygve Almøy & Solve Sæbø
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/simrel)](https://cran.r-project.org/package=simrel)
 [![Build
 Status](https://travis-ci.org/simulatr/simrel.svg?branch=master)](https://travis-ci.org/simulatr/simrel)
 [![Codecov test
