@@ -99,6 +99,18 @@ multicollinearity present in the simulated data.
 
 <details>
 
+<summary><code>eta:</code> Decay factor for exponential decay of
+eigenvalues of response variables</summary> Similar to
+<code>gamma</code>, it is a factor controlling exponential decay of
+eigenvalues of response variables. For <code>m</code> responses, the
+eigenvalues are computed as <code>exp(-eta(j-1))</code> for <code>j=1,
+2, …, m</code> so that, higher the value of <code>eta</code> steeper
+will be the decay of eigenvalues.
+
+</details>
+
+<details>
+
 <summary><code>m:</code>Number of Response Variables (Only applicable
 for Univariate Simulation)</summary> An integer specifying the number of
 response variables to simulate. This is only applicable in Multivariate
@@ -108,7 +120,7 @@ Simulation (<code>multisimrel</code>).
 
 <details>
 
-<summary><code>eta:</code>Position of response components indices to
+<summary><code>ypos:</code>Position of response components indices to
 combine together</summary> The true dimension of response matrix
 containing the information can be smaller than the dimension that is
 defined by all the response variables. Lets suppose for an example that
@@ -116,7 +128,7 @@ only two response components actually contains information that the
 predictor (or a subset of predictor) can explain. However, In the
 simulation data user might want 5 response variables that contains the
 same inforamtion contained in two latent component of the respone
-variables. The <code>eta</code> parameters if specified as
+variables. The <code>ypos</code> parameters if specified as
 <code>list(c(1, 3), c(2, 4, 5))</code> will mix up the inforamtion in
 response component 1 with uninformative component 3 so that the response
 variable 1 and 3 contains the same information that was contained in
@@ -138,20 +150,16 @@ range of a correlation, i.e. -1 to 1.
 
 </details>
 
-| Parameters | Descriptions                                                        |
-| ---------- | ------------------------------------------------------------------- |
-| `n`        | Number of training samples                                          |
-| `p`        | Number of predictor variables                                       |
-| `q`        | Number of relevant predictors                                       |
-| `relpos`   | Position of relevant components                                     |
-| `R2`       | Coefficient of determinations                                       |
-| `rho`      | Correlation between two responses (only applicable on `simrel2`)    |
-| `gamma`    | Decaying factor of eigenvalues of predictor matrix                  |
-| `m`        | Number of required response vector (only applicable for `simrel_m`) |
-
 # Installation
 
-Install the package from GitHub,
+The package is now available in CRAN and can be installed using
+`install.packages` as,
+
+``` r
+install.packages("simrel")
+```
+
+A more recent stable version can be download from GitHub as,
 
 ``` r
 # install.pacakges("devtools")
