@@ -1,6 +1,6 @@
 Package: simrel
 Title: Simulation of Multivariate Linear Model Data
-Version: 2.0
+Version: 2.0.1
 Authors@R: c(
     person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut", "cre")),
     person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut", "ths"), comment = "Original Creator of the package"))

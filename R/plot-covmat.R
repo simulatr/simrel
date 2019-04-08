@@ -134,7 +134,7 @@ cov_plot_data <- function(sobj, type = "relpos", ordering = TRUE, facetting = TR
 #' @references Rimal, R., Almøy, T., & Sæbø, S. (2018). A tool for simulating multi-response linear model data. Chemometrics and Intelligent Laboratory Systems, 176, 1-10.
 #' @export
 plot_cov <- function(sobj, type = "relpos", ordering = TRUE, facetting = TRUE) {
-    dta <- cov_plot_data(sobj, type = 'relpos', ordering = TRUE, facetting = TRUE)
+    dta <- cov_plot_data(sobj, type = type, ordering = TRUE, facetting = TRUE)
     plt <- ggplot(dta, aes_string("v1", "v2", fill = "col")) +
         geom_tile(aes_string(alpha = "cov"), color = "grey70",
                   show.legend = c(alpha = FALSE)) +
