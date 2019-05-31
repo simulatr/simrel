@@ -91,11 +91,12 @@ cov_plot_data <- function(sobj, type = "relpos", ordering = TRUE, facetting = TR
     covdf <- cbind(id_df, cov = if (type == "rotation") c(rot) else c(mat))
     df <- merge(coldf, covdf, by = c("v1", "v2"))
     df$col <- as.character(df$col)
-    df[df$cov != 0 & is.na(df$col), "col"] <- "None"
+    df[all(df$cov != 0, is.na(df$col)), "col"] <- "None"
     if (simtype == "bivariate") {
         df$col <- factor(df$col, levels = c(sort(unique(df$col)[grepl(yvar, unique(df$col))]), "Both", "None", NA))
     } else {
-        df$col <- factor(df$col, levels = c(sort(unique(df$col)[grepl(yvar, unique(df$col))]), "None", NA))
+        col_lvl <- c(sort(unique(df$col)[grepl(yvar, unique(df$col))]), "None", NA)
+        df$col <- factor(df$col, levels = col_lvl)
     }
     if (ordering) {
         df$v1 <- factor(as.character(df$v1), axlbl[idx])
@@ -134,7 +135,7 @@ cov_plot_data <- function(sobj, type = "relpos", ordering = TRUE, facetting = TR
 #' @references Rimal, R., Almøy, T., & Sæbø, S. (2018). A tool for simulating multi-response linear model data. Chemometrics and Intelligent Laboratory Systems, 176, 1-10.
 #' @export
 plot_cov <- function(sobj, type = "relpos", ordering = TRUE, facetting = TRUE) {
-    dta <- cov_plot_data(sobj, type = type, ordering = TRUE, facetting = TRUE)
+    dta <- cov_plot_data(sobj, type = type, ordering = ordering, facetting = facetting)
     plt <- ggplot(dta, aes_string("v1", "v2", fill = "col")) +
         geom_tile(aes_string(alpha = "cov"), color = "grey70",
                   show.legend = c(alpha = FALSE)) +
