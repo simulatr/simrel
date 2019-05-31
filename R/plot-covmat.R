@@ -91,7 +91,7 @@ cov_plot_data <- function(sobj, type = "relpos", ordering = TRUE, facetting = TR
     covdf <- cbind(id_df, cov = if (type == "rotation") c(rot) else c(mat))
     df <- merge(coldf, covdf, by = c("v1", "v2"))
     df$col <- as.character(df$col)
-    df[all(df$cov != 0, is.na(df$col)), "col"] <- "None"
+    df[df$cov != 0 & is.na(df$col), "col"] <- "None"
     if (simtype == "bivariate") {
         df$col <- factor(df$col, levels = c(sort(unique(df$col)[grepl(yvar, unique(df$col))]), "Both", "None", NA))
     } else {
