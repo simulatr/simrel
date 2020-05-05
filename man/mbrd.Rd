@@ -59,5 +59,5 @@ Martens, H., Måge, I., Tøndel, K., Isaeva, J., Høy, M. and Sæbø¸, S., 2010
 
 Montgomery, D., \emph{Design and analysis of experiments}, John Wiley & Sons, 2008.
 }
-\keyword{Design}
-\keyword{MBRD}
+\concept{experimental design}
+\keyword{design}

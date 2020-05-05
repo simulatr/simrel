@@ -29,6 +29,4 @@ A list of plots
 \description{
 Simulation Plot: The true beta, relevant component and eigen structure
 }
-\keyword{plot}
-\keyword{simrel-plot,}
-\keyword{simulation}
+\concept{simulation plot}

@@ -32,7 +32,9 @@
 #'     \item{Sigma}{Variance-Covariance matrix of response and predictors}
 #'     \item{RsqW}{Coefficient of determination corresponding to response components}
 #'     \item{RsqY}{Coefficient of determination corresponding to response variables}
-#' @keywords simulation, linear model, linear model data
+#' @concept simulation 
+#' @concept linear model data
+#' @keywords datagen
 #' @references Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors. Chemometrics and Intelligent Laboratory Systems, 146, 128-135.
 #' @references Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 #' @export

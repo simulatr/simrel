@@ -33,8 +33,8 @@
 #'  res <- mbrd(c(3,3,3),fraction=4)
 #'  #library(rgl)
 #'  #plot3d(res$Design,type="s",col=2)
-#'@keywords MBRD
-#'@keywords Design
+#'@concept experimental design
+#'@keywords design
 #'@importFrom FrF2 FrF2
 #'@importFrom sfsmisc polyn.eval
 #'@export

@@ -1,5 +1,5 @@
 #' Simulation Plot with ggplot: The true beta, relevant component and eigen structure
-#' @keywords simrel-plot, simulation plot, simulation ggplot
+#' @concept simulation plot
 #' @import ggplot2
 #' @param obj A simrel object
 #' @param ncomp Number of components to plot

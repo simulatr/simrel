@@ -46,7 +46,4 @@ ggsimrelplot(sim.obj, which = c(1, 2), use_population = FALSE)
 
 ggsimrelplot(sim.obj, which = c(1, 3), layout = matrix(c(1, 2), 1))
 }
-\keyword{ggplot}
-\keyword{plot,}
-\keyword{simrel-plot,}
-\keyword{simulation}
+\concept{simulation plot}

@@ -24,7 +24,9 @@
 #'     \item{type}{Type of simrel object, in this case \emph{bivariate}}
 #'     \item{lambda}{Eigenvalues of predictors}
 #'     \item{Sigma}{Variance-Covariance matrix of response and predictors}
-#' @keywords simulation, linear model, linear model data
+#' @concept simulation
+#' @concept linear model data
+#' @keywords datagen
 #' @examples sobj <- bisimrel(
 #'    n = 100,
 #'    p = 10,

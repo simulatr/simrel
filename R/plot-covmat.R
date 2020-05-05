@@ -5,7 +5,9 @@
 #' @param ordering TRUE for ordering the covariance for block diagonal display
 #' @param facetting TRUE for facetting the predictor and response space. FALSE will give a single facet plot
 #' @return A data frame with covariances and related values based on \code{type} argument that is  ready to plot
-#' @keywords simulation, linear model, linear model data, covariance plot
+#' @concept simulation 
+#' @concept linear model 
+#' @concept covariance plot
 #' @examples
 #' sobj <- simrel(n = 100, p = 10, q = c(4, 5), relpos = list(c(1, 2, 3), c(4, 6, 7)), m = 3,
 #'                R2 = c(0.8, 0.7), ypos = list(c(1, 3), 2), gamma = 0.7, type = "multivariate")

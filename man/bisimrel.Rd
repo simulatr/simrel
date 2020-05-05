@@ -77,8 +77,6 @@ Sæbø, S., Almøy, T., & Helland, I. S. (2015). simrel—A versatile tool for l
 
 Almøy, T. (1996). A simulation study on comparison of prediction methods when only a few components are relevant. Computational statistics & data analysis, 21(1), 87-107.
 }
-\keyword{data}
-\keyword{linear}
-\keyword{model}
-\keyword{model,}
-\keyword{simulation,}
+\concept{linear model data}
+\concept{simulation}
+\keyword{datagen}
