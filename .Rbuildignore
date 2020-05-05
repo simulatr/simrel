@@ -14,9 +14,13 @@ _config.yml
 R/*.bak
 R/*.Rmd
 _pkgdown.yml
-internal/
+internal
 pkgdown/
 .github
 CONTRIBUTING.md
 .Rapp*
+.Rhistory
+.history
 
+^CRAN-RELEASE$
+^cran-comments\.md$

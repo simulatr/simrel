@@ -8,22 +8,29 @@
 
 <title>Extract various sigma matrices — cov_mat • simrel</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -31,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Extract various sigma matrices — cov_mat" />
 
+<meta property="og:title" content="Extract various sigma matrices — cov_mat" />
 <meta property="og:description" content="Extract various sigma matrices" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -48,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -64,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">simrel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
       </span>
     </div>
 
@@ -92,7 +100,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/simulatr/simrel">
@@ -113,24 +120,23 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extract various sigma matrices</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/simulatr/simrel/blob/master/R/plotextra.R'><code>R/plotextra.R</code></a></small>
     <div class="hidden name"><code>cov_mat.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Extract various sigma matrices</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>cov_mat</span>(<span class='no'>obj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"xy"</span>, <span class='st'>"zy"</span>, <span class='st'>"zw"</span>), <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>cov_mat</span>(<span class='no'>obj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"xy"</span>, <span class='st'>"zy"</span>, <span class='st'>"zw"</span>), <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -147,14 +153,13 @@
       <td><p>A boolean whether to use compute population values or to estimate from sample</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A matrix of covariances with column equals to the number of response and row equals to the number of predictors</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1983</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1983</span>)
 <span class='no'>sobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='multisimrel.html'>multisimrel</a></span>()
 <span class='fu'>cov_mat</span>(<span class='no'>sobj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"xy"</span>, <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;              [,1]        [,2]        [,3]        [,4]        [,5]
 #&gt;  [1,]  0.05473538  0.00000000  0.00000000  0.00000000  0.00000000
@@ -166,40 +171,35 @@
 #&gt;  [7,]  0.00000000  0.00000000  0.10910888 -0.10910888  0.00000000
 #&gt;  [8,]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
 #&gt;  [9,] -0.47857313  0.00000000  0.00000000  0.00000000  0.00000000
-#&gt; [10,]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
-#&gt; [11,] -0.38466577  0.00000000  0.00000000  0.00000000  0.00000000
-#&gt; [12,]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
-#&gt; [13,]  0.00000000 -0.10790869  0.00000000  0.00000000  0.10790869
-#&gt; [14,]  0.35991983  0.00000000  0.00000000  0.00000000  0.00000000
-#&gt; [15,]  0.00000000  0.00000000 -0.12235087  0.12235087  0.00000000</div><div class='input'><span class='fu'>cov_mat</span>(<span class='no'>sobj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"xy"</span>, <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;               [,1]         [,2]         [,3]         [,4]         [,5]
-#&gt;  [1,]  0.145263915  0.017631669 -0.032045772 -0.018564666  0.002962169
-#&gt;  [2,]  0.323151799 -0.057343006 -0.040733768 -0.036911362  0.012970942
-#&gt;  [3,] -0.009934655 -0.062877145  0.016093506  0.043792272  0.060131832
-#&gt;  [4,]  0.078225100 -0.001245780 -0.033014796 -0.035162014  0.029018231
-#&gt;  [5,]  0.019800746  0.004753679  0.019276631 -0.003389837  0.002513105
-#&gt;  [6,] -0.012727953  0.142092195 -0.006986039 -0.066301173 -0.172192504
-#&gt;  [7,] -0.013961217  0.019943101  0.095711969 -0.116314980  0.008524964
-#&gt;  [8,]  0.002648292 -0.001714722 -0.010480929 -0.007980862 -0.007653784
-#&gt;  [9,] -0.458636089  0.025047687  0.078075671  0.054159473 -0.016694564
-#&gt; [10,]  0.003724002  0.003838364  0.012438437 -0.003391220  0.006066926
-#&gt; [11,] -0.380194600  0.022665575  0.043690289  0.050744647 -0.020487909
-#&gt; [12,] -0.001929436 -0.004590749 -0.001657028  0.009683063 -0.004324354
-#&gt; [13,] -0.046783434 -0.071168913  0.014365823  0.046946504  0.088783345
-#&gt; [14,]  0.365710152 -0.012629579 -0.047273239 -0.051212973  0.021874649
-#&gt; [15,] -0.003294031 -0.021345598 -0.112795448  0.118332842 -0.008652385</div></pre>
+#&gt; [10,] -0.38466577  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [11,]  0.00000000  0.00000000 -0.12235087  0.12235087  0.00000000
+#&gt; [12,]  0.35991983  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [13,]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [14,]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+#&gt; [15,]  0.00000000 -0.10790869  0.00000000  0.00000000  0.10790869</div><div class='input'><span class='fu'>cov_mat</span>(<span class='no'>sobj</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"xy"</span>, <span class='kw'>use_population</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                [,1]          [,2]         [,3]         [,4]         [,5]
+#&gt;  [1,]  0.1499094276  0.0225551020 -0.021142532 -0.017642244  0.009116718
+#&gt;  [2,]  0.3270660152 -0.0537449359 -0.033024128 -0.036275335  0.016893383
+#&gt;  [3,] -0.0113945975 -0.0636098314  0.019111991  0.046077320  0.059385293
+#&gt;  [4,]  0.0767651573 -0.0019784663 -0.029996310 -0.032876966  0.028271693
+#&gt;  [5,]  0.0222361281  0.0075803695  0.022482684 -0.006324240  0.005639610
+#&gt;  [6,] -0.0141878957  0.1413595087 -0.003967554 -0.064016125 -0.172939042
+#&gt;  [7,] -0.0115258345  0.0227697907  0.098918022 -0.119249383  0.011651468
+#&gt;  [8,]  0.0027930961  0.0021889811 -0.002523865 -0.005940305  0.003180998
+#&gt;  [9,] -0.4569019775  0.0246946536  0.076264713  0.053941713 -0.019426372
+#&gt; [10,] -0.3785386131  0.0221709535  0.041538158  0.050496291 -0.023458174
+#&gt; [11,] -0.0008586489 -0.0185189080 -0.109589395  0.115398439 -0.005525881
+#&gt; [12,]  0.3642008527 -0.0188607949 -0.063248293 -0.052700939  0.009243102
+#&gt; [13,] -0.0007261248  0.0008247841  0.008077454 -0.004486281  0.002823606
+#&gt; [14,] -0.0057113104 -0.0065983306 -0.004226565  0.009044024 -0.005520259
+#&gt; [15,] -0.0482433762 -0.0719015998  0.017384308  0.049231552  0.088036807</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -207,13 +207,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

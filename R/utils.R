@@ -4,14 +4,12 @@
 #' @keywords internal
 #' @export
 #' @importFrom magrittr %>%
-#' @usage lhs \%>\% rhs
 magrittr::`%>%`
 
 #' @title Some helper function for simulation
 #' @name parse_parm
 #' @description These function helps to parse a character string into a list object and also creates parameters for performing multiple simulations
 #' @aliases parse_parm
-#' @aliases prepare_design
 #' @importFrom purrr transpose
 #' @param character_string A character string for parameter where the items in a list is separated by semicolon. For example: 1, 2; 3, 4
 #' @param in_list TRUE if the result need to wrap in a list, default is FALSE

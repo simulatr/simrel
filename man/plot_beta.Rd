@@ -4,8 +4,7 @@
 \alias{plot_beta}
 \title{Plotting Functions}
 \usage{
-plot_beta(obj, base_theme = theme_grey, lab_list = NULL,
-  theme_list = NULL)
+plot_beta(obj, base_theme = theme_grey, lab_list = NULL, theme_list = NULL)
 }
 \arguments{
 \item{obj}{A simrel object}

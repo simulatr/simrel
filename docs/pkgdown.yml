@@ -1,6 +1,7 @@
-pandoc: 2.7.1
-pkgdown: 1.3.0.9000
-pkgdown_sha: a267beee11ac619011b359471c66178dc13685ab
+pandoc: '2.5'
+pkgdown: 1.5.1.9000
+pkgdown_sha: c181e5c9ac09b28974a97f5e32deddc36690fcf2
 articles:
   mbrdsim: mbrdsim.html
+last_built: 2020-05-05T09:28Z
 

@@ -4,9 +4,19 @@
 \alias{bisimrel}
 \title{Simulation of Multivariate Linear Model data with response}
 \usage{
-bisimrel(n = 50, p = 100, q = c(10, 10, 5), rho = c(0.8, 0.4),
-  relpos = list(c(1, 2), c(2, 3)), gamma = 0.5, R2 = c(0.8, 0.8),
-  ntest = NULL, muY = NULL, muX = NULL, sim = NULL)
+bisimrel(
+  n = 50,
+  p = 100,
+  q = c(10, 10, 5),
+  rho = c(0.8, 0.4),
+  relpos = list(c(1, 2), c(2, 3)),
+  gamma = 0.5,
+  R2 = c(0.8, 0.8),
+  ntest = NULL,
+  muY = NULL,
+  muX = NULL,
+  sim = NULL
+)
 }
 \arguments{
 \item{n}{Number of training samples}

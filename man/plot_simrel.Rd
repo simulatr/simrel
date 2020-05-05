@@ -4,10 +4,18 @@
 \alias{plot_simrel}
 \title{A wrapper function for a simrel object}
 \usage{
-plot_simrel(obj, ncomp = min(obj$p, obj$n, 20), which = c(1L:4L),
-  layout = NULL, print.cov = FALSE, use_population = TRUE,
-  palette = "Set1", base_theme = ggplot2::theme_grey,
-  lab_list = NULL, theme_list = NULL)
+plot_simrel(
+  obj,
+  ncomp = min(obj$p, obj$n, 20),
+  which = c(1L:4L),
+  layout = NULL,
+  print.cov = FALSE,
+  use_population = TRUE,
+  palette = "Set1",
+  base_theme = ggplot2::theme_grey,
+  lab_list = NULL,
+  theme_list = NULL
+)
 }
 \arguments{
 \item{obj}{A simrel object}

@@ -4,8 +4,14 @@
 \alias{ggsimrelplot}
 \title{Simulation Plot with ggplot: The true beta, relevant component and eigen structure}
 \usage{
-ggsimrelplot(obj, ncomp = min(obj$p, obj$n, 20), which = 1L:3L,
-  layout = NULL, print.cov = FALSE, use_population = TRUE)
+ggsimrelplot(
+  obj,
+  ncomp = min(obj$p, obj$n, 20),
+  which = 1L:3L,
+  layout = NULL,
+  print.cov = FALSE,
+  use_population = TRUE
+)
 }
 \arguments{
 \item{obj}{A simrel object}

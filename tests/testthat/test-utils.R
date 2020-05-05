@@ -15,19 +15,19 @@ opts <- list(
   ntest  = rep(1000, 2)
 )
 dgn <- tibble::tibble(
-  n = c(100, 100),
-  p = c(20, 40),
+  n = c(Design1 = 100, Design2 = 100),
+  p = c(Design1 = 20, Design2 = 40),
   q = list(Design1 = c(5,  5, 4), Design2 = c(10, 5, 5)),
-  m = c(5, 5),
+  m = c(Design1 = 5, Design2 = 5),
   relpos = list(
     Design1 = list(1, c(2, 4), 3),
     Design2 = list(c(1, 2), c(3, 4), 5)),
-  gamma = c(0.2,  0.4),
+  gamma = c(Design1 = 0.2,  Design2 = 0.4),
   R2 = list(Design1 = c(0.8, 0.9, 0.7),
             Design2 = c(0.6,  0.8, 0.7)),
   ypos = list(Design1 = list(c(1, 4), c(2, 5), 3),
               Design2 = list(1, c(2, 4), c(3, 5))),
-  ntest = c(1000, 1000)
+  ntest = c(Design1 = 1000, Design2 = 1000)
 )
 
 testthat::test_that(
@@ -48,7 +48,7 @@ testthat::test_that(
     )
     expect_error(
       prepare_design(list("1, 2, 3")),
-      "Use .name_repair to specify repair."
+      class = "tibble_error_column_names_cannot_be_empty"
     )
   }
 )

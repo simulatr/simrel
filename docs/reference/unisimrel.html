@@ -8,22 +8,29 @@
 
 <title>Function for data simulation — unisimrel • simrel</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -31,14 +38,14 @@
 
 
 
-<meta property="og:title" content="Function for data simulation — unisimrel" />
 
+<meta property="og:title" content="Function for data simulation — unisimrel" />
 <meta property="og:description" content="Functions for data simulation from a random regression model with one
 response variable where the data properties can be controlled by a few input
 parameters.  The data simulation is based on the concept of relevant latent
 components and relevant predictors, and was developed for the purpose of
 testing methods for variable selection for prediction." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -52,9 +59,10 @@ testing methods for variable selection for prediction." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -68,7 +76,7 @@ testing methods for variable selection for prediction." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">simrel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
       </span>
     </div>
 
@@ -96,7 +104,6 @@ testing methods for variable selection for prediction." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/simulatr/simrel">
@@ -117,29 +124,39 @@ testing methods for variable selection for prediction." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Function for data simulation</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/simulatr/simrel/blob/master/R/unisimrel.r'><code>R/unisimrel.r</code></a></small>
     <div class="hidden name"><code>unisimrel.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Functions for data simulation from a random regression model with one
 response variable where the data properties can be controlled by a few input
 parameters.  The data simulation is based on the concept of relevant latent
 components and relevant predictors, and was developed for the purpose of
 testing methods for variable selection for prediction.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>unisimrel</span>(<span class='no'>n</span>, <span class='no'>p</span>, <span class='no'>q</span>, <span class='no'>relpos</span>, <span class='no'>gamma</span>, <span class='no'>R2</span>, <span class='kw'>ntest</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>muY</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>muX</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lambda.min</span> <span class='kw'>=</span> <span class='no'>.Machine</span>$<span class='no'>double.eps</span>, <span class='kw'>sim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>unisimrel</span>(
+  <span class='no'>n</span>,
+  <span class='no'>p</span>,
+  <span class='no'>q</span>,
+  <span class='no'>relpos</span>,
+  <span class='no'>gamma</span>,
+  <span class='no'>R2</span>,
+  <span class='kw'>ntest</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>muY</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>muX</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>lambda.min</span> <span class='kw'>=</span> <span class='no'>.Machine</span>$<span class='no'>double.eps</span>,
+  <span class='kw'>sim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -188,7 +205,7 @@ testing methods for variable selection for prediction.</p>
       <td><p>A fitted simrel object. If this is given, the same regression coefficients will be used to simulate a new data set of requested size. Default is NULL, for which new regression coefficients are sampled.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A simrel object with list of following items,</p>
@@ -216,7 +233,6 @@ testing methods for variable selection for prediction.</p>
     <dt>Rotation</dt><dd><p>The random rotation matrix which is used to achieve the predictor variables as rotations of the latent components. Equals the transposed of the eigenvector-matrix of the covariance matrix of \((x_1,...,x_p)^t\).</p></dd>
     <dt>type</dt><dd><p>The type of response generated, either "univariate" as returned from <code>simrel</code>, or "bivariate" as returned from <code>simrel2</code>.</p></dd>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The data are simulated according to a multivariate normal model for the
@@ -246,101 +262,88 @@ the output argument <code>relpred</code>. If <code>q=p</code> all \(p\) predicto
 variables are relevant for the prediction of \(y\).</p>
 <p>For further details on the simulation approach, please see S&lt;e6&gt;b&lt;f8&gt;,
 Alm&lt;f8&gt;y and Helland (2015).</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Helland, I. S. and Alm&lt;f8&gt;y, T., 1994, Comparison of prediction methods when only a few components are relevant, <em>J. Amer. Statist. Ass.</em>, <b>89</b>(426), 583 -- 591.</p>
 <p>S&lt;e6&gt;b&lt;f8&gt;, S., Alm&lt;f8&gt;y, T. and Helland, I. S., 2015, simrel - A versatile tool for linear model data simulation based on the concept of a relevant subspace and relevant predictors, <em>Chemometr. Intell. Lab.</em>(in press),doi:10.1016/j.chemolab.2015.05.012.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>#Linear model data, large n, small p</span>
-<span class='no'>mydata</span> <span class='kw'>&lt;-</span> <span class='fu'>unisimrel</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>250</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>4</span>), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fl'>0.75</span>)
+<span class='no'>mydata</span> <span class='kw'>&lt;-</span> <span class='fu'>unisimrel</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>250</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>4</span>), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fl'>0.75</span>)
 
 <span class='co'>#Estimating model parameters using ordinary least squares</span>
-<span class='no'>lmfit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>mydata</span>$<span class='no'>Y</span> ~ <span class='no'>mydata</span>$<span class='no'>X</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lmfit</span>)</div><div class='output co'>#&gt; 
+<span class='no'>lmfit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mydata</span>$<span class='no'>Y</span> ~ <span class='no'>mydata</span>$<span class='no'>X</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>lmfit</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = mydata$Y ~ mydata$X)
 #&gt; 
 #&gt; Residuals:
-#&gt;     Min      1Q  Median      3Q     Max 
-#&gt; -1.5234 -0.3504  0.0361  0.3598  1.4187 
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.29528 -0.31505  0.00814  0.27428  1.25744 
 #&gt; 
 #&gt; Coefficients:
 #&gt;              Estimate Std. Error t value Pr(&gt;|t|)    
-#&gt; (Intercept)  0.015792   0.034107   0.463 0.643795    
-#&gt; mydata$X1   -0.063722   0.215017  -0.296 0.767226    
-#&gt; mydata$X2    0.078281   0.096496   0.811 0.418071    
-#&gt; mydata$X3   -0.198931   0.197391  -1.008 0.314615    
-#&gt; mydata$X4    0.348371   0.096529   3.609 0.000378 ***
-#&gt; mydata$X5    0.009021   0.150617   0.060 0.952293    
-#&gt; mydata$X6   -0.073922   0.156751  -0.472 0.637670    
-#&gt; mydata$X7    0.177304   0.209639   0.846 0.398572    
-#&gt; mydata$X8    0.637555   0.100424   6.349 1.15e-09 ***
-#&gt; mydata$X9   -1.043832   0.086093 -12.124  &lt; 2e-16 ***
-#&gt; mydata$X10   0.033551   0.189866   0.177 0.859892    
-#&gt; mydata$X11  -0.107243   0.234827  -0.457 0.648328    
-#&gt; mydata$X12  -0.108218   0.190341  -0.569 0.570220    
-#&gt; mydata$X13  -0.250711   0.155473  -1.613 0.108216    
-#&gt; mydata$X14  -0.109210   0.105240  -1.038 0.300493    
-#&gt; mydata$X15   0.077147   0.214730   0.359 0.719721    
-#&gt; mydata$X16  -0.105990   0.177689  -0.596 0.551437    
-#&gt; mydata$X17  -0.020471   0.174558  -0.117 0.906746    
-#&gt; mydata$X18  -0.154034   0.194067  -0.794 0.428182    
-#&gt; mydata$X19  -0.289063   0.184552  -1.566 0.118660    
-#&gt; mydata$X20   0.081551   0.188917   0.432 0.666383    
+#&gt; (Intercept)  0.035528   0.030940   1.148   0.2521    
+#&gt; mydata$X1   -0.249234   0.187244  -1.331   0.1845    
+#&gt; mydata$X2    0.023204   0.113486   0.204   0.8382    
+#&gt; mydata$X3   -0.045576   0.145264  -0.314   0.7540    
+#&gt; mydata$X4   -0.965204   0.109403  -8.822 2.91e-16 ***
+#&gt; mydata$X5    0.148478   0.155914   0.952   0.3419    
+#&gt; mydata$X6   -0.186481   0.129050  -1.445   0.1498    
+#&gt; mydata$X7   -0.142771   0.230804  -0.619   0.5368    
+#&gt; mydata$X8    0.685921   0.115623   5.932 1.09e-08 ***
+#&gt; mydata$X9   -0.219113   0.160428  -1.366   0.1733    
+#&gt; mydata$X10  -0.336394   0.177970  -1.890   0.0600 .  
+#&gt; mydata$X11   0.002401   0.211815   0.011   0.9910    
+#&gt; mydata$X12   0.022048   0.136036   0.162   0.8714    
+#&gt; mydata$X13   0.213137   0.151075   1.411   0.1597    
+#&gt; mydata$X14   0.271859   0.151635   1.793   0.0743 .  
+#&gt; mydata$X15   0.074693   0.130812   0.571   0.5686    
+#&gt; mydata$X16   0.046317   0.143549   0.323   0.7472    
+#&gt; mydata$X17   0.147429   0.143692   1.026   0.3060    
+#&gt; mydata$X18  -0.216410   0.176428  -1.227   0.2212    
+#&gt; mydata$X19   0.133350   0.139590   0.955   0.3404    
+#&gt; mydata$X20   0.001297   0.150419   0.009   0.9931    
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #&gt; 
-#&gt; Residual standard error: 0.513 on 229 degrees of freedom
-#&gt; Multiple R-squared:  0.7895,	Adjusted R-squared:  0.7712 
-#&gt; F-statistic: 42.95 on 20 and 229 DF,  p-value: &lt; 2.2e-16
+#&gt; Residual standard error: 0.4635 on 229 degrees of freedom
+#&gt; Multiple R-squared:  0.8219,	Adjusted R-squared:  0.8064 
+#&gt; F-statistic: 52.85 on 20 and 229 DF,  p-value: &lt; 2.2e-16
 #&gt; </div><div class='input'>
 <span class='co'>#Comparing true with estimated regression coefficients</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>mydata</span>$<span class='no'>beta</span>, <span class='no'>lmfit</span>$<span class='no'>coef</span>[-<span class='fl'>1</span>], <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"True regression coefficients"</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Estimated regression coefficients"</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/abline'>abline</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>)</div><div class='img'><img src='unisimrel-1.svg' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mydata</span>$<span class='no'>beta</span>, <span class='no'>lmfit</span>$<span class='no'>coef</span>[-<span class='fl'>1</span>], <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"True regression coefficients"</span>,
+  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Estimated regression coefficients"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>)</div><div class='img'><img src='unisimrel-1.svg' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Linear model data, small n, large p</span>
-<span class='no'>mydata</span> <span class='kw'>&lt;-</span> <span class='fu'>unisimrel</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>4</span>), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fl'>0.8</span> )
+<span class='no'>mydata</span> <span class='kw'>&lt;-</span> <span class='fu'>unisimrel</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>4</span>), <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='fl'>0.8</span> )
 
 <span class='co'>#Simulating more samples with identical distribution as previous simulation</span>
 <span class='no'>mydata2</span> <span class='kw'>&lt;-</span> <span class='fu'>unisimrel</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2500</span>, <span class='kw'>sim</span> <span class='kw'>=</span> <span class='no'>mydata</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: All parameters are collected from the supplied 'sim' object. </span></div><div class='input'>
-</div><span class='co'># NOT RUN {</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>#Estimating model parameters using partial least squares regression with</span>
 <span class='co'>#cross-validation to determine the number of relevant components.</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>pls</span>)
-<span class='no'>plsfit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/pls/topics/mvr'>plsr</a></span>(<span class='no'>mydata</span>$<span class='no'>Y</span> ~ <span class='no'>mydata</span>$<span class='no'>X</span>, <span class='fl'>15</span>, <span class='kw'>validation</span> <span class='kw'>=</span> <span class='st'>"CV"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>pls</span>)
+<span class='no'>plsfit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/pls/man/mvr.html'>plsr</a></span>(<span class='no'>mydata</span>$<span class='no'>Y</span> ~ <span class='no'>mydata</span>$<span class='no'>X</span>, <span class='fl'>15</span>, <span class='kw'>validation</span> <span class='kw'>=</span> <span class='st'>"CV"</span>)
 
 <span class='co'>#Validation plot and finding the number of relevant components.</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fl'>0</span>:<span class='fl'>15</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS0</span>, <span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span>),
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fl'>0</span>:<span class='fl'>15</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS0</span>, <span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span>),
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Components"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"PRESS"</span>)
-<span class='no'>mincomp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span> <span class='kw'>==</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span>))
+<span class='no'>mincomp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span> <span class='kw'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='no'>plsfit</span>$<span class='no'>validation</span>$<span class='no'>PRESS</span>))
 
 <span class='co'>#Comparing true with estimated regression coefficients</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>mydata</span>$<span class='no'>beta</span>, <span class='no'>plsfit</span>$<span class='no'>coef</span>[, <span class='fl'>1</span>, <span class='no'>mincomp</span>], <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"True regression coefficients"</span>,
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mydata</span>$<span class='no'>beta</span>, <span class='no'>plsfit</span>$<span class='no'>coef</span>[, <span class='fl'>1</span>, <span class='no'>mincomp</span>], <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"True regression coefficients"</span>,
   <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Estimated regression coefficients"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/abline'>abline</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)
-<span class='co'># }</span></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)
+}</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Solve S&lt;e6&gt;b&lt;f8&gt; and Kristian H. Liland</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -348,13 +351,16 @@ Alm&lt;f8&gt;y and Helland (2015).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

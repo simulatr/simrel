@@ -8,22 +8,29 @@
 
 <title>Function to create MBR-design. — mbrd • simrel</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -31,14 +38,14 @@
 
 
 
-<meta property="og:title" content="Function to create MBR-design. — mbrd" />
 
+<meta property="og:title" content="Function to create MBR-design. — mbrd" />
 <meta property="og:description" content="Function to create multi-level binary replacement (MBR) design (Martens et al., 2010). The MBR approach was 
 developed for constructing experimental designs for computer experiments.
 MBR makes it possible to set up fractional designs for multi-factor problems 
 with potentially many levels for each factor. In this package 
 it is mainly called by the mbrdsim function." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -52,9 +59,10 @@ it is mainly called by the mbrdsim function." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -68,7 +76,7 @@ it is mainly called by the mbrdsim function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">simrel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
       </span>
     </div>
 
@@ -96,7 +104,6 @@ it is mainly called by the mbrdsim function." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/simulatr/simrel">
@@ -117,34 +124,39 @@ it is mainly called by the mbrdsim function." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Function to create MBR-design.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/simulatr/simrel/blob/master/R/mbrd.R'><code>R/mbrd.R</code></a></small>
     <div class="hidden name"><code>mbrd.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Function to create multi-level binary replacement (MBR) design (Martens et al., 2010). The MBR approach was 
 developed for constructing experimental designs for computer experiments.
 MBR makes it possible to set up fractional designs for multi-factor problems 
 with potentially many levels for each factor. In this package 
 it is mainly called by the <code>mbrdsim</code> function.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>mbrd</span>(<span class='kw'>l2levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>), <span class='kw'>fraction</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fnames1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fnames2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>mbrd</span>(
+  <span class='kw'>l2levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>),
+  <span class='kw'>fraction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>gen</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fnames1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fnames2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>l2levels</th>
-      <td><p>A vector indicating the number of log2-levels for each factor. E.g. <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(2,3)</a></code> means 2 factors,
+      <td><p>A vector indicating the number of log2-levels for each factor. E.g. <code><a href='https://rdrr.io/r/base/c.html'>c(2,3)</a></code> means 2 factors,
 the first with \(2^2=4\) levels, the second with \(2^3=8\) levels</p></td>
     </tr>
     <tr>
@@ -164,7 +176,7 @@ the first with \(2^2=4\) levels, the second with \(2^3=8\) levels</p></td>
       <td><p>Factor names at bit-level (optional).</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     
@@ -173,7 +185,6 @@ the first with \(2^2=4\) levels, the second with \(2^3=8\) levels</p></td>
  can be used to get extra design info of the bit-design, and <code>plot</code> for plotting of the bit-level design.</p></dd> 
  <dt>Design</dt><dd><p>The design at original factor levels, non-randomized.</p></dd>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The MBR design approach was developed for designing fractional designs in multi-level multi-factor experiments, 
@@ -183,38 +194,27 @@ set of \(ln(L)\) two-level "bit factors". The complete bit-factor design can the
 is the total number of bit-factors across all original multi-level factors. 3) Choose a fraction level \(P\) defining av fractional 
 design \(2^{(K-P)}\) (see e.g. Montgomery, 2008) as for regular two-levels factorial designs. 4) 
 Express the reduced design in terms of the original multi-level factors.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Martens, H., Måge, I., Tøndel, K., Isaeva, J., Høy, M. and Sæbø¸, S., 2010, Multi-level binary replacement (MBR) design for computer experiments in high-dimensional nonlinear systems, <em>J, Chemom</em>, <b>24</b>, 748--756.</p>
 <p>Montgomery, D., <em>Design and analysis of experiments</em>, John Wiley &amp; Sons, 2008.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='co'>#Two variables with 8 levels each (2^3=8), a half-fraction design.</span>
- <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>mbrd</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>),<span class='kw'>fraction</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>gen</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>4</span>)))
+ <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>mbrd</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>),<span class='kw'>fraction</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>gen</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>4</span>)))
  <span class='co'>#plot(res$Design, pch=20, cex=2, col=2)</span>
  <span class='co'>#Three variabler with 8 levels each, a 1/16-fraction.</span>
- <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>mbrd</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>),<span class='kw'>fraction</span><span class='kw'>=</span><span class='fl'>4</span>)
+ <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>mbrd</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>),<span class='kw'>fraction</span><span class='kw'>=</span><span class='fl'>4</span>)
  <span class='co'>#library(rgl)</span>
  <span class='co'>#plot3d(res$Design,type="s",col=2)</span></div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -222,13 +222,16 @@ Express the reduced design in terms of the original multi-level factors.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

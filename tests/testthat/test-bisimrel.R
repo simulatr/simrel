@@ -1,9 +1,9 @@
-suppressPackageStartupMessages(library(simrel))
-suppressPackageStartupMessages(library(testthat))
+library(simrel)
+library(testthat)
 
 context("Testing Bivariate Simulation.")
 
-set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
+set.seed(2020)
 sobj <- bisimrel(
     n      = 100,
     p      = 15,
@@ -60,12 +60,12 @@ testthat::test_that("Testing different values.", {
     expect_equal(sobj$lambda[2], exp(-sobj$gamma))
     expect_equal(sobj$minerror[1, 1], 0.2)
     expect_equal(sobj$minerror[1, 2], 0.09797959)
-    expect_equal(sobj$beta[1,1], -0.0497643)
+    expect_equal(sobj$beta[1,1], -0.024117509, tolerance = 1e-5)
 })
 
 context("Testing Bivariate Simulation with every components common.")
 
-set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
+set.seed(2020)
 sobj_expr <- expression({
     bisimrel(
         n      = 100,
@@ -87,7 +87,7 @@ testthat::test_that("Testing different values.", {
     expect_equal(sobj2$lambda[2], exp(-sobj2$gamma))
     expect_equal(sobj2$minerror[1, 1], 0.2)
     expect_equal(sobj2$minerror[1, 2], 0.09797959)
-    expect_equal(sobj2$beta[1,1], -0.6480939, tol = 1e-7)
-    expect_equal(sum(cov_zy(sobj2)[,1] != 0),
-                 sum(cov_zy(sobj2)[,2] != 0))
+    expect_equal(sobj2$beta[1,1], 0.5965721, tolerance = 1e-7)
+    expect_equal(sum(simrel:::cov_zy(sobj2)[,1] != 0),
+                 sum(simrel:::cov_zy(sobj2)[,2] != 0))
 })

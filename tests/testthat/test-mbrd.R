@@ -1,5 +1,5 @@
-suppressPackageStartupMessages(library(simrel))
-suppressPackageStartupMessages(library(testthat))
+library(simrel)
+library(testthat)
 
 context("Test MBR design creating function")
 
@@ -10,7 +10,7 @@ testthat::test_that(
   "Test mbrd function.", {
     expect_named(design1, c("BitDesign", "Design"))
     expect_error(mbrd(l2levels = c(2, 2), fraction = 3),
-                 "runs are not covered by FrF2.")
+                 "not covered by function FrF2")
     expect_equal(nrow(design1$BitDesign), 16)
     expect_equal(ncol(design1$BitDesign), 4)
     expect_equal(nrow(design2$BitDesign), 32)
@@ -42,7 +42,7 @@ testthat::test_that(
     expect_equal(nrow(mbrdsim(sim_list1, 2)[["BitDesign"]]), 16)
     expect_equal(ncol(mbrdsim(sim_list1, 2)[["Design"]]), 3)
     expect_equal(nrow(mbrdsim(sim_list1, 2)[["Design"]]), 16)
-    expect_error(mbrdsim(sim_list2, 1), "runs are not covered by FrF2")
+    expect_error(mbrdsim(sim_list2, 1), "not covered by function FrF2")
     expect_error(mbrdsim(sim_list2), "argument \"fraction\" is missing")
     expect_error(mbrdsim(sim_list3, 1), "nruns must be a power of 2.")
   }

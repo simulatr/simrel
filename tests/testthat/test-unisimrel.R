@@ -1,9 +1,9 @@
-suppressPackageStartupMessages(library(simrel))
-suppressPackageStartupMessages(library(testthat))
+library(simrel)
+library(testthat)
 
 context("Testing Univariate Simulation.")
 
-set.seed(2019, kind = "Mersenne-Twister", normal.kind = "Inversion")
+set.seed(2020)
 sobj    <- unisimrel(
   n = 100,
   p = 15,
@@ -62,6 +62,6 @@ testthat::test_that("Testing different values.", {
     expect_equal(sobj$lambda[2], exp(-sobj$gamma))
     testthat::skip_on_cran()
     expect_equal(sobj$minerror[1, 1], 0.2)
-    expect_equal(sobj$beta[1,1], 0.37312493)
+    expect_equal(sobj$beta[1,1], -1.70665523)
   }
 )

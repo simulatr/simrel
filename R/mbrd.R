@@ -6,7 +6,6 @@
 #'MBR makes it possible to set up fractional designs for multi-factor problems 
 #'with potentially many levels for each factor. In this package 
 #'it is mainly called by the \code{mbrdsim} function.
-#'@usage mbrd(l2levels = c(2, 2), fraction = 0, gen = NULL, fnames1 = NULL, fnames2 = NULL)
 #'@param l2levels A vector indicating the number of log2-levels for each factor. E.g. \code{c(2,3)} means 2 factors,
 #'the first with \eqn{2^2=4} levels, the second with \eqn{2^3=8} levels
 #'@param fraction Design fraction at bit-level. Full design: fraction=0, half-fraction: fraction=1, and so on...

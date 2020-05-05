@@ -1,5 +1,5 @@
-suppressPackageStartupMessages(library(simrel))
-suppressPackageStartupMessages(library(testthat))
+library(simrel)
+library(testthat)
 
 context("Testing Covariance Plot for Bivariate Simulation.")
 

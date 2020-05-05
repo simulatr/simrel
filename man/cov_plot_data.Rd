@@ -4,8 +4,7 @@
 \alias{cov_plot_data}
 \title{Prepare data for Plotting Covariance Matrix}
 \usage{
-cov_plot_data(sobj, type = "relpos", ordering = TRUE,
-  facetting = TRUE)
+cov_plot_data(sobj, type = "relpos", ordering = TRUE, facetting = TRUE)
 }
 \arguments{
 \item{sobj}{A simrel object}

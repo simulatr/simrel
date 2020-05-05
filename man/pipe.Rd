@@ -4,9 +4,6 @@
 \name{\%>\%}
 \alias{\%>\%}
 \title{Pipe operator}
-\usage{
-lhs \%>\% rhs
-}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links

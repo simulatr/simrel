@@ -4,7 +4,13 @@
 \alias{mbrd}
 \title{Function to create MBR-design.}
 \usage{
-mbrd(l2levels = c(2, 2), fraction = 0, gen = NULL, fnames1 = NULL, fnames2 = NULL)
+mbrd(
+  l2levels = c(2, 2),
+  fraction = 0,
+  gen = NULL,
+  fnames1 = NULL,
+  fnames2 = NULL
+)
 }
 \arguments{
 \item{l2levels}{A vector indicating the number of log2-levels for each factor. E.g. \code{c(2,3)} means 2 factors,

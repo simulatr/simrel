@@ -6,10 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulation of Multivariate Linear Model Data • simrel</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Simulation of Multivariate Linear Model Data">
 <meta property="og:description" content="Simulate multivariate linear model data is useful in research and education weather 
     for comparison or create data with specific properties. This package lets user to simulate
@@ -17,14 +18,13 @@
     The package also consist of function to create plots for the simulation
     objects and A shiny app as RStudio gadget. It can be a handy tool for model comparison, 
     testing and many other purposes.">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
-    <div class="container template-article">
+<body data-spy="scroll" data-target="#toc">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">simrel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
       </span>
     </div>
 
@@ -86,33 +86,37 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
-  <div class="col-md-9 contents">
-    
+  <div class="contents col-md-9">
 
-    
-    
-
-<div id="introduction" class="section level1">
+<div id="simulation-of-multivariate-linear-model-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1></div>
+<a href="#simulation-of-multivariate-linear-model-data" class="anchor"></a>Simulation of Multivariate Linear Model Data</h1></div>
+<p>Raju Rimal, Trygve Almøy &amp; Solve Sæbø</p>
+<p><a href="https://cran.r-project.org/package=simrel"><img src="https://www.r-pkg.org/badges/version/simrel" alt="CRAN status"></a> <a href="https://travis-ci.org/simulatr/simrel"><img src="https://travis-ci.org/simulatr/simrel.svg?branch=master" alt="Build Status"></a> <a href="https://codecov.io/gh/simulatr/simrel?branch=master"><img src="https://codecov.io/gh/simulatr/simrel/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></p>
+</div>
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h1>
 <p><code>Simrel</code> r-package is a versatile tool for simulation of multivariate linear model data. The package consist of four core functions – <code>unisimrel</code>, <code>bisimrel</code>, <code>multisimrel</code> and <code>simrel</code> for simulation. It also has two more functions – one for plotting covariance and rotation matrices and another for plotting different properties of simulated data. As the name suggests, <code>unisimrel</code> function is used for simulating univariate linear model data, <code>bisimrel</code> simulates bivariate linear model data where user can specify the correlation between two responses with and without given <strong>X</strong>. In addition, this function allows users to get responses (<strong>y</strong>) having common relevant components.</p>
 <p>An extension of <code>bisimrel</code> and <code>unisimrel</code> is <code>multisimrel</code>, by which user can simulate multivariate linear model data with multiple responses. In this simulation, each response must have exclusive set of predictors and relevant predictors components. Following examples will give a clear picture of these functions. The forth simulation function <code>simrel</code> wraps around these function and calls them according to what type of data a user is simulating. Following section discusses about the arguments required for each of these simulation function.</p>
 <div id="simulation-parameters" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulation-parameters" class="anchor"></a>Simulation Parameters</h2>
-<p>A tool for simulating linear model data with single response discussed in sæbø et.al. (2015) and multi-response discussed in rimal et.al. (2018) is the basis for these functions. The function require following arguments which are also parameters for the simulation.</p>
-<details><summary><code>n</code>: Number of training samples (n)</summary> An integer for number of training samples. For example: <code>n = 1000</code> simulates 1000 training observations.
-</details><details><summary><code>p:</code> Number of predictor variables (p)</summary> An integer for number of predictor variables. <code>p = 150</code> gives data with 150 predictor variables.
-</details><details><summary><code>q:</code> Number of relevant predictors (q)</summary> An integer for the number of predictor variables that are relevant for the response. For example: <code>q = 15</code> results 15 predictors out of <code>p</code> relevant for the response.
-</details><details><summary><code>relpos:</code> Position of relevant components</summary> A vector of position index of relevant principal components of <strong>x</strong>. For instance, <code>relpos = c(1, 2, 3, 5)</code> will give data with 4 relevant components at position 1, 2, 3 and 5.
-</details><details><summary><code>R2:</code> Coefficient of determination</summary> A decimal value between 0 and 1 specifying the coefficient of determination. Input of <code>R2 = 0.8</code> gives data with 0.8 coefficient of determination.
-</details><details><p><summary><code>gamma:</code> Decay factor for exponential decay of eigenvalues of predictor variables</summary> A numeric value greater than 0. It is a factor controlling exponential decay of eigenvalues of predictor variables. For <code>p</code> predictors, the eigenvalues are computed as <code><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp(-gamma(i-1))</a></code> for <code>i=1, 2, …, p</code> so that, higher the value of <code>gamma</code> steeper will be the decay of eigenvalues. Since steeper eigenvalues corresponds to high multicollinearity in data, <code>gamma</code> also controls the multicollinearity present in the simulated data.</p>
+<p>A tool for simulating linear model data with single response discussed in sæbø et.al. (2015) and multi-response discussed in rimal et.al.</p>
+<p>(2018) is the basis for these functions. The function require following arguments which are also parameters for the simulation.</p>
+<details><p><summary><code>n</code>: Number of training samples (n)</summary> An integer for number of training samples. For example: <code>n = 1000</code> simulates 1000 training observations.</p>
+</details><details><p><summary><code>p:</code> Number of predictor variables (p)</summary> An integer for number of predictor variables. <code>p = 150</code> gives data with 150 predictor variables.</p>
+</details><details><p><summary><code>q:</code> Number of relevant predictors (q)</summary> An integer for the number of predictor variables that are relevant for the response. For example: <code>q = 15</code> results 15 predictors out of <code>p</code> relevant for the response.</p>
+</details><details><p><summary><code>relpos:</code> Position of relevant components</summary> A vector of position index of relevant principal components of <strong>x</strong>. For instance, <code>relpos = c(1, 2, 3, 5)</code> will give data with 4 relevant components at position 1, 2, 3 and 5.</p>
+</details><details><p><summary><code>R2:</code> Coefficient of determination</summary> A decimal value between 0 and 1 specifying the coefficient of determination. Input of <code>R2 = 0.8</code> gives data with 0.8 coefficient of determination.</p>
+</details><details><p><summary><code>gamma:</code> Decay factor for exponential decay of eigenvalues of predictor variables</summary> A numeric value greater than 0. It is a factor controlling exponential decay of eigenvalues of predictor variables. For <code>p</code> predictors, the eigenvalues are computed as <code><a href="https://rdrr.io/r/base/Log.html">exp(-gamma(i-1))</a></code> for <code>i=1, 2, …, p</code> so that, higher the value of <code>gamma</code> steeper will be the decay of eigenvalues. Since steeper eigenvalues corresponds to high multicollinearity in data, <code>gamma</code> also controls the multicollinearity present in the simulated data.</p>
 <p><img src="figure/gamma-decay-1.svg" width="100%"></p>
-</details><details><summary><code>eta:</code> Decay factor for exponential decay of eigenvalues of response variables</summary> Similar to <code>gamma</code>, it is a factor controlling exponential decay of eigenvalues of response variables. For <code>m</code> responses, the eigenvalues are computed as <code><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp(-eta(j-1))</a></code> for <code>j=1, 2, …, m</code> so that, higher the value of <code>eta</code> steeper will be the decay of eigenvalues.
-</details><details><summary><code>m:</code>Number of Response Variables (Only applicable for Univariate Simulation)</summary> An integer specifying the number of response variables to simulate. This is only applicable in Multivariate Simulation (<code>multisimrel</code>).
-</details><details><summary><code>ypos:</code>Position of response components indices to combine together</summary> The true dimension of response matrix containing the information can be smaller than the dimension that is defined by all the response variables. Lets suppose for an example that only two response components actually contains information that the predictor (or a subset of predictor) can explain. However, In the simulation data user might want 5 response variables that contains the same inforamtion contained in two latent component of the respone variables. The <code>ypos</code> parameters if specified as <code><a href="https://www.rdocumentation.org/packages/base/topics/list">list(c(1, 3), c(2, 4, 5))</a></code> will mix up the inforamtion in response component 1 with uninformative component 3 so that the response variable 1 and 3 contains the same information that was contained in response component 1. A similar description can be made for the second response component which is mixed with non-informative response components 4 and 5.
-</details><details><summary><code>rho:</code>Correlation between two response variables (Only applicable for Bivariate Simulation</summary> A vector of two numbers specifying the correlation between the the two response variable in bivariate simulation. The first number is for the correlation without the knownledge of predictors while the second number is for the correlation given the predictors. These values should be between the range of a correlation, i.e. -1 to 1.
+</details><details><p><summary><code>eta:</code> Decay factor for exponential decay of eigenvalues of response variables</summary> Similar to <code>gamma</code>, it is a factor controlling exponential decay of eigenvalues of response variables. For <code>m</code> responses, the eigenvalues are computed as <code><a href="https://rdrr.io/r/base/Log.html">exp(-eta(j-1))</a></code> for <code>j=1, 2, …, m</code> so that, higher the value of <code>eta</code> steeper will be the decay of eigenvalues.</p>
+</details><details><p><summary><code>m:</code>Number of Response Variables (Only applicable for Univariate Simulation)</summary> An integer specifying the number of response variables to simulate. This is only applicable in Multivariate Simulation (<code>multisimrel</code>).</p>
+</details><details><p><summary><code>ypos:</code>Position of response components indices to combine together</summary> The true dimension of response matrix containing the information can be smaller than the dimension that is defined by all the response variables. Lets suppose for an example that only two response components actually contains information that the predictor (or a subset of predictor) can explain. However, In the simulation data user might want 5 response variables that contains the same inforamtion contained in two latent component of the respone variables. The <code>ypos</code> parameters if specified as <code><a href="https://rdrr.io/r/base/list.html">list(c(1, 3), c(2, 4, 5))</a></code> will mix up the inforamtion in response component 1 with uninformative component 3 so that the response variable 1 and 3 contains the same information that was contained in response component 1. A similar description can be made for the second response component which is mixed with non-informative response components 4 and 5.</p>
+</details><details><p><summary><code>rho:</code>Correlation between two response variables (Only applicable for Bivariate Simulation</summary> A vector of two numbers specifying the correlation between the the two response variable in bivariate simulation. The first number is for the correlation without the knownledge of predictors while the second number is for the correlation given the predictors. These values should be between the range of a correlation, i.e. -1 to 1.</p>
 </details>
 </div>
 </div>
@@ -120,11 +124,11 @@
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p>The package is now available in CRAN and can be installed using <code>install.packages</code> as,</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"simrel"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"simrel"</span>)</pre></div>
 <p>A more recent stable version can be download from GitHub as,</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># install.pacakges("devtools")</span></a>
-<a class="sourceLine" id="cb2-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"simulatr/simrel"</span>)</a>
-<a class="sourceLine" id="cb2-3" title="3">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/install_bitbucket">install_bitbucket</a></span>(<span class="st">"simulatr/simrel"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.pacakges("devtools")</span>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"simulatr/simrel"</span>)
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_bitbucket</a></span>(<span class="st">"simulatr/simrel"</span>)</pre></div>
 </div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
@@ -133,42 +137,42 @@
 <h2 class="hasAnchor">
 <a href="#univariate-simulation" class="anchor"></a>Univariate Simulation:</h2>
 <p>Simulate a univariate linear model data with 100 training samples and 500 test samples having 10 predictors (<strong>X</strong>) where only 8 of them are relevant for the variation in the response vector. The population model should explain 80% of the variation present in the response. In addition, only 1st and 3rd principal components of <strong>X</strong> should be relevant for <em>y</em> and the eigenvalues of <strong>X</strong> decreases exponentially by a factor of 0.7.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(simrel)</a>
-<a class="sourceLine" id="cb3-2" title="2">sim_obj &lt;-</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/simrel.html">simrel</a></span>(</a>
-<a class="sourceLine" id="cb3-4" title="4">    <span class="dt">n      =</span> <span class="dv">100</span>,         <span class="co"># 100 training samples</span></a>
-<a class="sourceLine" id="cb3-5" title="5">    <span class="dt">p      =</span> <span class="dv">10</span>,          <span class="co"># 10 predictor variables</span></a>
-<a class="sourceLine" id="cb3-6" title="6">    <span class="dt">q      =</span> <span class="dv">8</span>,           <span class="co"># only 8 of them are relevant</span></a>
-<a class="sourceLine" id="cb3-7" title="7">    <span class="dt">R2     =</span> <span class="fl">0.8</span>,         <span class="co"># 80% of variation is explained by the model</span></a>
-<a class="sourceLine" id="cb3-8" title="8">    <span class="dt">relpos =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>),     <span class="co"># First and third principal components are relevant</span></a>
-<a class="sourceLine" id="cb3-9" title="9">    <span class="dt">gamma  =</span> <span class="fl">0.7</span>,         <span class="co"># decay factor of eigenvalue of X is 7</span></a>
-<a class="sourceLine" id="cb3-10" title="10">    <span class="dt">ntest  =</span> <span class="dv">500</span>,         <span class="co"># 500 Test observations</span></a>
-<a class="sourceLine" id="cb3-11" title="11">    <span class="dt">type   =</span> <span class="st">"univariate"</span> <span class="co"># Univariate linear model data simulation</span></a>
-<a class="sourceLine" id="cb3-12" title="12">)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">simrel</span>)
+<span class="no">sim_obj</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="reference/simrel.html">simrel</a></span>(
+    <span class="kw">n</span>      <span class="kw">=</span> <span class="fl">100</span>,         <span class="co"># 100 training samples</span>
+    <span class="kw">p</span>      <span class="kw">=</span> <span class="fl">10</span>,          <span class="co"># 10 predictor variables</span>
+    <span class="kw">q</span>      <span class="kw">=</span> <span class="fl">8</span>,           <span class="co"># only 8 of them are relevant</span>
+    <span class="kw">R2</span>     <span class="kw">=</span> <span class="fl">0.8</span>,         <span class="co"># 80% of variation is explained by the model</span>
+    <span class="kw">relpos</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>),     <span class="co"># First and third principal components are relevant</span>
+    <span class="kw">gamma</span>  <span class="kw">=</span> <span class="fl">0.7</span>,         <span class="co"># decay factor of eigenvalue of X is 7</span>
+    <span class="kw">ntest</span>  <span class="kw">=</span> <span class="fl">500</span>,         <span class="co"># 500 Test observations</span>
+    <span class="kw">type</span>   <span class="kw">=</span> <span class="st">"univariate"</span> <span class="co"># Univariate linear model data simulation</span>
+)</pre></div>
 <p>Here <code>sim_obj</code> is a object with class <code>simrel</code> and constitue of a list of simulated linear model data along with other relevant properties. Lets use <code>plot</code> function to overview the situation,</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="reference/plot_simrel.html">plot_simrel</a></span>(sim_obj, <span class="dt">which =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),</a>
-<a class="sourceLine" id="cb4-2" title="2">            <span class="dt">layout =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="reference/plot_simrel.html">plot_simrel</a></span>(<span class="no">sim_obj</span>, <span class="kw">which</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span>),
+            <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>), <span class="fl">2</span>, <span class="fl">2</span>, <span class="kw">byrow</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></div>
 <p><img src="figure/simrel1-plot-1.svg" width="100%"></p>
 </div>
 <div id="bivariate-simulation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bivariate-simulation" class="anchor"></a>Bivariate Simulation</h2>
 <p>The wrapper function <code>simrel</code> uses <code>bisimrel</code> for simulating bivariate linear model data. Lets consider a situation to simulate data from bivariate distribution with 100 training and 500 test samples. The response vectors <strong>y</strong><sub>1</sub> and <strong>y</strong><sub>2</sub> have correlation of 0.8 without given <strong>X</strong> and 0.6 with given <strong>X</strong>. Among 10 total predictor variables, 5 are relevant for <strong>y</strong><sub>1</sub> and 5 are relevant for <strong>y</strong><sub>2</sub>. However 3 of them are relevant for both of them. Let the predictors explain 80% and 70% of total variation present in population of <strong>y</strong><sub>1</sub> and <strong>y</strong><sub>2</sub> respectively. In addition, let 1, 2 and 3 components are relevant for <strong>y</strong><sub>1</sub> and 3 and 4 components are relevant for <strong>y</strong><sub>2</sub>. In this case, the third component is relevant for both responses. Let the decay factor of eigenvalues of <strong>X</strong> be 0.8.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">simrel2_obj &lt;-</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/simrel.html">simrel</a></span>(</a>
-<a class="sourceLine" id="cb5-3" title="3">    <span class="dt">n      =</span> <span class="dv">100</span>,                       <span class="co"># 100 training samples</span></a>
-<a class="sourceLine" id="cb5-4" title="4">    <span class="dt">p      =</span> <span class="dv">10</span>,                        <span class="co"># 10 predictor variables</span></a>
-<a class="sourceLine" id="cb5-5" title="5">    <span class="dt">q      =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>),                <span class="co"># relevant variables for y1 and y2</span></a>
-<a class="sourceLine" id="cb5-6" title="6">    <span class="dt">relpos =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">4</span>)), <span class="co"># relevant components for y1 and y2</span></a>
-<a class="sourceLine" id="cb5-7" title="7">    <span class="dt">R2     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.7</span>),               <span class="co"># Coefficient of variation for y1 and y2</span></a>
-<a class="sourceLine" id="cb5-8" title="8">    <span class="dt">rho    =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.6</span>),               <span class="co"># correlation between y1 and y2 with and without given X</span></a>
-<a class="sourceLine" id="cb5-9" title="9">    <span class="dt">gamma  =</span> <span class="fl">0.8</span>,                       <span class="co"># decay factor of eigenvalues of X</span></a>
-<a class="sourceLine" id="cb5-10" title="10">    <span class="dt">ntest  =</span> <span class="dv">500</span>,                       <span class="co"># 500 test samples</span></a>
-<a class="sourceLine" id="cb5-11" title="11">    <span class="dt">type   =</span> <span class="st">"bivariate"</span></a>
-<a class="sourceLine" id="cb5-12" title="12">  )</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">simrel2_obj</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="reference/simrel.html">simrel</a></span>(
+    <span class="kw">n</span>      <span class="kw">=</span> <span class="fl">100</span>,                       <span class="co"># 100 training samples</span>
+    <span class="kw">p</span>      <span class="kw">=</span> <span class="fl">10</span>,                        <span class="co"># 10 predictor variables</span>
+    <span class="kw">q</span>      <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">3</span>),                <span class="co"># relevant variables for y1 and y2</span>
+    <span class="kw">relpos</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">4</span>)), <span class="co"># relevant components for y1 and y2</span>
+    <span class="kw">R2</span>     <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.7</span>),               <span class="co"># Coefficient of variation for y1 and y2</span>
+    <span class="kw">rho</span>    <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.6</span>),               <span class="co"># correlation between y1 and y2 with and without given X</span>
+    <span class="kw">gamma</span>  <span class="kw">=</span> <span class="fl">0.8</span>,                       <span class="co"># decay factor of eigenvalues of X</span>
+    <span class="kw">ntest</span>  <span class="kw">=</span> <span class="fl">500</span>,                       <span class="co"># 500 test samples</span>
+    <span class="kw">type</span>   <span class="kw">=</span> <span class="st">"bivariate"</span>
+  )</pre></div>
 <p>Lets look at the plot,</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="reference/plot_simrel.html">plot_simrel</a></span>(simrel2_obj, <span class="dt">which =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),</a>
-<a class="sourceLine" id="cb6-2" title="2">            <span class="dt">layout =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/plot_simrel.html">plot_simrel</a></span>(<span class="no">simrel2_obj</span>, <span class="kw">which</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">4</span>),
+            <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>), <span class="fl">2</span>, <span class="fl">2</span>, <span class="kw">byrow</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></div>
 <p><img src="figure/simrel2_plot-1.svg" width="100%"></p>
 </div>
 <div id="multivariate-simulation" class="section level2">
@@ -177,31 +181,29 @@
 <p>Multivariate simulation uses <code>multisimrel</code> function and can simulate multiple responses. Lets simulate 100 training samples and 500 test samples. The simulated data has 5 responses and 15 predictors. These 5 responses spans 5 latent space out of which only 3 are related to the predictors. Lets denote them by <strong>w</strong><sub>i</sub>. Let 5, 4 and 4 predictors are relevant for response components <strong>w</strong><sub>1</sub>, <strong>w</strong><sub>1</sub> and <strong>w</strong><sub>1</sub> respectively. The position of relevant predictor components for <strong>w</strong><sub>1</sub> be 1, 2, 3; for <strong>w</strong><sub>2</sub> be 4 and 5. Similarly, predictor components 6 and 8 are relevant for <strong>w</strong><sub>3</sub>.</p>
 <p>Since we need 5 response variables, we mix-up these 3 informative response components with 2 remaining uninformative components so that all simulated response contains information that <strong>X</strong> are related. Lets combine <strong>w</strong><sub>1</sub> with <strong>w</strong><sub>4</sub> and <strong>w</strong><sub>3</sub> with <strong>w</strong><sub>5</sub>. So that the predictors that are relevant for response components <strong>w</strong><sub>1</sub> will be relevant for response <strong>y</strong><sub>1</sub> and <strong>y</strong><sub>3</sub> and so on.</p>
 <p>In addition to these latent space requirements, let <strong>X</strong> explains 80% variation present in <strong>w</strong><sub>1</sub>, 50% in <strong>w</strong><sub>2</sub> and 70% in <strong>w</strong><sub>3</sub>. The eigenvalues of X reduces by the factor of 0.8.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">simrel_m_obj &lt;-</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="reference/simrel.html">simrel</a></span>(</a>
-<a class="sourceLine" id="cb7-3" title="3">    <span class="dt">n      =</span> <span class="dv">100</span>,                                <span class="co"># 100 training samples</span></a>
-<a class="sourceLine" id="cb7-4" title="4">    <span class="dt">p      =</span> <span class="dv">15</span>,                                 <span class="co"># 15 predictor variables</span></a>
-<a class="sourceLine" id="cb7-5" title="5">    <span class="dt">q      =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>),                         <span class="co"># relevant variables for w1, w2 and w3</span></a>
-<a class="sourceLine" id="cb7-6" title="6">    <span class="dt">relpos =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">4</span>, <span class="dv">5</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">6</span>, <span class="dv">8</span>)), <span class="co"># relevant components for w1, w2 and y3</span></a>
-<a class="sourceLine" id="cb7-7" title="7">    <span class="dt">R2     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.5</span>, <span class="fl">0.7</span>),                   <span class="co"># Coefficient of variation for w1, w2 and y3</span></a>
-<a class="sourceLine" id="cb7-8" title="8">    <span class="dt">ypos   =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">5</span>)),       <span class="co"># combining response components together</span></a>
-<a class="sourceLine" id="cb7-9" title="9">    <span class="dt">m      =</span> <span class="dv">5</span>,                                  <span class="co"># Number of response</span></a>
-<a class="sourceLine" id="cb7-10" title="10">    <span class="dt">gamma  =</span> <span class="fl">0.8</span>,                                <span class="co"># decay factor of eigenvalues of X</span></a>
-<a class="sourceLine" id="cb7-11" title="11">    <span class="dt">ntest  =</span> <span class="dv">500</span>,                                <span class="co"># 500 test samples</span></a>
-<a class="sourceLine" id="cb7-12" title="12">    <span class="dt">type   =</span> <span class="st">"multivariate"</span>                      <span class="co"># multivariate simulation</span></a>
-<a class="sourceLine" id="cb7-13" title="13">  )</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">simrel_m_obj</span> <span class="kw">&lt;-</span>
+<span class="fu"><a href="reference/simrel.html">simrel</a></span>(
+    <span class="kw">n</span>      <span class="kw">=</span> <span class="fl">100</span>,                                <span class="co"># 100 training samples</span>
+    <span class="kw">p</span>      <span class="kw">=</span> <span class="fl">15</span>,                                 <span class="co"># 15 predictor variables</span>
+    <span class="kw">q</span>      <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">4</span>, <span class="fl">4</span>),                         <span class="co"># relevant variables for w1, w2 and w3</span>
+    <span class="kw">relpos</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">4</span>, <span class="fl">5</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">6</span>, <span class="fl">8</span>)), <span class="co"># relevant components for w1, w2 and y3</span>
+    <span class="kw">R2</span>     <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.5</span>, <span class="fl">0.7</span>),                   <span class="co"># Coefficient of variation for w1, w2 and y3</span>
+    <span class="kw">ypos</span>   <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">4</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">5</span>)),       <span class="co"># combining response components together</span>
+    <span class="kw">m</span>      <span class="kw">=</span> <span class="fl">5</span>,                                  <span class="co"># Number of response</span>
+    <span class="kw">gamma</span>  <span class="kw">=</span> <span class="fl">0.8</span>,                                <span class="co"># decay factor of eigenvalues of X</span>
+    <span class="kw">ntest</span>  <span class="kw">=</span> <span class="fl">500</span>,                                <span class="co"># 500 test samples</span>
+    <span class="kw">type</span>   <span class="kw">=</span> <span class="st">"multivariate"</span>                      <span class="co"># multivariate simulation</span>
+  )</pre></div>
 <p>Lets look at the <code>simrel</code> plot;</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/plot_simrel.html">plot_simrel</a></span>(simrel_m_obj, <span class="dt">which =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,</a>
-<a class="sourceLine" id="cb8-2" title="2">            <span class="dt">layout =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="reference/plot_simrel.html">plot_simrel</a></span>(<span class="no">simrel_m_obj</span>, <span class="kw">which</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">4</span>,
+            <span class="kw">layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">1</span>:<span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="kw">byrow</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></div>
 <p><img src="figure/simrelm_plot-1.svg" width="100%"></p>
 </div>
 <div id="rstudio-addins" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rstudio-addins" class="anchor"></a>RStudio Addins</h2>
 <p>To make the process easier to use, we have created a shiny gadget as an rstudio addons. If you are using Rstuio, you can access this app from Tools &gt; Addins &gt; simulatr. But you can also access this app using <code>simrel::app_simulatr()</code>. This will open the app in a browser from where you can choose all your parameter, see the true population parametrs you will get from the simulation. When the app is closed, it will give an command output on your R console.</p>
-<div class="figure">
-<img src="figure/AppSimrel.png" alt="App-Simulatr-Screenshot"><p class="caption">App-Simulatr-Screenshot</p>
-</div>
+<p><img src="figure/AppSimrel.png" alt="App-Simulatr-Screenshot"></p>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
@@ -212,13 +214,16 @@
 </ul>
 </div>
 </div>
+
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=simrel">https://​cloud.r-project.org/​package=simrel</a>
+</li>
+<li>Browse source code at <br><a href="https://github.com/simulatr/simrel/">https://​github.com/​simulatr/​simrel/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/simulatr/simrel/issues">https://​github.com/​simulatr/​simrel/​issues</a>
 </li>
@@ -232,6 +237,12 @@
 </li>
 </ul>
 </div>
+<div class="community">
+<h2>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+</ul>
+</div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
@@ -243,16 +254,7 @@
 </ul>
 </div>
 
-      <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=simrel"><img src="https://www.r-pkg.org/badges/version/simrel" alt="CRAN status"></a></li>
-<li><a href="https://travis-ci.org/simulatr/simrel"><img src="https://travis-ci.org/simulatr/simrel.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://codecov.io/gh/simulatr/simrel?branch=master"><img src="https://codecov.io/gh/simulatr/simrel/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-</ul>
-</div>
-</div>
-
+  </div>
 </div>
 
 
@@ -261,12 +263,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

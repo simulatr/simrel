@@ -4,8 +4,13 @@
 \alias{expect_subset}
 \title{Extra test functions}
 \usage{
-expect_subset(object, expected, info = NULL, label = NULL,
-  expected.label = NULL)
+expect_subset(
+  object,
+  expected,
+  info = NULL,
+  label = NULL,
+  expected.label = NULL
+)
 }
 \arguments{
 \item{object}{object to test}

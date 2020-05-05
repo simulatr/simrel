@@ -1,4 +1,4 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -10,12 +10,12 @@ knitr::opts_chunk$set(
   fig.align = 'center'
 )
 
-## ---- message = FALSE, warning=FALSE-------------------------------------
+## ---- message = FALSE, warning=FALSE------------------------------------------
 library(simrel)
 library(pls)
 library(ggplot2)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sim_list <- list(
     p = c(20, 150),
     gamma = seq(0.2, 1.1, length.out = 4),
@@ -24,7 +24,7 @@ sim_list <- list(
     ypos = list(list(1, c(2, 3)), list(c(1, 3), 2))
   )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 design <- mbrdsim(sim_list, fraction = 3)[["Design"]]
   design <- cbind(
     design,
@@ -36,11 +36,11 @@ design <- mbrdsim(sim_list, fraction = 3)[["Design"]]
     eta = 0.6
   )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sobj <- apply(design, 1, function(x) do.call(simrel, x))
   names(sobj) <- paste0("Design", seq.int(sobj))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 fit <- list()
   fit$pcr <- lapply(sobj, function(obj) {
     dta <- data.frame(x = I(obj$X), y = I(obj$Y))
@@ -51,7 +51,7 @@ fit <- list()
     plsr(y ~ x, data = dta, validation = "CV", segments = 10)
   })
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 rmsep <- lapply(fit, function(f){
     sapply(names(f), function(d){
       new_data <- with(sobj[[d]], data.frame(x = I(testX), y = I(testY)))
@@ -60,7 +60,7 @@ rmsep <- lapply(fit, function(f){
     }, simplify = FALSE)
   })
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 get_error_plot <- function(dgn){
     df <- do.call(rbind, lapply(rmsep, "[[", dgn))
     df$method <- gsub("\\.[0-9]+", "", rownames(df))
@@ -74,7 +74,7 @@ get_error_plot <- function(dgn){
       labs(x = "Predictors", y = "RMSEP", color = "Estimate")
   }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 get_error_plot(1)
 get_error_plot(2)
 

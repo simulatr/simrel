@@ -1,7 +1,7 @@
 ---
 title: "Experimental Design and Simulation"
 author: "Raju Rimal"
-date: "2018-10-04"
+date: "2020-04-05"
 output: 
   rmarkdown::html_vignette:
     toc: true
