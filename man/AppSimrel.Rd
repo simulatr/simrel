@@ -6,6 +6,9 @@
 \usage{
 AppSimrel()
 }
+\value{
+No return value, runs the shiny interface for simulation
+}
 \description{
 Simulation of Multivariate Linear Model Data
 }

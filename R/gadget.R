@@ -4,6 +4,7 @@
 #' @importFrom stats biplot
 #' @importFrom utils str
 #' @import shiny
+#' @return No return value, runs the shiny interface for simulation
 #' @export
 
 AppSimrel <- function() {

@@ -82,7 +82,6 @@ sobj2 <- suppressWarnings(eval(sobj_expr))
 
 testthat::test_that("Testing different values.", {
     testthat::skip_on_cran()
-    expect_warning(eval(sobj_expr))
     expect_equal(sobj2$lambda[1], 1)
     expect_equal(sobj2$lambda[2], exp(-sobj2$gamma))
     expect_equal(sobj2$minerror[1, 1], 0.2)

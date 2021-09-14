@@ -1,21 +1,36 @@
 Package: simrel
 Title: Simulation of Multivariate Linear Model Data
-Version: 2.0.2
-Authors@R: c(
-    person("Raju", "Rimal", email = "raju.rimal@nmbu.no", role = c("aut", "cre")),
-    person("Solve", "Sæbø", email = "solve.sabo@nmbu.no", role = c("aut", "ths"), comment = "Original Creator of the package"))
-Description: Simulate multivariate linear model data is useful in research and education weather 
-    for comparison or create data with specific properties. This package lets user to simulate
-    linear model data of wide range of properties with few tuning parameters.
-    The package also consist of function to create plots for the simulation
-    objects and A shiny app as RStudio gadget. It can be a handy tool for model comparison, 
-    testing and many other purposes.
+Version: 2.1.0
+Authors@R: 
+    c(person(given = "Raju",
+             family = "Rimal",
+             role = c("aut", "cre"),
+             email = "raju.rimal@medisin.uio.no",
+             comment = c(ORCID = "0000-0001-6097-0285")),
+      person(given = "Solve",
+             family = "Sæbø",
+             role = c("aut", "ths"),
+             email = "solve.sabo@nmbu.no",
+             comment = c("Original creator of the package", ORCID = "0000-0001-8699-4592")),
+      person(given = "Kristian Hovde",
+             family = "Liland",
+             role = c("aut"),
+             email = "kristian.liland@nmbu.no",
+             comment = c("Contributor and coauthor of the univariate version of simrel", 
+                         ORCID = "0000-0001-6468-9423")))
+Description: simrel package simulates data from a linear model where users can select relevant latent 
+    components for their model. Researchers have been using simulated data from a multivariate linear 
+    model to compare and evaluate different methods, ideas and models. Additionally, teachers and educators 
+    have been using a simulation tool to demonstrate and teach various statistical and machine learning concepts.
+    This package helps users to simulate linear model data of a wide range of properties with only a few tuning 
+    parameters. In addition, a shiny app as an RStudio gadget gives users a simple interface for using the 
+    simulation function. See more on: Sæbø, S., Almøy, T., Helland, I.S. (2015) <doi:10.1016/j.chemolab.2015.05.012>
+    and Rimal, R., Almøy, T., Sæbø, S. (2018) <doi:10.1016/j.chemolab.2018.02.009>.
 Depends:
     R (>= 3.5.0)
-License: GPL-3 | file LICENSE
+License: GPL-3
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.0.9000
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 BugReports: https://github.com/simulatr/simrel/issues
 URL: https://simulatr.github.io/simrel/
@@ -40,4 +55,6 @@ Imports:
 Suggests: 
     covr,
     knitr,
-    pls
+    pls,
+    markdown,
+    DoE.base

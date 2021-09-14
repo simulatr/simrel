@@ -96,21 +96,21 @@
 #' #Simulating more samples with identical distribution as previous simulation
 #' mydata2 <- unisimrel(n = 2500, sim = mydata)
 #'
-#' \dontrun{
 #' #Estimating model parameters using partial least squares regression with
 #' #cross-validation to determine the number of relevant components.
-#' require(pls)
-#' plsfit <- plsr(mydata$Y ~ mydata$X, 15, validation = "CV")
-#'
-#' #Validation plot and finding the number of relevant components.
-#' plot(0:15, c(plsfit$validation$PRESS0, plsfit$validation$PRESS),
-#'   type = "b", xlab = "Components", ylab = "PRESS")
-#' mincomp <- which(plsfit$validation$PRESS == min(plsfit$validation$PRESS))
-#'
-#' #Comparing true with estimated regression coefficients
-#' plot(mydata$beta, plsfit$coef[, 1, mincomp], xlab = "True regression coefficients",
-#'   ylab = "Estimated regression coefficients")
-#' abline(0, 1)
+#' if (requireNamespace("pls", quietly = TRUE)) {
+#'   require(pls)
+#'   plsfit <- plsr(mydata$Y ~ mydata$X, 15, validation = "CV")
+#'  
+#'   #Validation plot and finding the number of relevant components.
+#'   plot(0:15, c(plsfit$validation$PRESS0, plsfit$validation$PRESS),
+#'     type = "b", xlab = "Components", ylab = "PRESS")
+#'   mincomp <- which(plsfit$validation$PRESS == min(plsfit$validation$PRESS))
+#'  
+#'   #Comparing true with estimated regression coefficients
+#'   plot(mydata$beta, plsfit$coef[, 1, mincomp], xlab = "True regression coefficients",
+#'     ylab = "Estimated regression coefficients")
+#'   abline(0, 1)
 #' }
 #' @export
 

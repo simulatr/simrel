@@ -6,6 +6,7 @@
 #' @param expected.label Equivalent of `label` for shortcut form.
 #' @param label object label. When `NULL`, computed from deparsed object.
 #' @param info extra information to be included in the message (useful when writing tests in loops).
+#' @return Returns the object itself if expected value is found in the object as a subset else return Error
 #' @examples
 #' expect_subset(c(1, 2, 3, 4, 5), c(2, 4, 5))
 #' @export

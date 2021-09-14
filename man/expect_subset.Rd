@@ -23,6 +23,9 @@ expect_subset(
 
 \item{expected.label}{Equivalent of `label` for shortcut form.}
 }
+\value{
+Returns the object itself if expected value is found in the object as a subset else return Error
+}
 \description{
 Extra test functions
 }

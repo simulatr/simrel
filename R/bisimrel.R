@@ -275,14 +275,12 @@ bisimrel <- function(n = 50, p = 100, q = c(10, 10, 5),
                                               2, replace = TRUE)
             alpha1 <- sign(alpha1) * sqrt(R2[1] * abs(alpha1)/sum(abs(alpha1)) *
                                             lambdas[relpos[[1]]])
-            options(warn = -1)
-            a22 <- .a22func(alpha1[1], alpha1[2], R2[2],
-                            R12, lambdas[relpos[[2]]][1], lambdas[relpos[[2]]][2])
-            a22 <- a22[which(abs(a22) == min(abs(a22)))][1]
-            if (is.na(a22))
-              next
-            options(warn = 0)
-
+            suppressWarnings({
+              a22 <- .a22func(alpha1[1], alpha1[2], R2[2],
+                              R12, lambdas[relpos[[2]]][1], lambdas[relpos[[2]]][2])
+              a22 <- a22[which(abs(a22) == min(abs(a22)))][1]
+            })
+            if (is.na(a22)) next
             a21 <- .a21func(alpha1[1], alpha1[2], a22,
                             R12, lambdas[relpos[[2]]][1], lambdas[relpos[[2]]][2])
             alpha2 <- c(a21, a22)
@@ -339,13 +337,13 @@ bisimrel <- function(n = 50, p = 100, q = c(10, 10, 5),
             alpha1 <- sign(alpha1) * sqrt((R2[1] - R2rest.1) *
                                             abs(alpha1)/sum(abs(alpha1)) * lambdas[relpos[[1]]][1:2])
             options(warn = -1)
-            a22 <- .a22func(alpha1[1], alpha1[2], (R2[2] -
-                                                     R2rest.2), (R12 - R12rest), lambdas[relpos[[2]]][1],
-                            lambdas[relpos[[2]]][2])
-            a22 <- a22[which(abs(a22) == min(abs(a22)))][1]
-            if (is.na(a22))
-              next
-            options(warn = 0)
+            suppressWarnings({
+              a22 <- .a22func(alpha1[1], alpha1[2], (R2[2] -
+                                                       R2rest.2), (R12 - R12rest), lambdas[relpos[[2]]][1],
+                              lambdas[relpos[[2]]][2])
+              a22 <- a22[which(abs(a22) == min(abs(a22)))][1]
+            })
+            if (is.na(a22)) next
 
             a21 <- .a21func(alpha1[1], alpha1[2], a22,
             (R12 - R12rest), lambdas[relpos[[2]]][1],

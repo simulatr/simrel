@@ -24,11 +24,9 @@ simrelplot <- function(obj, ncomp = min(obj$p, obj$n, 20), ask = TRUE,
   } else if (!ask | !sum(show) == 1) {
     dev.new(width = 11, height = 8)
     layout(matrix(c(1, 1, 2, 3), 2, 2, byrow = TRUE))
-    op <- par(mar = c(5, 5, 4, 1))
-    on.exit({
-      par(op)
-      dev.flush()
-    })
+    oldpar <- par(mar = c(5, 5, 4, 1))
+    on.exit(par(oldpar))
+    on.exit(dev.flush(), add = TRUE)
   }
 
   ## Plot1: True Coefficients Plot
