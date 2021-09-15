@@ -18,14 +18,8 @@ Authors@R:
              email = "kristian.liland@nmbu.no",
              comment = c("Contributor and coauthor of the univariate version of simrel", 
                          ORCID = "0000-0001-6468-9423")))
-Description: simrel package simulates data from a linear model where users can select relevant latent 
-    components for their model. Researchers have been using simulated data from a multivariate linear 
-    model to compare and evaluate different methods, ideas and models. Additionally, teachers and educators 
-    have been using a simulation tool to demonstrate and teach various statistical and machine learning concepts.
-    This package helps users to simulate linear model data of a wide range of properties with only a few tuning 
-    parameters. In addition, a shiny app as an RStudio gadget gives users a simple interface for using the 
-    simulation function. See more on: Sæbø, S., Almøy, T., Helland, I.S. (2015) <doi:10.1016/j.chemolab.2015.05.012>
-    and Rimal, R., Almøy, T., Sæbø, S. (2018) <doi:10.1016/j.chemolab.2018.02.009>.
+Description: Researchers have been using simulated data from a multivariate linear model to compare and evaluate different methods, ideas and models. Additionally, teachers and educators have been using a simulation tool to demonstrate and teach various statistical and machine learning concepts.
+    This package helps users to simulate linear model data with a wide range of properties by tuning few parameters such as relevant latent components. In addition, a shiny app as an 'RStudio' gadget gives users a simple interface for using the simulation function. See more on: Sæbø, S., Almøy, T., Helland, I.S. (2015) <doi:10.1016/j.chemolab.2015.05.012> and Rimal, R., Almøy, T., Sæbø, S. (2018) <doi:10.1016/j.chemolab.2018.02.009>.
 Depends:
     R (>= 3.5.0)
 License: GPL-3
