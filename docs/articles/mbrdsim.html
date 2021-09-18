@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">simrel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -82,13 +78,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="mbrdsim_files/header-attrs-2.8.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Experimental Design and Simulation</h1>
                         <h4 class="author">Raju Rimal</h4>
             
-            <h4 class="date">2020-05-05</h4>
+            <h4 class="date">2021-09-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/simulatr/simrel/blob/master/vignettes/mbrdsim.Rmd"><code>vignettes/mbrdsim.Rmd</code></a></small>
       <div class="hidden name"><code>mbrdsim.Rmd</code></div>
@@ -100,89 +96,98 @@
 <div id="loading-packages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-packages" class="anchor"></a>Loading Packages</h2>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">simrel</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">pls</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://simulatr.github.io/simrel/">simrel</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mevik.net/work/software/pls.html">pls</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="setting-up-parameters-list" class="section level2">
 <h2 class="hasAnchor">
 <a href="#setting-up-parameters-list" class="anchor"></a>Setting up parameters list</h2>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">sim_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">p</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">20</span>, <span class="fl">150</span>),
-    <span class="kw">gamma</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">0.2</span>, <span class="fl">1.1</span>, <span class="kw">length.out</span> <span class="kw">=</span> <span class="fl">4</span>),
-    <span class="kw">relpos</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>)), <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">6</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>))),
-    <span class="kw">R2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.4</span>, <span class="fl">0.8</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.8</span>)),
-    <span class="kw">ypos</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">3</span>)), <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>), <span class="fl">2</span>))
-  )</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sim_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">150</span><span class="op">)</span>,
+    gamma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1.1</span>, length.out <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
+    relpos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
+    R2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.8</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span>,
+    ypos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">)</span></code></pre></div>
 <p><code>mbrdsim</code> function in simrel lets user to create a factorial fractional design from the parameter list. From the <code>sim_list</code> defined above, we have two levels of “number of variables (p)”, four level of multicollineary level controlled by <code>gamma</code>. In addition, two levels of positions of relevant components and coefficient of determination are also defined. Further, we have set up two way to combine the response components. We have two informative dimension of response at first and second components. In one level, we combined the uninformative component three with first component and in another level, we combine it with second component. The additional parameters for simulation are fixed as follows,</p>
 </div>
 <div id="experimental-design" class="section level2">
 <h2 class="hasAnchor">
 <a href="#experimental-design" class="anchor"></a>Experimental Design</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">design</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mbrdsim.html">mbrdsim</a></span>(<span class="no">sim_list</span>, <span class="kw">fraction</span> <span class="kw">=</span> <span class="fl">3</span>)<span class="kw">[[</span><span class="st">"Design"</span>]]
-  <span class="no">design</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(
-    <span class="no">design</span>,
-    <span class="kw">q</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">design</span>[, <span class="st">"p"</span>], <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="no">x</span>/<span class="fl">2</span>, <span class="fl">2</span>)),
-    <span class="kw">type</span> <span class="kw">=</span> <span class="st">"multivariate"</span>,
-    <span class="kw">n</span> <span class="kw">=</span> <span class="fl">100</span>,
-    <span class="kw">ntest</span> <span class="kw">=</span> <span class="fl">200</span>,
-    <span class="kw">m</span> <span class="kw">=</span> <span class="fl">3</span>,
-    <span class="kw">eta</span> <span class="kw">=</span> <span class="fl">0.6</span>
-  )</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mbrdsim.html">mbrdsim</a></span><span class="op">(</span><span class="va">sim_list</span>, fraction <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">[[</span><span class="st">"Design"</span><span class="op">]</span><span class="op">]</span>
+  <span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span>
+    <span class="va">design</span>,
+    q <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">design</span><span class="op">[</span>, <span class="st">"p"</span><span class="op">]</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">x</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,
+    type <span class="op">=</span> <span class="st">"multivariate"</span>,
+    n <span class="op">=</span> <span class="fl">100</span>,
+    ntest <span class="op">=</span> <span class="fl">200</span>,
+    m <span class="op">=</span> <span class="fl">3</span>,
+    eta <span class="op">=</span> <span class="fl">0.6</span>
+  <span class="op">)</span></code></pre></div>
 <p>From the simulation parameters in each row of <code>design</code> table, we run our simulation.</p>
 </div>
 <div id="simulation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulation" class="anchor"></a>Simulation</h2>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">sobj</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">design</span>, <span class="fl">1</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="no">simrel</span>, <span class="no">x</span>))
-  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">sobj</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Design"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span>(<span class="no">sobj</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sobj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">design</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">simrel</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">sobj</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Design"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span><span class="op">(</span><span class="va">sobj</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now we have eight datasets with distict properties as we have desired. We can now use these datasets in order to compare PCR and PLS estimation methods.</p>
 </div>
 <div id="comparison-of-estimation-methods" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparison-of-estimation-methods" class="anchor"></a>Comparison of Estimation Methods</h2>
 <p>The estimation methods we have used here is PCR and PLS. Now we can fit each of our data using PCR and PLS method.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>()
-  <span class="no">fit</span>$<span class="no">pcr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">sobj</span>, <span class="kw">function</span>(<span class="no">obj</span>) {
-    <span class="no">dta</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span>(<span class="no">obj</span>$<span class="no">X</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span>(<span class="no">obj</span>$<span class="no">Y</span>))
-    <span class="fu"><a href="https://rdrr.io/pkg/pls/man/mvr.html">pcr</a></span>(<span class="no">y</span> ~ <span class="no">x</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">dta</span>, <span class="kw">validation</span> <span class="kw">=</span> <span class="st">"CV"</span>, <span class="kw">segments</span> <span class="kw">=</span> <span class="fl">10</span>)
-  })
-  <span class="no">fit</span>$<span class="no">pls</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">sobj</span>, <span class="kw">function</span>(<span class="no">obj</span>) {
-    <span class="no">dta</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span>(<span class="no">obj</span>$<span class="no">X</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span>(<span class="no">obj</span>$<span class="no">Y</span>))
-    <span class="fu"><a href="https://rdrr.io/pkg/pls/man/mvr.html">plsr</a></span>(<span class="no">y</span> ~ <span class="no">x</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">dta</span>, <span class="kw">validation</span> <span class="kw">=</span> <span class="st">"CV"</span>, <span class="kw">segments</span> <span class="kw">=</span> <span class="fl">10</span>)
-  })</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="va">fit</span><span class="op">$</span><span class="va">pcr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">sobj</span>, <span class="kw">function</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">dta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">obj</span><span class="op">$</span><span class="va">X</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">obj</span><span class="op">$</span><span class="va">Y</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/pls/man/mvr.html">pcr</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">dta</span>, validation <span class="op">=</span> <span class="st">"CV"</span>, segments <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
+  <span class="op">}</span><span class="op">)</span>
+  <span class="va">fit</span><span class="op">$</span><span class="va">pls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">sobj</span>, <span class="kw">function</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">dta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">obj</span><span class="op">$</span><span class="va">X</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">obj</span><span class="op">$</span><span class="va">Y</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/pls/man/mvr.html">plsr</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">dta</span>, validation <span class="op">=</span> <span class="st">"CV"</span>, segments <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
+  <span class="op">}</span><span class="op">)</span></code></pre></div>
 <div id="calculating-rmsep" class="section level3">
 <h3 class="hasAnchor">
 <a href="#calculating-rmsep" class="anchor"></a>Calculating RMSEP</h3>
 <p>We base our comparison on the basis of root mean square error of prediction. We can calculate and compare both cross-validated and test error.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">rmsep</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">fit</span>, <span class="kw">function</span>(<span class="no">f</span>){
-    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">f</span>), <span class="kw">function</span>(<span class="no">d</span>){
-      <span class="no">new_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(<span class="no">sobj</span><span class="kw">[[</span><span class="no">d</span>]], <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span>(<span class="no">testX</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span>(<span class="no">testY</span>)))
-      <span class="no">out</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pls/man/mvrVal.html">RMSEP</a></span>(<span class="no">f</span><span class="kw">[[</span><span class="no">d</span>]], <span class="kw">newdata</span> <span class="kw">=</span> <span class="no">new_data</span>, <span class="kw">estimate</span> <span class="kw">=</span> <span class="st">"all"</span>)
-      <span class="kw pkg">reshape2</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span>(<span class="no">out</span><span class="kw">[[</span><span class="st">"val"</span>]])
-    }, <span class="kw">simplify</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-  })</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rmsep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">fit</span>, <span class="kw">function</span><span class="op">(</span><span class="va">f</span><span class="op">)</span><span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span><span class="op">{</span>
+      <span class="va">new_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">sobj</span><span class="op">[[</span><span class="va">d</span><span class="op">]</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">testX</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">testY</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+      <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pls/man/mvrVal.html">RMSEP</a></span><span class="op">(</span><span class="va">f</span><span class="op">[[</span><span class="va">d</span><span class="op">]</span><span class="op">]</span>, newdata <span class="op">=</span> <span class="va">new_data</span>, estimate <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span>
+      <span class="fu">reshape2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="va">out</span><span class="op">[[</span><span class="st">"val"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+    <span class="op">}</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+  <span class="op">}</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="plotting-rmsep" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plotting-rmsep" class="anchor"></a>Plotting RMSEP</h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">get_error_plot</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">dgn</span>){
-    <span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="no">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">rmsep</span>, <span class="st">"[["</span>, <span class="no">dgn</span>))
-    <span class="no">df</span>$<span class="no">method</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"\\.[0-9]+"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">df</span>))
-    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">df</span>) <span class="kw">&lt;-</span> <span class="kw">NULL</span>
-    <span class="no">df</span>$<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">df</span>$<span class="no">model</span> <span class="kw">==</span> <span class="st">"(Intercept)"</span>, <span class="st">"0"</span>, <span class="no">df</span>$<span class="no">model</span>)
-    <span class="no">df</span>$<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"[A-Za-z]+"</span>, <span class="st">""</span>, <span class="no">df</span>$<span class="no">model</span>))
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">model</span>, <span class="no">value</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="no">estimate</span>, <span class="kw">group</span> <span class="kw">=</span> <span class="no">estimate</span>)) +
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(<span class="no">response</span> ~ <span class="no">method</span>, <span class="kw">scales</span> <span class="kw">=</span> <span class="st">"free_y"</span>) +
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"top"</span>) +
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="st">"Predictors"</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="st">"RMSEP"</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="st">"Estimate"</span>)
-  }</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">get_error_plot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dgn</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">rmsep</span>, <span class="st">"[["</span>, <span class="va">dgn</span><span class="op">)</span><span class="op">)</span>
+    <span class="va">df</span><span class="op">$</span><span class="va">method</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\.[0-9]+"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
+    <span class="va">df</span><span class="op">$</span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">model</span> <span class="op">==</span> <span class="st">"(Intercept)"</span>, <span class="st">"0"</span>, <span class="va">df</span><span class="op">$</span><span class="va">model</span><span class="op">)</span>
+    <span class="va">df</span><span class="op">$</span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"[A-Za-z]+"</span>, <span class="st">""</span>, <span class="va">df</span><span class="op">$</span><span class="va">model</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">value</span>, color <span class="op">=</span> <span class="va">estimate</span>, group <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">response</span> <span class="op">~</span> <span class="va">method</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span>
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span> <span class="op">+</span>
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Predictors"</span>, y <span class="op">=</span> <span class="st">"RMSEP"</span>, color <span class="op">=</span> <span class="st">"Estimate"</span><span class="op">)</span>
+  <span class="op">}</span></code></pre></div>
 <p>The above function, can plot prediction error (RMSEP) from both estimation methods for all three response variables. Lets plot the error for first and second design,</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu">get_error_plot</span>(<span class="fl">1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">get_error_plot</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="mbrdsim_files/figure-html/unnamed-chunk-8-1.svg" width="90%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu">get_error_plot</span>(<span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">get_error_plot</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="mbrdsim_files/figure-html/unnamed-chunk-8-2.svg" width="90%" style="display: block; margin: auto;"></p>
 </div>
   </div>
@@ -198,11 +203,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="http://mathatistics.com">Raju Rimal</a>, <a href="http://solvsa.nmbu.no">Solve Sæbø</a>.</p>
+  <p>Developed by <a href="http://mathatistics.com">Raju Rimal</a>, <a href="http://solvsa.nmbu.no">Solve Sæbø</a>, Kristian Hovde Liland.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -210,6 +215,8 @@
 
   
 
+
+  
 
   </body>
 </html>

@@ -48,6 +48,8 @@ with the combinations of the factor levels to be run." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -59,9 +61,15 @@ with the combinations of the factor levels to be run." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,19 +83,13 @@ with the combinations of the factor levels to be run." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">simrel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -141,7 +143,7 @@ takes as input a list containing a set of factors with their levels. The output 
 with the combinations of the factor levels to be run.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mbrdsim</span>(<span class='no'>simlist</span>, <span class='no'>fraction</span>, <span class='kw'>gen</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mbrdsim</span><span class='op'>(</span><span class='va'>simlist</span>, <span class='va'>fraction</span>, gen <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,37 +174,110 @@ automatically by the <code>FrF2</code> function. See documentation of <code>FrF2
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Martens, H., Måge, I., Tøndel, K., Isaeva, J., Høy, M. and Sæbø¸, S., 2010, Multi-level binary replacement (MBR) design for computer experiments in high-dimensional nonlinear systems, <em>J, Chemom</em>, <b>24</b>, 748--756.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Solve Sæbø</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Input: A list of factors with their levels (number of levels must be a multiple of 2).</span>
 <span class='co'>## Simrel Parameters ----</span>
-<span class='no'>sim_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-<span class='kw'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>150</span>),
-<span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.2</span>, <span class='fl'>1.1</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>4</span>),
-<span class='kw'>relpos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>)), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>6</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>))),
-<span class='kw'>R2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.4</span>, <span class='fl'>0.8</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.8</span>, <span class='fl'>0.8</span>)),
-<span class='kw'>ypos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>)), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='fl'>2</span>))
-)
+<span class='va'>sim_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  p <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>150</span><span class='op'>)</span>,
+  gamma <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.2</span>, <span class='fl'>1.1</span>, length.out <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>,
+  relpos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>6</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+  R2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.4</span>, <span class='fl'>0.8</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.8</span>, <span class='fl'>0.8</span><span class='op'>)</span><span class='op'>)</span>,
+  ypos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
 <span class='co'>## 1/8 fractional Design ----</span>
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>mbrdsim</span>(<span class='no'>sim_list</span>, <span class='kw'>fraction</span> <span class='kw'>=</span> <span class='fl'>3</span>)<span class='kw'>[[</span><span class='st'>"Design"</span>]]
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(
-  <span class='no'>design</span>,
-  <span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>design</span>[, <span class='st'>"p"</span>], <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='no'>x</span>/<span class='fl'>2</span>, <span class='fl'>2</span>)),
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"multivariate"</span>,
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>ntest</span> <span class='kw'>=</span> <span class='fl'>200</span>,
-  <span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>0.6</span>
-)
+<span class='va'>dgn</span> <span class='op'>&lt;-</span> <span class='fu'>mbrdsim</span><span class='op'>(</span><span class='va'>sim_list</span>, fraction <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>design</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span>
+  <span class='va'>dgn</span><span class='op'>[[</span><span class='st'>"Design"</span><span class='op'>]</span><span class='op'>]</span>,
+  q <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>dgn</span><span class='op'>[[</span><span class='st'>"Design"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span>, <span class='st'>"p"</span><span class='op'>]</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>/</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>,
+  type <span class='op'>=</span> <span class='st'>"multivariate"</span>,
+  n <span class='op'>=</span> <span class='fl'>100</span>,
+  ntest <span class='op'>=</span> <span class='fl'>200</span>,
+  m <span class='op'>=</span> <span class='fl'>3</span>,
+  eta <span class='op'>=</span> <span class='fl'>0.6</span>
+<span class='op'>)</span>
 <span class='co'>## Simulation ----</span>
-<span class='no'>sobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>design</span>, <span class='fl'>1</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='no'>simrel</span>, <span class='no'>x</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>sobj</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"Design"</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq.int</a></span>(<span class='no'>sobj</span>))
+<span class='va'>sobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='va'>design</span>, <span class='fl'>1</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>simrel</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>sobj</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Design"</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq.int</a></span><span class='op'>(</span><span class='va'>sobj</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Info about the bit-design including bit-level aliasing (and resolution if \code{gen = NULL})</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># library(DoE.base)</span>
-<span class='co'># design.info(des$BitDesign)</span>
-}</div></pre>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"DoE.base"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>dgn</span> <span class='op'>&lt;-</span> <span class='fu'>mbrdsim</span><span class='op'>(</span><span class='va'>sim_list</span>, fraction <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'>DoE.base</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DoE.base/man/class-design.html'>design.info</a></span><span class='op'>(</span><span class='va'>dgn</span><span class='op'>$</span><span class='va'>BitDesign</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; $type
+#&gt; [1] "FrF2"
+#&gt; 
+#&gt; $nruns
+#&gt; [1] 8
+#&gt; 
+#&gt; $nfactors
+#&gt; [1] 6
+#&gt; 
+#&gt; $factor.names
+#&gt; $factor.names$p.1
+#&gt; [1] -1  1
+#&gt; 
+#&gt; $factor.names$gamma.2
+#&gt; [1] -1  1
+#&gt; 
+#&gt; $factor.names$gamma.1
+#&gt; [1] -1  1
+#&gt; 
+#&gt; $factor.names$relpos.1
+#&gt; [1] -1  1
+#&gt; 
+#&gt; $factor.names$R2.1
+#&gt; [1] -1  1
+#&gt; 
+#&gt; $factor.names$ypos.1
+#&gt; [1] -1  1
+#&gt; 
+#&gt; 
+#&gt; $catlg.name
+#&gt; [1] "catlg"
+#&gt; 
+#&gt; $catlg.entry
+#&gt; Design:  6-3.1 
+#&gt;    8  runs,  6  factors,  
+#&gt;    Resolution  III 
+#&gt;    Generating columns:  3 5 6 
+#&gt;    WLP (3plus):  4 3 0 0 0 ,  0  clear 2fis
+#&gt; 
+#&gt; $aliased
+#&gt; $aliased$legend
+#&gt; [1] "A=p.1"      "B=gamma.2"  "C=gamma.1"  "D=relpos.1" "E=R2.1"    
+#&gt; [6] "F=ypos.1"  
+#&gt; 
+#&gt; $aliased$main
+#&gt; [1] "A=BD=CE" "B=AD=CF" "C=AE=BF" "D=AB=EF" "E=AC=DF" "F=BC=DE"
+#&gt; 
+#&gt; $aliased$fi2
+#&gt; [1] "AF=BE=CD"
+#&gt; 
+#&gt; 
+#&gt; $FrF2.version
+#&gt; [1] "2.2-2"
+#&gt; 
+#&gt; $replications
+#&gt; [1] 1
+#&gt; 
+#&gt; $repeat.only
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $randomize
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $seed
+#&gt; NULL
+#&gt; 
+#&gt; $creator
+#&gt; FrF2(nfactors = sum(l2levels), randomize = FALSE, nruns = 2^(sum(l2levels) - 
+#&gt;     fraction), generators = gen, factor.names = fnames1)
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -214,11 +289,11 @@ automatically by the <code>FrF2</code> function. See documentation of <code>FrF2
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://mathatistics.com'>Raju Rimal</a>, <a href='http://solvsa.nmbu.no'>Solve Sæbø</a>.</p>
+  <p>Developed by <a href='http://mathatistics.com'>Raju Rimal</a>, <a href='http://solvsa.nmbu.no'>Solve Sæbø</a>, Kristian Hovde Liland.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -226,6 +301,8 @@ automatically by the <code>FrF2</code> function. See documentation of <code>FrF2
 
   
 
+
+  
 
   </body>
 </html>
