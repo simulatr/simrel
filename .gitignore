@@ -4,3 +4,6 @@
 .Ruserdata
 /.Rapp.history
 internal/
+/doc/
+/Meta/
+renv

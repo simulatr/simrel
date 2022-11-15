@@ -33,7 +33,7 @@ A list of plots
 Simulation Plot with ggplot: The true beta, relevant component and eigen structure
 }
 \examples{
-sim.obj <- simrel(n = 100, p = 16, q = c(3, 4, 5),
+sim.obj <- simrel(n = 50, p = 16, q = c(3, 4, 5),
    relpos = list(c(1, 2), c(3, 4), c(5, 7)), m = 5,
    ypos = list(c(1, 4), 2, c(3, 5)), type = "multivariate",
    R2 = c(0.8, 0.7, 0.9), gamma = 0.8)

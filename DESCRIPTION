@@ -24,7 +24,7 @@ Depends:
     R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 BugReports: https://github.com/simulatr/simrel/issues
 URL: https://simulatr.github.io/simrel/
@@ -35,20 +35,21 @@ Imports:
     gridExtra,
     jsonlite,
     magrittr,
+    methods,
     miniUI,
     purrr,
     reshape2,
+    rlang,
     rstudioapi,
     scales,
     sfsmisc,
     shiny,
+    testthat,
     tibble,
-    tidyr,
-    rlang,
-    testthat
+    tidyr
 Suggests: 
+    DoE.base,
     covr,
     knitr,
-    pls,
     markdown,
-    DoE.base
+    pls

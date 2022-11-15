@@ -1,7 +1,7 @@
 ---
 title: "Experimental Design and Simulation"
 author: "Raju Rimal"
-date: "2020-04-05"
+date: "2022-10-07"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -119,12 +119,12 @@ The above function, can plot prediction error (RMSEP) from both estimation metho
 get_error_plot(1)
 ```
 
-<img src="figure/unnamed-chunk-8-1.svg" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="90%" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-8-1.svg" alt="plot of chunk unnamed-chunk-8" width="90%" style="display: block; margin: auto;" />
 
 ```r
 get_error_plot(2)
 ```
 
-<img src="figure/unnamed-chunk-8-2.svg" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="90%" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-8-2.svg" alt="plot of chunk unnamed-chunk-8" width="90%" style="display: block; margin: auto;" />
 
 
